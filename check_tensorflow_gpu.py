@@ -1,6 +1,7 @@
 """Check whether TensorFlow can use any GPU devices."""
 
 import sys
+print("Josh")
 
 try:
     import tensorflow as tf
