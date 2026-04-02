@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 
 # Usage:
 #   bash setup_accre_tensorflow_gpu.sh
@@ -9,6 +9,10 @@ set -euo pipefail
 
 setup_accre_software_stack
 module load python/3.12.4 scipy-stack/2025a cuda/12.6
+
+# ACCRE's shell setup references some variables before defining them, so
+# enable nounset only after the environment modules are initialized.
+set -u
 
 python -m venv tf-venv
 source tf-venv/bin/activate
