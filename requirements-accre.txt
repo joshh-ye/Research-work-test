@@ -1,5 +1,7 @@
 # ACCRE Linux GPU environment
 # Use this on a GPU node after loading ACCRE's Python/CUDA modules.
+# The setup script intentionally avoids scipy-stack to reduce conflicts
+# between module-provided packages and the virtual environment.
 tensorflow
 ipykernel
 numpy

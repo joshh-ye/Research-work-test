@@ -8,11 +8,16 @@ set -eo pipefail
 #   salloc --account=YOUR_ACCOUNT --partition=batch_gpu --gres=gpu:1 --time=1:00:00
 
 setup_accre_software_stack
-module load python/3.12.4 scipy-stack/2025a cuda/12.6
+module purge
+module load python/3.12.4 cuda/12.6
 
 # ACCRE's shell setup references some variables before defining them, so
 # enable nounset only after the environment modules are initialized.
 set -u
+
+# Keep the venv isolated from any previously exported Python paths.
+unset PYTHONPATH || true
+unset PYTHONHOME || true
 
 python -m venv tf-venv
 source tf-venv/bin/activate
@@ -21,3 +26,4 @@ pip install --no-index --upgrade pip
 pip install --no-index -r requirements-accre.txt
 
 python check_tensorflow_gpu.py
+python tensorflow_gpu_matmul_test.py
