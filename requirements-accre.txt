@@ -1,0 +1,7 @@
+# ACCRE Linux GPU environment
+# Use this on a GPU node after loading ACCRE's Python/CUDA modules.
+tensorflow
+ipykernel
+numpy
+pandas
+matplotlib
