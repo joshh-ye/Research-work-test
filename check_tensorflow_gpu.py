@@ -1,33 +1,29 @@
-"""Check whether TensorFlow can use any GPU devices."""
+"""Check whether PyTorch can use any GPU devices."""
 
 import sys
-print("Josh")
 
 try:
-    import tensorflow as tf
+    import torch
 except Exception as exc:
-    print(f"TensorFlow import failed: {exc}")
+    print(f"PyTorch import failed: {exc}")
     raise SystemExit(1)
 
 
 def main() -> None:
-    physical_gpus = tf.config.list_physical_devices("GPU")
-    logical_gpus = tf.config.list_logical_devices("GPU")
-
     print(f"Python executable: {sys.executable}")
-    print(f"TensorFlow version: {tf.__version__}")
+    print(f"PyTorch version: {torch.__version__}")
+    print(f"CUDA available: {torch.cuda.is_available()}")
 
-    if not physical_gpus:
-        print("No GPU detected by TensorFlow.")
+    if not torch.cuda.is_available():
+        print("No GPU detected by PyTorch.")
         return
 
-    print(f"TensorFlow detected {len(physical_gpus)} physical GPU(s):")
-    for index, gpu in enumerate(physical_gpus, start=1):
-        print(f"{index}. {gpu}")
+    device_count = torch.cuda.device_count()
+    print(f"PyTorch detected {device_count} GPU(s):")
+    for index in range(device_count):
+        print(f"{index + 1}. {torch.cuda.get_device_name(index)} (cuda:{index})")
 
-    print(f"TensorFlow exposed {len(logical_gpus)} logical GPU(s):")
-    for index, gpu in enumerate(logical_gpus, start=1):
-        print(f"{index}. {gpu}")
+    print(f"Current CUDA device: cuda:{torch.cuda.current_device()}")
 
 
 if __name__ == "__main__":
