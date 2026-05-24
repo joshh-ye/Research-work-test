@@ -8,6 +8,5 @@ matplotlib
 scipy
 pyBigWig
 pyfaidx
-borzoi-pytorch
 tqdm
 pandas

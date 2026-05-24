@@ -16,8 +16,12 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import os
 import sys
 from pathlib import Path
+
+# Must be set before any HuggingFace imports so the library reads the right cache dir.
+os.environ.setdefault("HF_HOME", str(Path(__file__).parent / "hf_cache"))
 
 import matplotlib
 matplotlib.use("Agg")  # non-interactive backend for SLURM / headless runs

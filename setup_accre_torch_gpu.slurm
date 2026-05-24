@@ -30,5 +30,8 @@ source torch-venv/bin/activate
 
 pip install --no-index --upgrade pip
 pip install --no-index -r requirements-accre.txt
+pip install borzoi-pytorch
+
+export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
 python main.py
