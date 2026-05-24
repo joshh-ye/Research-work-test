@@ -1,0 +1,10 @@
+borzoi_data/
+borzoi_ckpt/
+hf_cache/
+results/
+__pycache__/
+*.pyc
+.DS_Store
+*.out
+torch-venv/
+tf-venv/

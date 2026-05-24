@@ -1,0 +1,13 @@
+# ACCRE Linux GPU environment
+# Use this on a GPU node after loading ACCRE's Python/CUDA modules.
+torch
+torchvision
+torchaudio
+numpy
+matplotlib
+scipy
+pyBigWig
+pyfaidx
+borzoi-pytorch
+tqdm
+pandas
