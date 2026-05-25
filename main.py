@@ -309,6 +309,24 @@ def train_resumable(
         (ckpt_dir / "history.json").write_text(json.dumps(history))
         print(f"  Checkpoint saved (epoch {epoch+1})")
 
+    # If the loop didn't run (already at n_epochs) but eval arrays are missing,
+    # run one validation pass to generate them.
+    if not last_val_preds and not (out_dir / "eval_preds.npy").exists():
+        print("Training already complete — running validation pass for eval arrays...")
+        model.head.eval()
+        val_losses, last_val_preds, last_val_targets = [], [], []
+        with torch.no_grad():
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size),
+                              desc="Final eval"):
+                seq  = batch["sequence"].to(model.device)
+                tgt  = batch["targets"].to(model.device)
+                pred = model(seq)
+                loss = F.poisson_nll_loss(pred, tgt, log_input=False)
+                val_losses.append(loss.item())
+                last_val_preds.append(pred.cpu().numpy())
+                last_val_targets.append(tgt.cpu().numpy())
+        print(f"Final eval val loss: {float(np.mean(val_losses)):.4f}")
+
     if last_val_preds:
         np.save(out_dir / "eval_preds.npy",
                 np.concatenate(last_val_preds, axis=0))
