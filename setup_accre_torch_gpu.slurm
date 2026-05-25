@@ -34,4 +34,4 @@ pip install borzoi-pytorch
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-python main.py
+python main.py --n-bw 10

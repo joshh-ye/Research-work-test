@@ -453,6 +453,16 @@ def main() -> None:
         bw_files = bw_files[: args.n_bw]
         print(f"Using {len(bw_files)} BigWig tracks (--n-bw {args.n_bw})")
 
+    # Lock in the exact track list so resumes always use the same files.
+    # On first run: save the list. On resume: load the saved list.
+    bw_list_path = ckpt_dir / "bw_files.json"
+    if bw_list_path.exists():
+        bw_files = json.loads(bw_list_path.read_text())
+        print(f"Loaded track list from checkpoint ({len(bw_files)} tracks)")
+    else:
+        bw_list_path.write_text(json.dumps(bw_files, indent=2))
+        print(f"Saved track list to checkpoint ({len(bw_files)} tracks)")
+
     # Step 6 — genome tiling
     print("\n=== Genome tiling ===")
     splits = tile_genome(fasta_path)
