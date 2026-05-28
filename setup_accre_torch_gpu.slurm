@@ -9,7 +9,7 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --time=24:00:00
+#SBATCH --time=6:00:00
 #SBATCH --output=%x-%j.out
 
 echo "JOBID: $SLURM_JOBID"
@@ -34,4 +34,4 @@ pip install borzoi-pytorch
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-python main.py --n-bw 10
+python main.py --epochs 1 --ckpt-dir ./borzoi_ckpt_full --output-dir ./results_full

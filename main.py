@@ -23,6 +23,7 @@ from pathlib import Path
 # Must be set before any HuggingFace imports so the library reads the right cache dir.
 os.environ.setdefault("HF_HOME", str(Path(__file__).parent / "hf_cache"))
 
+import csv
 import matplotlib
 matplotlib.use("Agg")  # non-interactive backend for SLURM / headless runs
 import matplotlib.pyplot as plt
@@ -232,6 +233,7 @@ def train_resumable(
     model: BorzoiTransferModel,
     train_dataset: GenomicDataset,
     val_dataset: GenomicDataset,
+    test_dataset: GenomicDataset,
     ckpt_dir: Path,
     out_dir: Path,
     n_epochs: int = 4,
@@ -241,6 +243,7 @@ def train_resumable(
     optimizer = torch.optim.Adam(model.head.parameters(), lr=lr)
     history: dict = {"train_loss": [], "val_loss": []}
     start_epoch = 0
+    best_val_loss = float("inf")
 
     head_pt = ckpt_dir / "model_head.pt"
     if head_pt.exists():
@@ -254,6 +257,9 @@ def train_resumable(
         hist_json = ckpt_dir / "history.json"
         if hist_json.exists():
             history = json.loads(hist_json.read_text())
+        best_json = ckpt_dir / "best_val.json"
+        if best_json.exists():
+            best_val_loss = json.loads(best_json.read_text())["val_loss"]
         print(f"Resuming from epoch {start_epoch}")
     else:
         print("No checkpoint found — starting from scratch")
@@ -302,6 +308,19 @@ def train_resumable(
               f"train={history['train_loss'][-1]:.4f}  "
               f"val={history['val_loss'][-1]:.4f}")
 
+        # best checkpoint
+        current_val = history["val_loss"][-1]
+        if current_val < best_val_loss:
+            best_val_loss = current_val
+            torch.save(model.head.state_dict(), ckpt_dir / "model_head_best.pt")
+            (ckpt_dir / "best_val.json").write_text(
+                json.dumps({"epoch": epoch + 1, "val_loss": best_val_loss})
+            )
+            print(f"  New best checkpoint (epoch {epoch+1}, val={best_val_loss:.4f})")
+
+        # save interval-0 predictions for epoch-progression plot
+        np.save(out_dir / f"val_preds_ep{epoch+1}_int0.npy", ep_preds[0][0])
+
         # checkpoint every epoch
         torch.save(model.head.state_dict(), head_pt)
         torch.save(optimizer.state_dict(), ckpt_dir / "optimizer.pt")
@@ -309,15 +328,15 @@ def train_resumable(
         (ckpt_dir / "history.json").write_text(json.dumps(history))
         print(f"  Checkpoint saved (epoch {epoch+1})")
 
-    # If the loop didn't run (already at n_epochs) but eval arrays are missing,
+    # If the loop didn't run (already at n_epochs) but val arrays are missing,
     # run one validation pass to generate them.
-    if not last_val_preds and not (out_dir / "eval_preds.npy").exists():
+    if not last_val_preds and not (out_dir / "val_preds.npy").exists():
         print("Training already complete — running validation pass for eval arrays...")
         model.head.eval()
         val_losses, last_val_preds, last_val_targets = [], [], []
         with torch.no_grad():
             for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size),
-                              desc="Final eval"):
+                              desc="Final val eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
                 pred = model(seq)
@@ -325,16 +344,48 @@ def train_resumable(
                 val_losses.append(loss.item())
                 last_val_preds.append(pred.cpu().numpy())
                 last_val_targets.append(tgt.cpu().numpy())
-        print(f"Final eval val loss: {float(np.mean(val_losses)):.4f}")
+        print(f"Final val loss: {float(np.mean(val_losses)):.4f}")
 
     if last_val_preds:
-        np.save(out_dir / "eval_preds.npy",
+        np.save(out_dir / "val_preds.npy",
                 np.concatenate(last_val_preds, axis=0))
-        np.save(out_dir / "eval_targets.npy",
+        np.save(out_dir / "val_targets.npy",
                 np.concatenate(last_val_targets, axis=0))
         with open(out_dir / "history.json", "w") as f:
             json.dump(history, f)
-        print(f"Saved eval arrays and history to {out_dir}")
+        print(f"Saved val arrays and history to {out_dir}")
+
+    # Test set evaluation on best checkpoint (run once at the end)
+    if not (out_dir / "test_preds.npy").exists():
+        print("\nRunning test set evaluation...")
+        best_ckpt = ckpt_dir / "model_head_best.pt"
+        if best_ckpt.exists():
+            model.head.load_state_dict(
+                torch.load(best_ckpt, map_location=model.device)
+            )
+            best_info = json.loads((ckpt_dir / "best_val.json").read_text())
+            print(f"  Loaded best checkpoint "
+                  f"(epoch {best_info['epoch']}, val={best_info['val_loss']:.4f})")
+        else:
+            print("  No best checkpoint found — using current weights")
+        model.head.eval()
+        test_preds_list: list = []
+        test_targets_list: list = []
+        with torch.no_grad():
+            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size),
+                              desc="Test eval"):
+                seq  = batch["sequence"].to(model.device)
+                tgt  = batch["targets"].to(model.device)
+                pred = model(seq)
+                test_preds_list.append(pred.cpu().numpy())
+                test_targets_list.append(tgt.cpu().numpy())
+        np.save(out_dir / "test_preds.npy",
+                np.concatenate(test_preds_list, axis=0))
+        np.save(out_dir / "test_targets.npy",
+                np.concatenate(test_targets_list, axis=0))
+        print(f"Saved test eval arrays to {out_dir}")
+    else:
+        print("Test eval arrays already exist, skipping")
 
     return history
 
@@ -343,28 +394,78 @@ def train_resumable(
 # Step 10 — evaluation plots
 # ---------------------------------------------------------------------------
 
-def plot_evaluation(out_dir: Path) -> None:
-    preds   = np.load(out_dir / "eval_preds.npy")
-    targets = np.load(out_dir / "eval_targets.npy")
-    n_intervals, center_bins, n_tracks = preds.shape
-    print(f"Eval arrays: {preds.shape}  (intervals x bins x tracks)")
+def plot_epoch_progression(
+    out_dir: Path, top3: np.ndarray, targets_int0: np.ndarray
+) -> None:
+    """Overlay val predictions from each epoch for the top-3 tracks, interval 0."""
 
-    with open(out_dir / "history.json") as f:
-        hist = json.load(f)
+    ep_files = sorted(
+        out_dir.glob("val_preds_ep*_int0.npy"),
+        key=lambda p: int(p.stem.split("ep")[1].split("_")[0]),
+    )
+    if not ep_files:
+        return
 
-    # 1. Loss curve
-    fig, ax = plt.subplots(figsize=(7, 4))
-    ep = range(1, len(hist["train_loss"]) + 1)
-    ax.plot(ep, hist["train_loss"], marker="o", label="train")
-    if hist["val_loss"]:
-        ax.plot(ep, hist["val_loss"], marker="o", label="val")
-    ax.set_xlabel("Epoch")
-    ax.set_ylabel("Poisson NLL Loss")
-    ax.set_title("Training curve")
-    ax.legend()
+    n_epochs = len(ep_files)
+    cmap = plt.cm.coolwarm
+    colors = [cmap(i / max(n_epochs - 1, 1)) for i in range(n_epochs)]
+    x = np.arange(targets_int0.shape[0])
+
+    fig, axes = plt.subplots(len(top3), 1, figsize=(13, 4 * len(top3)), sharex=True)
+    if len(top3) == 1:
+        axes = [axes]
+
+    for ax, ti in zip(axes, top3):
+        ax.plot(x, targets_int0[:, ti], color="black", linewidth=1.2,
+                label="actual", zorder=10)
+        for ep_idx, ep_file in enumerate(ep_files):
+            ep_preds = np.load(ep_file)  # (center_bins, n_tracks)
+            label = f"ep{ep_idx + 1}" if ep_idx in (0, n_epochs - 1) else None
+            ax.plot(x, ep_preds[:, ti], color=colors[ep_idx], alpha=0.6,
+                    linewidth=0.7, label=label)
+        ax.set_ylabel("signal")
+        ax.set_title(f"Track {ti}")
+        ax.legend(fontsize=7, loc="upper right")
+
+    axes[-1].set_xlabel("Genomic bin (32 bp)")
+    fig.suptitle("Val predictions across epochs — top-3 tracks, interval 0")
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=1, vmax=n_epochs))
+    sm.set_array([])
+    fig.colorbar(sm, ax=axes, label="Epoch", shrink=0.6)
     plt.tight_layout()
-    fig.savefig(out_dir / "loss_curve.png", dpi=150)
+    fig.savefig(out_dir / "pred_vs_actual_epochs.png", dpi=150)
     plt.close(fig)
+    print(f"  -> pred_vs_actual_epochs.png")
+
+
+def plot_evaluation(
+    out_dir: Path,
+    bw_files: list[str] | None = None,
+    split: str = "val",
+) -> None:
+    preds   = np.load(out_dir / f"{split}_preds.npy")
+    targets = np.load(out_dir / f"{split}_targets.npy")
+    n_intervals, center_bins, n_tracks = preds.shape
+    print(f"{split} eval arrays: {preds.shape}  (intervals x bins x tracks)")
+
+    # 1. Loss curve (val only)
+    if split == "val":
+        hist_path = out_dir / "history.json"
+        if hist_path.exists():
+            with open(hist_path) as f:
+                hist = json.load(f)
+            fig, ax = plt.subplots(figsize=(7, 4))
+            ep = range(1, len(hist["train_loss"]) + 1)
+            ax.plot(ep, hist["train_loss"], marker="o", label="train")
+            if hist["val_loss"]:
+                ax.plot(ep, hist["val_loss"], marker="o", label="val")
+            ax.set_xlabel("Epoch")
+            ax.set_ylabel("Poisson NLL Loss")
+            ax.set_title("Training curve")
+            ax.legend()
+            plt.tight_layout()
+            fig.savefig(out_dir / "loss_curve.png", dpi=150)
+            plt.close(fig)
 
     # 2. Per-track Pearson R
     p_flat    = preds.reshape(-1, n_tracks)
@@ -374,18 +475,28 @@ def plot_evaluation(out_dir: Path) -> None:
     )
     order = np.argsort(pearson_r)[::-1]
 
-    fig, ax = plt.subplots(figsize=(max(8, n_tracks * 0.2), 4))
+    fig, ax = plt.subplots(figsize=(max(8, n_tracks * 0.05 + 2), 4))
     ax.bar(range(n_tracks), pearson_r[order], width=1.0, color="steelblue")
     ax.axhline(0, color="black", linewidth=0.5)
     ax.set_xlabel("Track (sorted by R)")
     ax.set_ylabel("Pearson R")
-    ax.set_title(f"Per-track Pearson R  (mean={pearson_r.mean():.3f})")
+    ax.set_title(f"{split} per-track Pearson R  (mean={pearson_r.mean():.3f})")
     ax.set_xticks([])
     plt.tight_layout()
-    fig.savefig(out_dir / "pearson_r.png", dpi=150)
+    fig.savefig(out_dir / f"{split}_pearson_r.png", dpi=150)
     plt.close(fig)
 
-    # 3. Predicted vs actual — top-3 tracks, first interval
+    # 3. Per-track metrics CSV
+    csv_path = out_dir / f"{split}_per_track_metrics.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["track_idx", "bw_filename", "pearson_r"])
+        for i in range(n_tracks):
+            fname = Path(bw_files[i]).name if bw_files else str(i)
+            writer.writerow([i, fname, f"{pearson_r[i]:.6f}"])
+    print(f"  -> {split}_per_track_metrics.csv  (mean R={pearson_r.mean():.4f})")
+
+    # 4. Predicted vs actual — top-3 tracks, first interval
     top3 = order[:3]
     x    = np.arange(center_bins)
     fig, axes = plt.subplots(3, 1, figsize=(13, 8), sharex=True)
@@ -398,12 +509,12 @@ def plot_evaluation(out_dir: Path) -> None:
         ax.set_title(f"Track {ti}  (R={r:.3f})")
         ax.legend(fontsize=7, loc="upper right")
     axes[-1].set_xlabel("Genomic bin (32 bp)")
-    fig.suptitle("Predicted vs actual — top-3 tracks, interval 0")
+    fig.suptitle(f"{split} predicted vs actual — top-3 tracks, interval 0")
     plt.tight_layout()
-    fig.savefig(out_dir / "pred_vs_actual.png", dpi=150)
+    fig.savefig(out_dir / f"{split}_pred_vs_actual.png", dpi=150)
     plt.close(fig)
 
-    # 4. Scatter — mean signal per interval x track
+    # 5. Scatter — mean signal per interval x track
     p_mean   = preds.mean(axis=1).ravel()
     t_mean   = targets.mean(axis=1).ravel()
     r_all, _ = pearsonr(p_mean, t_mean)
@@ -413,14 +524,18 @@ def plot_evaluation(out_dir: Path) -> None:
     ax.plot([0, lim], [0, lim], "r--", linewidth=0.8, label="y=x")
     ax.set_xlabel("Actual mean signal")
     ax.set_ylabel("Predicted mean signal")
-    ax.set_title(f"Predicted vs actual  (R={r_all:.3f})")
+    ax.set_title(f"{split} predicted vs actual  (R={r_all:.3f})")
     ax.legend(fontsize=8)
     plt.tight_layout()
-    fig.savefig(out_dir / "scatter.png", dpi=150)
+    fig.savefig(out_dir / f"{split}_scatter.png", dpi=150)
     plt.close(fig)
 
-    print(f"Mean Pearson R across {n_tracks} tracks: {pearson_r.mean():.4f}")
+    print(f"Mean Pearson R across {n_tracks} tracks ({split}): {pearson_r.mean():.4f}")
     print(f"Figures saved to {out_dir}")
+
+    # 6. Epoch progression (val only)
+    if split == "val":
+        plot_epoch_progression(out_dir, top3, targets[0])
 
 
 # ---------------------------------------------------------------------------
@@ -496,7 +611,12 @@ def main() -> None:
         fasta_path, splits["val"],
         bigwig_loader=BigWigLoader(bw_files, bin_size=32),
     )
-    print(f"Train: {len(train_ds)} intervals   Val: {len(val_ds)} intervals")
+    test_ds   = GenomicDataset(
+        fasta_path, splits["test"],
+        bigwig_loader=BigWigLoader(bw_files, bin_size=32),
+    )
+    print(f"Train: {len(train_ds)} intervals   Val: {len(val_ds)} intervals   "
+          f"Test: {len(test_ds)} intervals")
     plot_dataset_sample(train_ds, out_dir)
 
     # Step 8 — load model
@@ -511,13 +631,14 @@ def main() -> None:
     # Step 9 — train
     print("\n=== Training ===")
     train_resumable(
-        model, train_ds, val_ds, ckpt_dir, out_dir,
+        model, train_ds, val_ds, test_ds, ckpt_dir, out_dir,
         n_epochs=args.epochs, batch_size=args.batch_size, lr=args.lr,
     )
 
     # Step 10 — evaluation plots
     print("\n=== Evaluation plots ===")
-    plot_evaluation(out_dir)
+    plot_evaluation(out_dir, bw_files=bw_files, split="val")
+    plot_evaluation(out_dir, bw_files=bw_files, split="test")
 
 
 if __name__ == "__main__":
