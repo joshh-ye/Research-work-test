@@ -63,6 +63,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr",          type=float, default=1e-4)
     p.add_argument("--n-bw",        type=int,   default=None,
                    help="Limit BigWig tracks to first N (default: all)")
+    p.add_argument("--num-workers", type=int,   default=16,
+                   help="DataLoader worker processes for parallel BigWig I/O")
     return p.parse_args()
 
 
@@ -239,6 +241,7 @@ def train_resumable(
     n_epochs: int = 4,
     batch_size: int = 1,
     lr: float = 1e-4,
+    num_workers: int = 16,
 ) -> dict:
     optimizer = torch.optim.Adam(model.head.parameters(), lr=lr)
     history: dict = {"train_loss": [], "val_loss": []}
@@ -271,7 +274,7 @@ def train_resumable(
         # train
         model.head.train()
         epoch_losses: list[float] = []
-        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True),
+        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers),
                     desc=f"Epoch {epoch+1}/{n_epochs} [train]")
         for batch in pbar:
             seq  = batch["sequence"].to(model.device)
@@ -291,7 +294,7 @@ def train_resumable(
         ep_preds:   list = []
         ep_targets: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers),
                               desc=f"Epoch {epoch+1}/{n_epochs} [val]"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -335,7 +338,7 @@ def train_resumable(
         model.head.eval()
         val_losses, last_val_preds, last_val_targets = [], [], []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers),
                               desc="Final val eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -372,7 +375,7 @@ def train_resumable(
         test_preds_list: list = []
         test_targets_list: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size),
+            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers),
                               desc="Test eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -633,6 +636,7 @@ def main() -> None:
     train_resumable(
         model, train_ds, val_ds, test_ds, ckpt_dir, out_dir,
         n_epochs=args.epochs, batch_size=args.batch_size, lr=args.lr,
+        num_workers=args.num_workers,
     )
 
     # Step 10 — evaluation plots
