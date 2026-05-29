@@ -16,6 +16,8 @@ import sys
 import time
 from pathlib import Path
 
+from tqdm import tqdm
+
 sys.path.insert(0, str(Path(__file__).parent / "borzoi_code"))
 
 from bigwig_loader import BigWigLoader
@@ -42,7 +44,7 @@ def run_trial(fasta_path, intervals, bw_files, num_workers):
     dl = DataLoader(ds, batch_size=1, num_workers=num_workers, shuffle=False)
 
     t0 = time.perf_counter()
-    n = sum(1 for _ in dl)
+    n = sum(1 for _ in tqdm(dl, desc=f"  workers={num_workers}", leave=False))
     elapsed = time.perf_counter() - t0
 
     loader.close()
