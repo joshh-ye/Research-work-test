@@ -33,7 +33,10 @@ import torch.nn.functional as F
 import pyBigWig
 from scipy.stats import pearsonr
 from torch.utils.data import DataLoader
-from tqdm import tqdm
+from tqdm import tqdm as _tqdm_orig
+import functools
+tqdm = functools.partial(_tqdm_orig, dynamic_ncols=False, ascii=True,
+                         disable=not sys.stdout.isatty())
 
 # Allow imports from borzoi_code/ when running from the project root
 sys.path.insert(0, str(Path(__file__).parent / "borzoi_code"))
