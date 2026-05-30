@@ -3,13 +3,13 @@
 #SBATCH --mail-user=joshua.z.ye@vanderbilt.edu
 #SBATCH --mail-type=ALL
 #SBATCH --account=accre_dgx_iacc
-#SBATCH --partition=batch_gpu
+#SBATCH --partition=interactive_gpu
 #SBATCH --qos=dgx_iacc
-#SBATCH --gres=gpu:nvidia_a100-sxm4-80gb:1
+#SBATCH --gres=gpu:nvidia_a100-sxm4-40gb:1
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
-#SBATCH --time=7-00:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=24:00:00
 #SBATCH --output=%x-%j.out
 
 echo "JOBID: $SLURM_JOBID"
@@ -34,4 +34,4 @@ pip install borzoi-pytorch
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-python -u main.py --epochs 4 --ckpt-dir ./borzoi_ckpt_full --output-dir ./results_full
+python -u main.py --n-bw 10 --epochs 4 --ckpt-dir ./borzoi_ckpt --output-dir ./results

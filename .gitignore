@@ -8,3 +8,4 @@ __pycache__/
 *.out
 torch-venv/
 tf-venv/
+*results*/
