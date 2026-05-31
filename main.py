@@ -33,10 +33,7 @@ import torch.nn.functional as F
 import pyBigWig
 from scipy.stats import pearsonr
 from torch.utils.data import DataLoader
-from tqdm import tqdm as _tqdm_orig
-import functools
-tqdm = functools.partial(_tqdm_orig, dynamic_ncols=False, ascii=True,
-                         disable=not sys.stdout.isatty())
+from tqdm import tqdm
 
 # Allow imports from borzoi_code/ when running from the project root
 sys.path.insert(0, str(Path(__file__).parent / "borzoi_code"))
@@ -274,9 +271,15 @@ def train_resumable(
         # train
         model.head.train()
         epoch_losses: list[float] = []
-        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True),
-                    desc=f"Epoch {epoch+1}/{n_epochs} [train]")
-        for batch in pbar:
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        n_train = len(train_loader)
+        log_every = max(1, n_train // 100)
+        pbar = tqdm(train_loader, desc=f"Epoch {epoch+1}/{n_epochs} [train]")
+        print(f"  Starting epoch {epoch+1}/{n_epochs} — {n_train} batches "
+              f"(logging every {log_every})", flush=True)
+        for batch_idx, batch in enumerate(pbar):
+            if not sys.stdout.isatty() and batch_idx == 0:
+                print(f"  Epoch {epoch+1}/{n_epochs} [train] first batch loaded", flush=True)
             seq  = batch["sequence"].to(model.device)
             tgt  = batch["targets"].to(model.device)
             pred = model(seq)
@@ -286,6 +289,11 @@ def train_resumable(
             optimizer.step()
             epoch_losses.append(loss.item())
             pbar.set_postfix({"loss": f"{loss.item():.4f}"})
+            if not sys.stdout.isatty() and (batch_idx + 1) % log_every == 0:
+                print(f"  Epoch {epoch+1}/{n_epochs} [train] "
+                      f"{batch_idx+1}/{n_train}  "
+                      f"loss={loss.item():.4f}  "
+                      f"avg={np.mean(epoch_losses):.4f}", flush=True)
         history["train_loss"].append(float(np.mean(epoch_losses)))
 
         # val
@@ -293,9 +301,11 @@ def train_resumable(
         val_losses: list[float] = []
         ep_preds:   list = []
         ep_targets: list = []
+        val_loader = DataLoader(val_dataset, batch_size=batch_size)
+        n_val = len(val_loader)
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size),
-                              desc=f"Epoch {epoch+1}/{n_epochs} [val]"):
+            for val_idx, batch in enumerate(tqdm(val_loader,
+                              desc=f"Epoch {epoch+1}/{n_epochs} [val]")):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
                 pred = model(seq)
@@ -304,6 +314,10 @@ def train_resumable(
                 )
                 ep_preds.append(pred.cpu().numpy())
                 ep_targets.append(tgt.cpu().numpy())
+                if not sys.stdout.isatty() and (val_idx + 1) % max(1, n_val // 20) == 0:
+                    print(f"  Epoch {epoch+1}/{n_epochs} [val]  "
+                          f"{val_idx+1}/{n_val}  "
+                          f"avg_loss={np.mean(val_losses):.4f}", flush=True)
         history["val_loss"].append(float(np.mean(val_losses)))
         last_val_preds, last_val_targets = ep_preds, ep_targets
 
