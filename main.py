@@ -64,7 +64,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr",          type=float, default=1e-4)
     p.add_argument("--n-bw",        type=int,   default=None,
                    help="Limit BigWig tracks to first N (default: all)")
-    p.add_argument("--num-workers", type=int,   default=16,
+    p.add_argument("--num-workers", type=int,   default=8,
                    help="DataLoader worker processes for parallel BigWig I/O")
     return p.parse_args()
 
@@ -271,11 +271,13 @@ def train_resumable(
     last_val_preds: list = []
     last_val_targets: list = []
 
+    dl_context = "spawn" if num_workers > 0 else None
+
     for epoch in range(start_epoch, n_epochs):
         # train
         model.head.train()
         epoch_losses: list[float] = []
-        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, multiprocessing_context='spawn'),
+        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, multiprocessing_context=dl_context),
                     desc=f"Epoch {epoch+1}/{n_epochs} [train]")
         for batch in pbar:
             seq  = batch["sequence"].to(model.device)
@@ -295,7 +297,7 @@ def train_resumable(
         ep_preds:   list = []
         ep_targets: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context=dl_context),
                               desc=f"Epoch {epoch+1}/{n_epochs} [val]"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -322,7 +324,7 @@ def train_resumable(
             )
             print(f"  New best checkpoint (epoch {epoch+1}, val={best_val_loss:.4f})")
 
-        # save interval-0 predictions for epoch-progression plot
+        # save interval-0 predictions for epoch-progression plots
         np.save(out_dir / f"val_preds_ep{epoch+1}_int0.npy", ep_preds[0][0])
 
         # checkpoint every epoch
@@ -339,7 +341,7 @@ def train_resumable(
         model.head.eval()
         val_losses, last_val_preds, last_val_targets = [], [], []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context=dl_context),
                               desc="Final val eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -376,7 +378,7 @@ def train_resumable(
         test_preds_list: list = []
         test_targets_list: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
+            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context=dl_context),
                               desc="Test eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -609,19 +611,34 @@ def main() -> None:
 
     # Step 7 — dataset sample
     print("\n=== Dataset sample ===")
-    bw_loader = BigWigLoader(bw_files, bin_size=32)
-    train_ds  = GenomicDataset(fasta_path, splits["train"], bigwig_loader=bw_loader)
-    val_ds    = GenomicDataset(
-        fasta_path, splits["val"],
+    sample_ds = GenomicDataset(
+        fasta_path,
+        splits["train"],
         bigwig_loader=BigWigLoader(bw_files, bin_size=32),
     )
-    test_ds   = GenomicDataset(
-        fasta_path, splits["test"],
+    print(f"Train: {len(splits['train'])} intervals   Val: {len(splits['val'])} intervals   "
+          f"Test: {len(splits['test'])} intervals")
+    plot_dataset_sample(sample_ds, out_dir)
+    del sample_ds
+
+    # Create fresh datasets for DataLoader workers. Do not reuse the sample dataset above,
+    # because plotting accesses sample_ds[0] and opens FASTA/BigWig handles, which are not
+    # picklable under multiprocessing_context='spawn'.
+    train_ds = GenomicDataset(
+        fasta_path,
+        splits["train"],
         bigwig_loader=BigWigLoader(bw_files, bin_size=32),
     )
-    print(f"Train: {len(train_ds)} intervals   Val: {len(val_ds)} intervals   "
-          f"Test: {len(test_ds)} intervals")
-    plot_dataset_sample(train_ds, out_dir)
+    val_ds = GenomicDataset(
+        fasta_path,
+        splits["val"],
+        bigwig_loader=BigWigLoader(bw_files, bin_size=32),
+    )
+    test_ds = GenomicDataset(
+        fasta_path,
+        splits["test"],
+        bigwig_loader=BigWigLoader(bw_files, bin_size=32),
+    )
 
     # Step 8 — load model
     print("\n=== Loading model ===")
