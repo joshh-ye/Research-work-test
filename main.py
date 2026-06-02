@@ -275,7 +275,7 @@ def train_resumable(
         # train
         model.head.train()
         epoch_losses: list[float] = []
-        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers),
+        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, multiprocessing_context='spawn'),
                     desc=f"Epoch {epoch+1}/{n_epochs} [train]")
         for batch in pbar:
             seq  = batch["sequence"].to(model.device)
@@ -295,7 +295,7 @@ def train_resumable(
         ep_preds:   list = []
         ep_targets: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
                               desc=f"Epoch {epoch+1}/{n_epochs} [val]"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -339,7 +339,7 @@ def train_resumable(
         model.head.eval()
         val_losses, last_val_preds, last_val_targets = [], [], []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
                               desc="Final val eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -376,7 +376,7 @@ def train_resumable(
         test_preds_list: list = []
         test_targets_list: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers),
+            for batch in tqdm(DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context='spawn'),
                               desc="Test eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
