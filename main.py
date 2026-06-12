@@ -66,6 +66,25 @@ def parse_args() -> argparse.Namespace:
                    help="Limit BigWig tracks to first N (default: all)")
     p.add_argument("--num-workers", type=int,   default=8,
                    help="DataLoader worker processes for parallel BigWig I/O")
+    # Head capacity / regularization
+    p.add_argument("--head-hidden",  type=int,   default=1024,
+                   help="Hidden width of the MLP head")
+    p.add_argument("--head-dropout", type=float, default=0.2,
+                   help="Dropout in the MLP head")
+    # Training schedule
+    p.add_argument("--weight-decay", type=float, default=1e-4,
+                   help="Adam weight decay")
+    p.add_argument("--patience",     type=int,   default=3,
+                   help="Early-stopping patience on val loss (0 disables)")
+    # Augmentation
+    p.add_argument("--max-shift-bp", type=int,   default=128,
+                   help="Max random genomic shift for train augmentation (0 disables)")
+    p.add_argument("--no-rc",        action="store_true",
+                   help="Disable reverse-complement augmentation")
+    # Per-track loss balancing
+    p.add_argument("--balance-tracks", action="store_true",
+                   help="Weight the per-track loss by inverse mean signal so sparse "
+                        "tracks are not drowned out by high-signal tracks")
     return p.parse_args()
 
 
@@ -243,11 +262,30 @@ def train_resumable(
     batch_size: int = 1,
     lr: float = 1e-4,
     num_workers: int = 16,
+    weight_decay: float = 1e-4,
+    patience: int = 3,
+    track_weights: torch.Tensor | None = None,
 ) -> dict:
-    optimizer = torch.optim.Adam(model.head.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(
+        model.head.parameters(), lr=lr, weight_decay=weight_decay
+    )
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode="min", factor=0.5, patience=1
+    )
+    if track_weights is not None:
+        track_weights = track_weights.to(model.device)
+
+    def weighted_poisson(pred, tgt):
+        # Per-track-weighted Poisson NLL so sparse tracks contribute comparably.
+        if track_weights is None:
+            return F.poisson_nll_loss(pred, tgt, log_input=False)
+        per = F.poisson_nll_loss(pred, tgt, log_input=False, reduction="none")
+        return (per * track_weights).mean()
+
     history: dict = {"train_loss": [], "val_loss": []}
     start_epoch = 0
     best_val_loss = float("inf")
+    epochs_no_improve = 0
 
     head_pt = ckpt_dir / "model_head.pt"
     if head_pt.exists():
@@ -283,7 +321,7 @@ def train_resumable(
             seq  = batch["sequence"].to(model.device)
             tgt  = batch["targets"].to(model.device)
             pred = model(seq)
-            loss = F.poisson_nll_loss(pred, tgt, log_input=False)
+            loss = weighted_poisson(pred, tgt)
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -302,9 +340,7 @@ def train_resumable(
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
                 pred = model(seq)
-                val_losses.append(
-                    F.poisson_nll_loss(pred, tgt, log_input=False).item()
-                )
+                val_losses.append(weighted_poisson(pred, tgt).item())
                 ep_preds.append(pred.cpu().numpy())
                 ep_targets.append(tgt.cpu().numpy())
         history["val_loss"].append(float(np.mean(val_losses)))
@@ -314,15 +350,21 @@ def train_resumable(
               f"train={history['train_loss'][-1]:.4f}  "
               f"val={history['val_loss'][-1]:.4f}")
 
-        # best checkpoint
+        # LR schedule on val loss
         current_val = history["val_loss"][-1]
+        scheduler.step(current_val)
+
+        # best checkpoint + early stopping
         if current_val < best_val_loss:
             best_val_loss = current_val
+            epochs_no_improve = 0
             torch.save(model.head.state_dict(), ckpt_dir / "model_head_best.pt")
             (ckpt_dir / "best_val.json").write_text(
                 json.dumps({"epoch": epoch + 1, "val_loss": best_val_loss})
             )
             print(f"  New best checkpoint (epoch {epoch+1}, val={best_val_loss:.4f})")
+        else:
+            epochs_no_improve += 1
 
         # save interval-0 predictions for epoch-progression plots
         np.save(out_dir / f"val_preds_ep{epoch+1}_int0.npy", ep_preds[0][0])
@@ -333,6 +375,10 @@ def train_resumable(
         (ckpt_dir / "epoch.txt").write_text(str(epoch + 1))
         (ckpt_dir / "history.json").write_text(json.dumps(history))
         print(f"  Checkpoint saved (epoch {epoch+1})")
+
+        if patience > 0 and epochs_no_improve >= patience:
+            print(f"  Early stopping: no val improvement for {patience} epochs")
+            break
 
     # If the loop didn't run (already at n_epochs) but val arrays are missing,
     # run one validation pass to generate them.
@@ -628,6 +674,9 @@ def main() -> None:
         fasta_path,
         splits["train"],
         bigwig_loader=BigWigLoader(bw_files, bin_size=32),
+        training=True,
+        max_shift_bp=args.max_shift_bp,
+        rc_prob=0.0 if args.no_rc else 0.5,
     )
     val_ds = GenomicDataset(
         fasta_path,
@@ -643,11 +692,40 @@ def main() -> None:
     # Step 8 — load model
     print("\n=== Loading model ===")
     n_tracks = len(bw_files)
-    model = BorzoiTransferModel(n_output_tracks=n_tracks, device=device)
+    model = BorzoiTransferModel(
+        n_output_tracks=n_tracks, device=device,
+        hidden=args.head_hidden, dropout=args.head_dropout,
+    )
     frozen    = sum(p.numel() for b in model.backbones for p in b.parameters())
     trainable = sum(p.numel() for p in model.head.parameters())
     print(f"Frozen backbone params : {frozen:,}")
     print(f"Trainable head params  : {trainable:,}")
+
+    # Optional per-track loss weights (inverse mean signal), cached for resume.
+    track_weights = None
+    if args.balance_tracks:
+        tw_path = ckpt_dir / "track_weights.npy"
+        if tw_path.exists():
+            weights_np = np.load(tw_path)
+            print(f"Loaded cached track weights ({len(weights_np)} tracks)")
+        else:
+            print("Estimating per-track signal for loss balancing...")
+            loader = BigWigLoader(bw_files, bin_size=32)
+            half_c = train_ds.center_bin_size // 2
+            sample_ivs = splits["train"][:: max(1, len(splits["train"]) // 50)]
+            means = []
+            for iv in tqdm(sample_ivs, desc="track-stats"):
+                center = (iv.start + iv.end) // 2
+                t = loader.load(iv.chrom, center - half_c, center + half_c)
+                means.append(t.mean(axis=0))
+            loader.close()
+            track_mean = np.mean(means, axis=0) + 1e-6
+            # inverse mean, normalized so the mean weight is 1 (keeps loss scale stable)
+            weights_np = (1.0 / track_mean)
+            weights_np = (weights_np / weights_np.mean()).astype(np.float32)
+            np.save(tw_path, weights_np)
+            print(f"Saved track weights to {tw_path}")
+        track_weights = torch.from_numpy(np.asarray(weights_np, dtype=np.float32))
 
     # Step 9 — train
     print("\n=== Training ===")
@@ -655,6 +733,8 @@ def main() -> None:
         model, train_ds, val_ds, test_ds, ckpt_dir, out_dir,
         n_epochs=args.epochs, batch_size=args.batch_size, lr=args.lr,
         num_workers=args.num_workers,
+        weight_decay=args.weight_decay, patience=args.patience,
+        track_weights=track_weights,
     )
 
     # Step 10 — evaluation plots
