@@ -289,7 +289,17 @@ def train_resumable(
 
     head_pt = ckpt_dir / "model_head.pt"
     if head_pt.exists():
-        model.head.load_state_dict(torch.load(head_pt, map_location=model.device))
+        ckpt_sd = torch.load(head_pt, map_location=model.device)
+        try:
+            model.head.load_state_dict(ckpt_sd)
+        except RuntimeError as e:
+            print(f"  WARNING: checkpoint head is incompatible with current model "
+                  f"architecture — starting head from scratch.\n  ({e})")
+            # Rename rather than delete so the old checkpoint is recoverable.
+            head_pt.rename(head_pt.with_suffix(".pt.bak"))
+            (ckpt_dir / "model_head_best.pt").rename(
+                (ckpt_dir / "model_head_best.pt.bak")
+            ) if (ckpt_dir / "model_head_best.pt").exists() else None
         opt_pt = ckpt_dir / "optimizer.pt"
         if opt_pt.exists():
             optimizer.load_state_dict(torch.load(opt_pt, map_location=model.device))
