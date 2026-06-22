@@ -98,7 +98,7 @@ class StreamingPearson:
 
 def infer_interval(backbones, seq_str, keep_indices):
     seq_enc = one_hot_encode(seq_str)
-    seq_t   = torch.from_numpy(seq_enc).permute(1, 0)   # (4, seq_len)
+    seq_t   = torch.from_numpy(seq_enc).permute(1, 0).to(next(backbones[0].parameters()).device)   # (4, seq_len)
     with torch.no_grad():
         pred = predict_tracks(backbones, seq_t, keep_indices)
     avg    = pred.mean(axis=1).squeeze(0)                # (n_bins, n_borzoi)
