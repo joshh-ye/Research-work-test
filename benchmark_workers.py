@@ -44,8 +44,8 @@ except ImportError:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Benchmark DataLoader num_workers")
     p.add_argument("--data-root",  default="./borzoi_data")
-    p.add_argument("--n-bw",       type=int, default=10,
-                   help="Number of BigWig tracks to use")
+    p.add_argument("--n-bw",       type=int, default=None,
+                   help="Number of BigWig tracks to use (default: all)")
     p.add_argument("--n-batches",  type=int, default=50,
                    help="Batches to time per workers config")
     p.add_argument("--workers",    type=int, nargs="+", default=[0, 1, 2, 4, 8, 16],
