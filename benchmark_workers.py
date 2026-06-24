@@ -62,12 +62,22 @@ def cpu_sampler(samples: list[float], stop: threading.Event) -> None:
 
 
 def run_config(
-    dataset: GenomicDataset,
+    fasta_path: str,
+    bw_files: list[str],
+    intervals: list,
     num_workers: int,
     batch_size: int,
     n_batches: int,
 ) -> tuple[float, float, float | None]:
     """Returns (batches_per_sec, peak_rss_mb, avg_cpu_pct)."""
+
+    # Fresh dataset each call — spawn can't pickle open file handles.
+    dataset = GenomicDataset(
+        fasta_path,
+        intervals,
+        bigwig_loader=BigWigLoader(bw_files, bin_size=32),
+        training=False,
+    )
 
     dl_context = "spawn" if num_workers > 0 else None
     loader = DataLoader(
@@ -118,18 +128,13 @@ def main() -> None:
     print(f"Using {len(bw_files)} BigWig tracks, {args.n_batches} batches per config\n")
 
     splits = tile_genome(fasta_path)
-    dataset = GenomicDataset(
-        fasta_path,
-        splits["train"],
-        bigwig_loader=BigWigLoader(bw_files, bin_size=32),
-        training=False,
-    )
+    intervals = splits["train"]
 
     results: list[tuple[int, float, float, float | None]] = []
 
     for nw in args.workers:
         print(f"Testing num_workers={nw} ...")
-        throughput, rss, cpu = run_config(dataset, nw, args.batch_size, args.n_batches)
+        throughput, rss, cpu = run_config(fasta_path, bw_files, intervals, nw, args.batch_size, args.n_batches)
         results.append((nw, throughput, rss, cpu))
         print(f"  {throughput:.2f} batches/s  |  {rss:.0f} MB RSS"
               + (f"  |  {cpu:.1f}% CPU" if cpu is not None else ""))
