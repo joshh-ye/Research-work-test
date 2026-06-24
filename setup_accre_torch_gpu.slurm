@@ -8,9 +8,9 @@
 #SBATCH --gres=gpu:nvidia_a100-sxm4-40gb:1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=16
 #SBATCH --mem=64G
-#SBATCH --time=7-00:00:00
+#SBATCH --time=00:30:00
 #SBATCH --output=%x-%j.out
 
 echo "JOBID:      $SLURM_JOBID"
@@ -42,4 +42,4 @@ pip install borzoi-pytorch
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-python -u main.py --n-bw 3 --epochs 1 --num-workers 4 --ckpt-dir ./borzoi_ckpt_smoke --output-dir ./results_smoke
+python -u benchmark_workers.py --n-bw 10 --n-batches 50 --workers 0 1 2 4 8 16
