@@ -9,7 +9,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
+#SBATCH --mem=32G
 #SBATCH --time=00:30:00
 #SBATCH --output=%x-%j.out
 
@@ -42,4 +42,4 @@ pip install borzoi-pytorch
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-python -u benchmark_workers.py --n-bw 10 --n-batches 50 --workers 0 1 2 4 8 16
+python -u benchmark_workers.py --n-batches 50 --workers 0 1 2 4 8 16

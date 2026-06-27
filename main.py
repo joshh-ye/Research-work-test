@@ -321,11 +321,22 @@ def train_resumable(
 
     dl_context = "spawn" if num_workers > 0 else None
 
+    # Data-loading workers never touch the GPU; hiding it stops the CUDA driver
+    # from initialising a context in every spawn process, which wastes GPU memory
+    # and can crash after a long training run when driver state is degraded.
+    def _worker_init(worker_id: int) -> None:
+        import os
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
+    worker_init_fn = _worker_init if num_workers > 0 else None
+
     for epoch in range(start_epoch, n_epochs):
         # train
         model.head.train()
         epoch_losses: list[float] = []
-        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, multiprocessing_context=dl_context),
+        pbar = tqdm(DataLoader(train_dataset, batch_size=batch_size, shuffle=True,
+                               num_workers=num_workers, multiprocessing_context=dl_context,
+                               worker_init_fn=worker_init_fn),
                     desc=f"Epoch {epoch+1}/{n_epochs} [train]")
         for batch in pbar:
             seq  = batch["sequence"].to(model.device)
@@ -339,13 +350,23 @@ def train_resumable(
             pbar.set_postfix({"loss": f"{loss.item():.4f}"})
         history["train_loss"].append(float(np.mean(epoch_losses)))
 
+        # Free the caching allocator's reserved-but-idle GPU blocks before
+        # spawning validation workers.  After a full training epoch the
+        # allocator can hold a large fragmented pool; releasing it gives the
+        # CUDA driver a clean state and reduces the chance of OOM-killing the
+        # new worker processes during their startup phase.
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
         # val
         model.head.eval()
         val_losses: list[float] = []
         ep_preds:   list = []
         ep_targets: list = []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context=dl_context),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size,
+                                         num_workers=num_workers, multiprocessing_context=dl_context,
+                                         worker_init_fn=worker_init_fn),
                               desc=f"Epoch {epoch+1}/{n_epochs} [val]"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
@@ -397,7 +418,9 @@ def train_resumable(
         model.head.eval()
         val_losses, last_val_preds, last_val_targets = [], [], []
         with torch.no_grad():
-            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size, num_workers=num_workers, multiprocessing_context=dl_context),
+            for batch in tqdm(DataLoader(val_dataset, batch_size=batch_size,
+                                         num_workers=num_workers, multiprocessing_context=dl_context,
+                                         worker_init_fn=worker_init_fn),
                               desc="Final val eval"):
                 seq  = batch["sequence"].to(model.device)
                 tgt  = batch["targets"].to(model.device)
