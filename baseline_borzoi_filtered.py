@@ -141,7 +141,7 @@ def run_full_inference(args):
         center = (iv.start + iv.end) // 2
         half = SEQ_LEN // 2
         seq = fasta.fetch(iv.chrom, center - half, center + half)
-        enc = torch.from_numpy(one_hot_encode(seq)).permute(1, 0)
+        enc = torch.from_numpy(one_hot_encode(seq)).permute(1, 0).to(device)
         with torch.no_grad():
             pred = predict_tracks(backbones, enc, elig_idx)
         avg = pred.mean(axis=1).squeeze(0)
