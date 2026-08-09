@@ -9,3 +9,29 @@ __pycache__/
 torch-venv/
 tf-venv/
 results_full
+
+# Virtual environments
+local-venv/
+
+# Generated results
+results_baseline/
+results_baseline_enformer/
+results_baseline_filtered/
+results_baseline_filtered_test/
+results_comparison/
+results_comparison_test/
+results_full_1/
+results_full_2/
+results_targets_filtered_test/
+
+# Data / generated assets
+enformer_data/
+assets/
+
+# Presentation/output artifacts
+*.pptx
+*.pdf
+presentation.md
+
+# Temporary test runner
+run_test_analysis.sh

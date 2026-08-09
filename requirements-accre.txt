@@ -10,3 +10,4 @@ pyBigWig
 pyfaidx
 tqdm
 pandas
+enformer-pytorch

@@ -33,13 +33,27 @@ source torch-venv/bin/activate
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 
-# NOTE: on ACCRE the transfer-model outputs live in ./results_full (adjust if it
-# is results_full_2). Run test; optionally also run val for a from-scratch check.
+# Test-split outputs are kept in their own directories so the val analysis in
+# results_baseline_filtered/ + results_comparison/ is never overwritten.
+# MODEL_DIR holds {test_preds,test_targets}.npy and test_per_track_metrics.csv —
+# ./results_full on ACCRE, ./results_full_2 on the laptop.
+MODEL_DIR=./results_full
+
+mkdir -p results_baseline_filtered_test results_comparison_test
+
+# 1) Borzoi inference -> test correlation matrix + best-match CSV (needs GPU)
 python -u baseline_borzoi_filtered.py \
     --data-root   ./borzoi_data \
-    --targets-dir ./results_full \
-    --results-dir ./results_baseline_filtered \
+    --targets-dir "$MODEL_DIR" \
+    --results-dir ./results_baseline_filtered_test \
     --n-folds     4 \
     --split       test
+
+# 2) Comparison + stats + figures for test (lightweight, no GPU)
+python -u compare_transfer_borzoi.py \
+    --model-dir    "$MODEL_DIR" \
+    --baseline-dir ./results_baseline_filtered_test \
+    --out-dir      ./results_comparison_test \
+    --split        test
 
 echo "END: $(date)"
