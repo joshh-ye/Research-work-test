@@ -13,6 +13,8 @@
 #SBATCH --time=00:30:00
 #SBATCH --output=%x-%j.out
 
+set -euo pipefail
+
 # Original-Enformer best-match baseline, mirroring baseline_borzoi_filtered.slurm.
 # No --from-matrix shortcut exists for Enformer, so both splits need this job.
 
@@ -30,8 +32,9 @@ unset PYTHONHOME || true
 
 source torch-venv/bin/activate
 
-# one-time: pip install enformer-pytorch
-python -c "import enformer_pytorch" || pip install enformer-pytorch
+# one-time: pip install enformer-pytorch, pinning transformers so it doesn't
+# clobber the version borzoi-pytorch needs (<4.51.0,>=4.34.1) in this same venv
+python -c "import enformer_pytorch" || pip install enformer-pytorch "transformers<4.51.0,>=4.34.1"
 
 export HF_HOME=/home/yejz1/Research-work-test/hf_cache
 

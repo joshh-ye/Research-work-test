@@ -25,7 +25,7 @@ results_full_2/
 results_targets_filtered_test/
 
 # Data / generated assets
-enformer_data/
+
 assets/
 
 # Presentation/output artifacts
