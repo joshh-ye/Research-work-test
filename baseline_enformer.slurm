@@ -23,9 +23,12 @@ echo "HOST:       $(hostname)"
 echo "START:      $(date)"
 nvidia-smi
 
+# ACCRE's lmod.sh reads unset vars (USER_IS_ROOT), so -u must be off while it loads
+set +u
 setup_accre_software_stack
 module purge
 module load python/3.12.4 cuda/12.6
+set -u
 
 unset PYTHONPATH || true
 unset PYTHONHOME || true
@@ -33,10 +36,12 @@ unset PYTHONHOME || true
 source torch-venv/bin/activate
 
 # one-time: pip install enformer-pytorch, pinning transformers so it doesn't
-# clobber the version borzoi-pytorch needs (<4.51.0,>=4.34.1) in this same venv
-python -c "import enformer_pytorch" || pip install enformer-pytorch "transformers<4.51.0,>=4.34.1"
+# clobber the version borzoi-pytorch needs (<4.51.0,>=4.34.1) in this same venv.
+# `python -m pip`, not bare `pip`: this venv was copied from Research-work-test/
+# so bin/pip still has that venv's python on its shebang and would install there.
+python -c "import enformer_pytorch" || python -m pip install enformer-pytorch "transformers<4.51.0,>=4.34.1"
 
-export HF_HOME=/home/yejz1/Research-work-test/hf_cache
+export HF_HOME=/home/yejz1/experimental_research/hf_cache
 
 # 0) track filtering report (cheap, also writes the included/excluded CSVs)
 python -u filter_enformer_tracks.py \

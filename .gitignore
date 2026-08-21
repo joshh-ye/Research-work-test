@@ -35,3 +35,9 @@ presentation.md
 
 # Temporary test runner
 run_test_analysis.sh
+# AlphaGenome client venv
+ag-venv/
+
+# Benchmark outputs
+results_baseline_alphagenome/
+results_benchmark/

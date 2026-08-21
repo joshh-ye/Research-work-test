@@ -57,6 +57,11 @@ def parse_args():
     p.add_argument("--old-range-filter", default="H3",
                    help="case-SENSITIVE histone substring used by the ORIGINAL baseline "
                         "to build --from-matrix (default 'H3', matching baseline_borzoi.py)")
+    p.add_argument("--grid", default="native", choices=["native", "enformer"],
+                   help="native: correlate on Borzoi's own 4096 x 32 bp grid (default, "
+                        "unchanged). enformer: crop+mean-pool BOTH prediction and target "
+                        "onto the 896 x 128 bp Enformer grid so the resulting R is directly "
+                        "comparable to the Enformer baseline.")
     return p.parse_args()
 
 
@@ -148,7 +153,15 @@ def run_full_inference(args):
         n_bins = avg.shape[0]
         off = (n_bins - CENTER_BINS) // 2
         avg = avg[off: off + CENTER_BINS]
-        pearson.update(targets[idx].reshape(CENTER_BINS, n_targets), np.asarray(avg))
+        tgt = targets[idx].reshape(CENTER_BINS, n_targets)
+        prd = np.asarray(avg)
+        if args.grid == "enformer":
+            # identical crop+pool on both sides, so the pair still covers the same
+            # coordinates — just at Enformer's resolution instead of Borzoi's.
+            from enformer_baseline_utils import targets_to_enformer_grid
+            tgt = targets_to_enformer_grid(tgt)
+            prd = targets_to_enformer_grid(prd)
+        pearson.update(tgt, prd)
     fasta.close()
     return pearson.result(), df_meta, elig_idx
 
@@ -164,19 +177,22 @@ def main():
         print("[full-inference] running Borzoi over intervals")
         pmat, df_meta, elig_idx = run_full_inference(args)
 
-    np.save(out / f"borzoi_filtered_pearson_matrix_{args.split}.npy", pmat)
+    # keep the native-grid artifacts at their historical names; the comparable
+    # 128 bp run lands beside them under its own suffix.
+    tag = "" if args.grid == "native" else f"_{args.grid}grid"
+    np.save(out / f"borzoi_filtered_pearson_matrix_{args.split}{tag}.npy", pmat)
 
     target_meta = load_target_meta(Path(args.targets_dir), Path(args.data_root), args.split)
     best = select_best_match(pmat, elig_idx, df_meta, target_meta)
-    best.to_csv(out / f"borzoi_filtered_best_match_{args.split}.csv", index=False)
+    best.to_csv(out / f"borzoi_filtered_best_match_{args.split}{tag}.csv", index=False)
 
     # variance guard: flag any selected best-match column that is ~constant
     print(f"\n[{args.split}] eligible tracks: {len(elig_idx)}  targets: {pmat.shape[0]}")
     print(f"  mean best-match Pearson R : {best['pearson_r'].mean():.4f}")
     print(f"  median                    : {best['pearson_r'].median():.4f}")
     print(f"  min / max                 : {best['pearson_r'].min():.4f} / {best['pearson_r'].max():.4f}")
-    print(f"Wrote {out}/borzoi_filtered_pearson_matrix_{args.split}.npy  {pmat.shape}")
-    print(f"Wrote {out}/borzoi_filtered_best_match_{args.split}.csv")
+    print(f"Wrote {out}/borzoi_filtered_pearson_matrix_{args.split}{tag}.npy  {pmat.shape}")
+    print(f"Wrote {out}/borzoi_filtered_best_match_{args.split}{tag}.csv")
 
 
 if __name__ == "__main__":
