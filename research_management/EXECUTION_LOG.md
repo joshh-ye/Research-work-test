@@ -45,3 +45,7 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
 - 2026-10-20 ~05:05 · Provenance (investigator): Enformer targets byte-identical to calico/basenji cross2020 targets_human.txt; Borzoi
   targets row-identical to seqnn-share/borzoi/hg38/targets.txt; bigwigs Cistrome-DB style (DCid), source unrecorded; REPRODUCE.md updated.
   hg38.ml.fa md5 check vs basenji_barnyard2/hg38.ml.fa.gz (streamed, nobackup/crc_phase2/provcheck) running.
+- 2026-10-20 06:07 CDT · Slim trunk cache complete (160.5 GB nobackup). Downstream queue started. Gate: original TL checkpoint re-evaluated
+  from the fp16 slim cache gives test r 0.68199 (= 0.6820); pretrained val-selected 0.6609 (= EXP-006). E4 (EXP-013): ridge on pretrained
+  outputs pre_raw union1888 test r 0.7426 (λ=1e-4 from val), probe on frozen trunk 0.7223; TL − ridge −0.061 [−0.066, −0.053] (tile-block).
+  Pre-registered SD-008 rule triggered: CRC-specific adaptation claim not supported beyond a supervised linear readout. E5 seeds running.
