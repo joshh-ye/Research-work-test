@@ -21,3 +21,6 @@ Format: ID · date opened · description · needed from (user / data / compute) 
 - AlphaGenome hosted-API runs need the existing key file; local runs need an HF token. No new credentials will be
   created or requested by agents.
 - Disk space for the trunk-embedding cache (E5, ~20–90 GB) to be checked before running.
+- **BL-007 · 2026-10-20** · Law 2024 MPRA ST4 logFC sign convention (ALT/REF vs REF/ALT) unresolved from public material
+  (`external_data/validation/MPRA_SIGN_CONVENTION.md`). Needed from: user — contact the authors (Law/Houlston) or EGA
+  EGAD50000000596 documentation (controlled access). Blocks interpretation of the P2 direction test only (SD-017). Status: open.

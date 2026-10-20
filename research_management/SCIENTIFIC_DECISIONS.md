@@ -91,3 +91,12 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
 - **SD-016 · 2026-10-20 · E2/E6 analysis plan frozen** (`variant_scoring/E2_ANALYSIS_PLAN.md`) before unblinding: Law MPRA ST4
   positives vs flag-0 negatives, within Chen region; stratified AUROC + region bootstrap + permutation; direction sign test; Holm
   over 4 models; distance-to-TSS and annotation-count baselines; framing rule.
+- **SD-017 · 2026-10-20 · MPRA direction (P2) is uninterpretable until the logFC sign convention is resolved (post-unblinding).**
+  After the interim AlphaGenome look showed P2 concordance 0.311 [0.232, 0.395], a model-independent check
+  (`external_data/validation/MPRA_SIGN_CONVENTION.md`) found the ST4 sign UNRESOLVED: legend says "with respect to the REF allele";
+  MPRAnalyze logFC = log(non-baseline/baseline) with alphabetical default baseline (would give REF/ALT if coded alt/ref; Law code not public);
+  rs6983267 literature (G allele stronger TCF4 binding: Tuupanen 2009 doi 10.1038/ng.406; Wright 2010 doi 10.1128/mcb.01384-09) with ST4
+  logFC +0.16 (ALT T) suggests REF/ALT; GTEx v10 eQTL concordance under ALT/REF 0.57 (p 0.17) weakly suggests ALT/REF. Decision: P1
+  (sign-free within-locus discrimination) remains the primary validation; P2 is reported exactly as pre-specified with an explicit
+  "sign convention unresolved" caveat and is excluded from the framing rule; no post-hoc re-signing. The model-agreement pattern across
+  models (sign-agnostic |concordance − 0.5|) may be reported as post-hoc exploratory only. BL-007 opened. Decided by coordinator.
