@@ -130,3 +130,7 @@ README.md not updated; 5.3 .gitignore edit uncommitted (user's own pending edit 
 in tracked variant_provenance TSVs — licence/sharing is a user decision (BL-009); 5.5 reproduce_cpu.sh rm -rf guard; state same-host clean room.
 Verified: clean room 92 files + 24 numbers bit-identical; no restricted data (external_data/EGA/MPRA/GTEx/AG) tracked; no secret patterns.
 Also: Phase 4 acceptance requires a strategist PASS (pending).
+
+## RV-009 · 2026-10-20 · Phase 5 re-review — scientific-reviewer (Opus)
+Verdict: **PASS** (Phase 5 accepted; BL-009 left to user). Minor: REPRODUCE.md checkpoint file sizes by name (fixed); manuscript data
+availability results_comparison_* exception (fixed); `--scratch ""` exits rc 1 not 2 (safe, cosmetic).

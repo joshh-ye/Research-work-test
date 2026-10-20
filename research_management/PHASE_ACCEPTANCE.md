@@ -35,7 +35,7 @@ A phase is accepted only when every box is checked, a scientific-reviewer PASS i
 - [ ] Independent-validation status stated for each key claim.
 - [ ] Strategist and reviewer PASS.
 
-## Phase 5 — Reproducibility and GitHub consolidation · status: NOT STARTED
+## Phase 5 — Reproducibility and GitHub consolidation · status: ACCEPTED 2026-10-20 (RV-008 REVISE → RV-009 PASS; BL-009 user decisions open)
 - [ ] Environment specs (requirements/lockfiles) for each venv.
 - [ ] One-command (or documented) reproduction of headline results from saved artifacts.
 - [ ] Clean-room rerun of CPU-level analyses matches recorded numbers.
