@@ -1,26 +1,21 @@
 # Next Actions
 
-Ordered; the coordinator picks from the top. Source: strategist report in `PHASE1_RECOVERY_REPORT.md`.
+Ordered; the coordinator picks from the top. Updated 2026-10-20 (overnight session).
 
-## Close Phase 1
-0. ~~scientific-reviewer gate~~ RV-002 REVISE → RV-003 PASS. **Phase 1 accepted 2026-10-19.**
-0b. User: approve/modify proposed SD-003..SD-010 and the Framing B (conditional) direction. RV-002 recommendations per SD are in `SCIENTIFIC_DECISIONS.md`.
-0c. User: decide whether E8 (held-out-vocabulary generalisation test) becomes required; approve the CLAUDE.md note change
-    "24 LoVo GSE51142 tracks" → "≥28 (24 GSM + 4 ENCSR)" (coordinator does not edit CLAUDE.md without user approval).
-0d. Phase 2 prerequisites (CPU/data): BL-004 ENCODE accession lookup; BL-005 fold BEDs; BL-006 GTEx eQTL access; check the
-    cell-line-cluster bootstrap handling of the 20 unannotated tracks.
+## Done this session
+- User approved SD-003..SD-013; GPU authorized. E1 provenance (EXP-007), exposure audit (EXP-005), exposure-stratified
+  stats (EXP-006), validation data availability, scoring spec frozen (SD-014, e041498), E2 plan frozen (SD-016, b59eea1).
 
-## Phase 2 — SNP experiments and model analysis (none started; GPU not authorized yet)
-1. **E1** research-investigator: obtain Chen 2024 Supp Data 6 and Law 2024 Supp Table 4; map rsID/position
-   (GRCh37→hg38), GWAS-reported allele, risk allele, signal/lead SNP; confirm S6_CCV identity; MPRA overlap. CPU <1 h. **Gate for all SNP work.**
-2. **E2 + E6** computational-engineer: freeze primary score (SD-005), then AlphaGenome scores vs MPRA allelic hits
-   (within-locus AUPRC/rank, locus-clustered bootstrap, direction sign test, distance-to-TSS control) and GTEx colon eQTL direction. CPU, existing cache.
-3. scientific-reviewer: gate review of E1/E2 design and pre-specification.
-4. **E3** computational-engineer: Borzoi-TL + pretrained-Borzoi (+ Enformer) variant scorer (RC-averaged); validate on
-   smoke variant and rs6983267; apply E2. GPU ~6–10 A100-h.
-5. **E5 → E4** computational-engineer: cache trunk embeddings (check disk, ~20–90 GB) → ridge/linear-probe baseline
-   on pretrained outputs → ≥3 seeds, chromosome folds, no-RC ablation. GPU ~8–11 h.
-6. **E7** computational-engineer: non-oracle Enformer / AlphaGenome baselines with per-tile stats.
-7. scientific-reviewer: stats review of E2–E7; strategist + coordinator choose Framing A vs B
-   (rule: E2 locus-clustered enrichment CI excludes null → B).
-Optional E8: cross-cell-line transfer test after E5.
+## In progress
+1. RV-004 scientific-reviewer design gate (E1, exposure audit, EXP-006, scoring spec, E2 plan, Priority D design).
+2. GPU: Borzoi/TL variant scoring (EXP-008, PID 3442888, resumable: rerun the RUNS.md command); Enformer (EXP-009, PID 3444921).
+   Queued: trunk cache (`analysis/priorityD/queue_cache.sh`, starts when Enformer exits) → `queue_downstream.sh`
+   (E4 ridge, linear probe, pretrained non-oracle, E5 seeds, E8, E5 folds, extras). If the allocation died: rerun both queue scripts
+   (wait loops reference old PIDs → they start immediately); every step is resumable/skip-if-done.
+3. E2 code (blinded) being implemented in `analysis/e2_validation/`.
+
+## Next
+4. After RV-004 PASS (or corrections): unblind E2 for AlphaGenome (scores exist), then Borzoi/TL/Enformer when EXP-008/009 finish.
+5. Reviewer on E2 results + E4/E5/E8 results → framing decision (SD-011 rule in E2_ANALYSIS_PLAN §7).
+6. Phase 3 figures/tables; Phase 4 manuscript revision (retire SD-010 claims); Phase 5 reproducibility docs.
+7. Open: AlphaGenome non-oracle (needs validation-split API run, E7); AlphaGenome training manifest (identical-experiment check).

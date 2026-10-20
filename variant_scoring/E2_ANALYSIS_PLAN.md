@@ -62,3 +62,24 @@ Report n regions informative for P1, n positives, n negatives, n flag-1 excluded
 - Framing B (SD-011) is supported only if P1 for ≥1 model has Holm-adjusted p < 0.05 and its CI excludes 0.5, and it exceeds the
   distance baseline (CI of Δ vs distance excludes 0). Otherwise Framing A.
 - Larger predicted effects do not imply greater biological accuracy; no causal or clinical claims.
+
+## Amendment A1 · 2026-10-20 · RV-004 REVISE corrections (still before unblinding; no score–label statistic computed)
+1. **Power statement (§6), label-only, reviewer-recomputed:** 4,323 matched CCVs tested in Law ST2; 134 positives (ST4), 4,098
+   negatives (flag 0), 91 excluded (flag 1). Informative regions (≥1 pos and ≥1 neg) = **58**, holding 130 positives / 2,518 negatives;
+   4 positives lie in regions without negatives (not used by P1). The null-bootstrap minimum detectable stratified AUROC is computed by
+   `analysis/e2_validation` from labels only and reported before unblinding (results_phase2/e2_validation/labels/POWER.md).
+2. **Flag definitions (source-verified):** ST2 legend: "A hit is represented by 1, a strong hit is represented by 2 (see methods)";
+   flag 2 ≡ ST4 for all 265 ST2-listed ST4 rsIDs (10 ST4 rsIDs absent from ST2 and from the CCVs). ST4 legend: "Fold-change was
+   calculated with respect to the REF allele." Primary positives = strong hits (ST4); flag-1 ("hit") excluded from primary, positive in S1.
+3. **Track-matched comparator (pre-registered secondary, P1/P2 repeated):** pretrained Borzoi (and Enformer once E7 selections exist)
+   restricted to the validation-selected mapping of the 152 TL primary tracks (Qing `track_mappings.csv` / E7 selections), from the saved
+   whole-vocabulary log2FC arrays; plus a per-cell-line breakdown (HCT-116, LoVo, other) of TL and pretrained scores. This addresses
+   the 118/132-LoVo keyword set vs HCT-116-dominated TL set confound.
+4. **Ties:** AUROC uses midranks; AlphaGenome quantile scores are tie-heavy, so the raw-log2 version is the tie-free sensitivity.
+5. **Allele swaps:** the 2 swapped ST4 rows (rs34400960, rs36079436; chr17 q-ter, hm_code 11 hg19/hg38 REF change; rs34400960 C/G
+   palindromic) are **excluded from P2**; retained in P1 (labels are allele-independent).
+6. **Multiplicity wording:** two Holm families of 4 (P1 over 4 models; P2 over 4 models).
+7. **Held-out-chromosome sensitivity (S6, descriptive):** CCVs on chr1/8/9/22 (732 tested, 19 positives) reported separately; no inference.
+8. **Limitations pre-declared:** episomal MPRA; non-hit may reflect low activity/power; region inference over 58 regions; Borzoi scores
+   summed in the scaled/soft-clipped training output scale (differs from Borzoi's own variant scoring; per-bin values not stored);
+   AlphaGenome training exposure unknown; identical-experiment count is a lower bound; Borzoi folds per README.

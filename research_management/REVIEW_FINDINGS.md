@@ -58,3 +58,24 @@ Findings: all 10 RV-002 corrections are applied, accurate and consistent across 
 before the commit: (1) Recovery Report "Open items" updated (gate status; BL-004/005/006); (2) RV-002 F1 status wording.
 Optional EXP-004 registry note was also updated. CLAUDE.md note and SD-003..SD-010 remain pending user decision.
 → Phase 1 accepted.
+
+## RV-004 · 2026-10-20 · Phase 2 · design gate before unblinding (E1, exposure audit, EXP-006, scoring spec, E2 plan, Priority D design)
+Reviewer: scientific-reviewer (opus, native subagent)
+Verdict: **REVISE** (documentation/pre-registration only; no GPU or new data)
+Verified: E1 counts 5,729/4,396/23/12, 5,741−2=5,739; liftover 5,737/5,739 (2 unmapped), Ensembl 5,739/5,739; 0 REF mismatches;
+14 rows checked vs raw GWAS Catalog; SD-015 acceptable. Exposure 31 = 24+3+4 (3 ENCSR in both vocabularies; 18 other HCT-116
+ENCODE absent); fold fractions reproduced (Basenji2 first-party bed 0.726 vs HF 0.730). EXP-006 0.682/0.664/0.661, Δr +0.0305/−0.0432,
+val-calibrated R² 0.448/0.444 recomputed. Scoring centering, bins (symmetric → exact RC flip), pseudocount on sums, padding counts,
+TL mask = 31 identical tracks verified. pytest 23 passed.
+Findings:
+- [major] E2 power statement not computed — 4,323 tested / 134 pos / 4,098 neg / 91 flag-1; 58 informative regions — fixed in plan Amendment A1 (MDA pending from labels code).
+- [major] Track-set confound (pretrained 132 tracks, 118 LoVo; TL 152 HCT-116-dominated) — track-matched comparator + per-cell-line breakdown pre-registered (A1.3).
+- [minor] 2 allele swaps at chr17 q-ter (hm_code 11; rs34400960 palindromic) — excluded from P2 (A1.5); logFC-vs-REF source quoted (ST4 legend) (A1.2).
+- [minor] AUROC ties (AG quantile compressed) — midranks; raw = tie-free sensitivity (A1.4).
+- [minor] EXP-006 causal wording; LoVo confound — rephrased, within-LoVo contrast added (identical −0.061 vs non-identical +0.009) in SUMMARY.md.
+- [minor] sign-flip vs CI different estimands — labelled in SUMMARY.md.
+- [minor] held-out-chromosome sensitivity — S6 descriptive (A1.7).
+- [minor] flag-definition contradiction / "8 tests" wording — fixed (A1.2, A1.6).
+- [minor] Borzoi scores in scaled/soft-clipped space — limitation declared (A1.8).
+- [minor] palindrome caveat affects orientation only — noted.
+- [info] Priority D: label E8 "validation-selected same-TF transfer"; stratify E4 by exposure class; test RC shift-offset sign — forwarded.
