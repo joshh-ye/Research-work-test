@@ -40,3 +40,8 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   logFC = log(REF/ALT) but does not resolve BL-007 (model-derived evidence; SD-017 unchanged). Held-out-chromosome subset P1 ~0.55 (10 regions, descriptive).
 - 2026-10-20 ~03:15 · Home quota exceeded → Borzoi scoring (PID 3442888, 4/20 chunks saved) and cache build died. 03:45 moved
   results_phase2/{trunk_cache,e7_nonoracle} to /nobackup/user/yejz1/crc_phase2/ (symlinks). 03:48 Borzoi scoring resumed (PID 3611891).
+- 2026-10-20 ~05:00 · EXP-012 label-free concordance (engineer, CPU, no labels read): AG quantile vs Enformer Spearman primary 0.577
+  [0.554, 0.599] (matched 5,729; region bootstrap 2,000); sign agreement 0.740. Borzoi to be added with `--models` after summary.tsv.
+- 2026-10-20 ~05:05 · Provenance (investigator): Enformer targets byte-identical to calico/basenji cross2020 targets_human.txt; Borzoi
+  targets row-identical to seqnn-share/borzoi/hg38/targets.txt; bigwigs Cistrome-DB style (DCid), source unrecorded; REPRODUCE.md updated.
+  hg38.ml.fa md5 check vs basenji_barnyard2/hg38.ml.fa.gz (streamed, nobackup/crc_phase2/provcheck) running.
