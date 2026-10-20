@@ -12,21 +12,21 @@ A phase is accepted only when every box is checked, a scientific-reviewer PASS i
 - [x] Strategist recommendations recorded in `SCIENTIFIC_DECISIONS.md` (as PROPOSED).
 - [x] Reviewer PASS. (RV-003, 2026-10-19)
 
-## Phase 2 — SNP experiments and model analysis · status: NOT STARTED
-- [ ] REF alleles verified against the reference FASTA; mismatch counts reported.
-- [ ] Coordinate convention (0/1-based) and variant centering tested.
-- [ ] Track mappings recorded for every model used.
-- [ ] Every run logged in the registry with command and output path.
-- [ ] Tests for allele/coordinate/metric handling pass.
-- [ ] Reviewer PASS per experiment.
+## Phase 2 — SNP experiments and model analysis · status: ACCEPTED 2026-10-20 (RV-004..RV-007; RV-010 PASS)
+- [x] REF alleles verified against the reference FASTA; mismatch counts reported.
+- [x] Coordinate convention (0/1-based) and variant centering tested.
+- [x] Track mappings recorded for every model used.
+- [x] Every run logged in the registry with command and output path.
+- [x] Tests for allele/coordinate/metric handling pass.
+- [x] Reviewer PASS per experiment.
 
-## Phase 3 — Statistical analysis and publication figures · status: NOT STARTED
-- [ ] Uncertainty (CI/bootstrap over appropriate units) for every headline number.
-- [ ] Paired model comparisons; multiple-testing control where applicable.
-- [ ] Contaminated vs uncontaminated tracks stratified.
-- [ ] r / r² / R² labelled correctly in all tables and figures.
-- [ ] Each figure has a script, input data, and saved plotted values.
-- [ ] Reviewer PASS.
+## Phase 3 — Statistical analysis and publication figures · status: ACCEPTED 2026-10-20 (RV-006..RV-008; RV-010 PASS)
+- [x] Uncertainty (CI/bootstrap over appropriate units) for every headline number.
+- [x] Paired model comparisons; multiple-testing control where applicable.
+- [x] Contaminated vs uncontaminated tracks stratified.
+- [x] r / r² / R² labelled correctly in all tables and figures.
+- [x] Each figure has a script, input data, and saved plotted values.
+- [x] Reviewer PASS.
 
 ## Phase 4 — Manuscript preparation · status: ACCEPTED 2026-10-20 (RV-008 PASS; strategist REVISE → SD-025..028 → strategist PASS; pre-submission items open: Fig. 1, Suppl. Methods S1, intro prose, title wording)
 - [ ] Every numeric claim traces to a registry entry.

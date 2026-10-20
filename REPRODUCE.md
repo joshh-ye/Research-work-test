@@ -98,6 +98,7 @@ Test chr9+chr22, 359 tiles, 183 tracks; metric names kept distinct (Pearson r / 
 "Do not quote" items (0.6104/0.5022 ablation, validation filtered-Borzoi stats, "42 same-experiment tracks") have no source file and are not reproduced.
 
 ## 5. Tests
+Run each test directory separately (`./torch-venv/bin/python -m pytest -q <dir>`); a single pytest call over all directories fails at collection (duplicate test module names, RV-010).
 `./torch-venv/bin/python -m pytest -q analysis/exposure_stratified/tests analysis/e7_nonoracle/tests analysis/e2_validation/tests variant_scoring/tests analysis/priorityD/tests` (counts re-verified 2026-10-20: 8 / 7 / 29 / 15 / 17 passed; priorityD grew from 13 to 17 with the EXP-014 tests). Also `./torch-venv/bin/python -m pytest -q analysis/priorityD/tests/test_e4_sensitivity.py`. Not run by the clean-room script.
 
 ## 6. Known non-reproducibility / limitations

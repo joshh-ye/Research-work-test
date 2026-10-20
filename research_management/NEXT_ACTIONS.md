@@ -1,20 +1,15 @@
 # Next Actions
 
-Ordered; the coordinator picks from the top. Updated 2026-10-20 08:15 CDT (overnight session).
+Updated 2026-10-20 ~12:40 CDT. All five phases accepted; see PROJECT_STATE.md and reports/OVERNIGHT_PROGRESS_REPORT.md (local, gitignored).
 
-## Done this session (see PROJECT_STATE.md, EXPERIMENT_REGISTRY.csv EXP-005..016)
-Exposure audit, E1 provenance, frozen scoring spec + E2 plan (A1–A3), E7 non-oracle, E2 interim (AG, Enformer), slim trunk cache (BL-008),
-E4 ridge/probe + sensitivity, E5 seeds/folds, E8, RV-006 corrections, manuscript v2 track sections, Fig 6, provenance URLs.
+## Needs the user
+1. BL-007: MPRA ST4 logFC sign convention — contact Law/Houlston or EGA docs. If REF/ALT, re-report P2 as a new labelled analysis (SD-027).
+2. BL-009: (a) untrack borzoi_ckpt_full/*.pt + results_comparison_*/ (git rm --cached; no history rewrite); (b) commit pending .gitignore edit;
+   (c) GWAS Catalog summary-stat columns in tracked variant_provenance TSVs — keep?
+3. SD-028: title term ("genomic foundation models" vs "sequence-to-function models").
+4. Bigwig download source (Cistrome DB?) — PI/Qing.
 
-## In progress
-1. Borzoi/TL variant scoring (EXP-008, PID 3611891; resume `nohup ./torch-venv/bin/python variant_scoring/score_borzoi.py`).
-2. Fold-seed extras (queue_downstream2.sh; rerun safe). After it ends: `./torch-venv/bin/python analysis/priorityD/06_summaries.py`
-   then `./torch-venv/bin/python figures/scripts/fig6_e4_benchmark.py`.
-
-## Next
-3. When `results_phase2/variant_scores/borzoi/summary.tsv` exists: `./torch-venv/bin/python analysis/e2_validation/run_e2.py --unblind --out results_phase2/e2_validation/final`
-   (Holm + §7 framing); log in EXECUTION_LOG; register EXP-008 complete + EXP-017 (E2 final); regenerate fig 5; add Borzoi to EXP-012
-   (`analysis/exploratory/model_concordance.py --models ...`).
-4. scientific-reviewer on E2 final (+ RV-006 corrections check) → apply §7 framing (SD).
-5. Manuscript §3.5, abstract, title per framing; Phase 4 review; Phase 5 final review; morning report `reports/OVERNIGHT_PROGRESS_REPORT.md`.
-6. Open (user): BL-007 MPRA sign convention (contact Law/Houlston or EGA); bigwig download source (PI/Qing); AlphaGenome training manifest.
+## Next (agents, when resumed)
+5. Pre-submission manuscript items: Fig. 1 design schematic; Supplementary Methods S1 (BigWig processing); Introduction prose; final reviewer pass.
+6. Independent validation (SD-027 ii): second MPRA or colon caQTL with a pre-registered nested test (model + annotation vs annotation).
+7. Optional: delete regenerable 160 GB trunk cache on /nobackup once E4/E5 are final (user approval).

@@ -139,3 +139,9 @@ availability results_comparison_* exception (fixed); `--scratch ""` exits rc 1 n
 1st: **REVISE** (8 items: Results order; clogit vs annotation-count wording; abstract equivalence wording; rank future work; title term;
 Holm-p floor note; novelty check; track-count confound) → SD-025..SD-028, novelty check (Law 2024 full text: only Akita; hu2026), applied.
 Re-check: **PASS** with 4 minor edits (Fig. 5 to supplement, cite figures in Results, Methods-order sentence, CLAIMS_AUDIT F8/F10) — applied.
+
+## RV-010 · 2026-10-20 · Phase 2 and Phase 3 acceptance checklists — scientific-reviewer (Opus)
+Verdict: **Phase 2 PASS, Phase 3 PASS.** EXP-010 short check done (valsel r Enformer 0.6406 / AlphaGenome 0.6569 recomputed; selection = argmax
+of validation-only matrix 183/183; oracle reproduces benchmark 5.8e-8). Minor doc fixes applied: checklists ticked; registry "reviewed" column
+and EXP-009 status updated; REPRODUCE.md notes that test directories must be run separately. EXP-012 (exploratory) and EXP-011 (superseded
+interim) not separately reviewed.
