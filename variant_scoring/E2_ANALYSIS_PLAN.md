@@ -94,3 +94,12 @@ FDR<1e-3 in that line; flag-1 in that line otherwise excluded. (5) Annotation co
 protein_coding transcript TSS. (7) Region bootstrap resamples all regions (uninformative weight 0). (8) Conditional logit exact DP,
 z-scored covariates, score as rank-z. (9) `run_e2.py` requires all headline models unless `--allow-partial` (outputs marked PARTIAL);
 models may be unblinded as their frozen scores become available, with no change to spec or plan in between.
+
+## Amendment A3 · 2026-10-20 · RV-005 REVISE (before unblinding)
+- Unblinding is per model via `run_e2.py --unblind --models <list>`; only listed models are loaded/analysed; a model is unblinded only from its
+  **finalised** frozen run (summary.tsv present; no partial-chunk fallback). Interim outputs are labelled "interim, single-model,
+  unadjusted p (Holm deferred)". Holm across the 4 models, paired model deltas and the framing rule (§7) are computed only in the final
+  run with all four models complete. Every look is logged in research_management/EXECUTION_LOG.md.
+- The A1.3 "track-matched" comparator is relabelled **"validation-selected-mapping comparator"** (only 38/152 mappings are same-TF; most of
+  the 73 channels are non-CRC cell lines). Added sensitivity: **same-TF validation-selected comparator** (`val_selected_sameTF_track_idx`
+  where available; tracks without a same-TF candidate are dropped and counted).
