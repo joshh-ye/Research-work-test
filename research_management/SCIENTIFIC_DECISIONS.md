@@ -133,3 +133,14 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   the 6 headline pairs; P1 weight concentrated (top 3 regions 45%); P2 is significantly below 0.5 for all 4 models (Holm p ≤ 0.004) but
   uninterpretable (SD-017) and must not be used to infer the REF/ALT convention (BL-007); MPRA is episomal; pretrained models' training includes
   the REF sequence of all loci and ENCODE/GTEx data. No "CRC-specific annotation" wording. Confirmed by RV-007 PASS.
+- **SD-025 · 2026-10-20 · Manuscript structure (strategist Phase 4 REVISE).** One paper. Results order: provenance → MPRA P1/baselines/paired →
+  P2 → eQTL → exposure audit → track benchmark. Main text keeps Table 2 and the per-class statement; Table 1 (oracle mapping), E7, E8,
+  fold stratification and exposure-controlled ridge move to the Supplement.
+- **SD-026 · 2026-10-20 · Post-hoc conditional logit (score + annotation count + distance) reported as suggestive only;** it answers a different
+  question from the pre-registered paired ΔAUROC and is not used to claim added value over annotation; it motivates a pre-specified nested test
+  on independent data.
+- **SD-027 · 2026-10-20 · Next-step priority:** (1) BL-007 via author contact (Law/Houlston) — if the ST4 convention is REF/ALT, P2 would be
+  re-reported as a new, labelled analysis; (2) independent MPRA/caQTL with a pre-registered nested test (model + annotation vs annotation);
+  (3) AlphaGenome training manifest; (4) backbone fine-tuning as a separate question. No new confirmatory analyses on the Law MPRA.
+- **SD-028 · 2026-10-20 · Title kept as fixed in SD-020 B** ("genomic foundation models" is the user's Framing B wording); the body defines the
+  four models as sequence-to-function models. Strategist suggested "sequence-to-function models" — left for the user to decide.
