@@ -43,8 +43,9 @@ def test_pretrained_pool_matches_qing_rerun():
     pr = ROOT / "reports/qing_deliverables/evaluation_evidence/baseline_borzoi_rerun"
     P = np.load(pr / "preds_test_shared128.npy", mmap_mode="r")
     elig = np.load(pr / "per_tile_stats_test_shared128.npz")["eligible_track_index"]
+    U = np.load(CACHE / "pre_channels.npy"); pos = np.searchsorted(U, elig); assert (U[pos] == elig).all()
     for i, g in zip(IDX, GIDS):
-        a = np.load(tile_path(g, "pre128"))[:, elig].astype(np.float32)
+        a = np.load(tile_path(g, "pre128"))[:, pos].astype(np.float32)
         assert a.shape == (G_BINS, len(elig))
         assert np.allclose(a, P[i], rtol=2e-3, atol=1e-3 * max(1, np.abs(P[i]).max()) * 0 + 1e-3)
 

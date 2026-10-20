@@ -20,7 +20,7 @@ def log(*x):
 
 tr, va, te = split_gids(a.fold)
 feat = Feat(a.feat)
-# feature subsets (indices into the 7611 human output channels)
+# feature subsets (positions in the cached pre128 columns; slim cache stores 1,888 of the 7,611 human tracks)
 subsets = {}
 if a.feat == "probe":
     subsets["trunk1920"] = np.arange(EMB_DIM)
@@ -29,7 +29,9 @@ else:
     df = load_borzoi_targets(ROOT / "borzoi_data/targets_human.csv")
     elig = filter_borzoi_tracks(df)[0]["track_index"].to_numpy(); assert len(elig) == 1882
     crc = pd.read_csv(ROOT / "variant_scoring/track_lists/borzoi_pretrained_crc_tracks.tsv", sep="\t").track_index.to_numpy()
-    subsets = {"all7611": np.arange(N_HUMAN), "eligible1882_chip": elig, "crc132": np.sort(crc)}
+    U = np.load(CACHE / "pre_channels.npy")      # slim cache: pre128 columns = U (human-track indices)
+    subsets = {"union1888": np.arange(len(U)), "eligible1882_chip": np.searchsorted(U, elig), "crc132": np.searchsorted(U, np.sort(crc))}
+    assert (U[subsets["eligible1882_chip"]] == elig).all() and (U[subsets["crc132"]] == np.sort(crc)).all()
 if a.subsets: subsets = {k: v for k, v in subsets.items() if k in a.subsets.split(',')}; assert subsets, 'no such subset'
 log(f"fold {a.fold} feat {a.feat}: train {len(tr)} val {len(va)} test {len(te)} tiles; subsets { {k: len(v) for k, v in subsets.items()} }")
 t0 = time.time(); acc = accumulate(feat, tr, log); log(f"gram done {time.time()-t0:.0f}s, n_samples={acc['n']}")

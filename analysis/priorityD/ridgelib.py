@@ -16,9 +16,9 @@ def pool_grid_t(a):
 
 
 class Feat:
-    """Feature source. kind: 'pre_raw' / 'pre_log1p' (pretrained Borzoi outputs, 7611 channels, shared grid) or
+    """Feature source. kind: 'pre_raw' / 'pre_log1p' (pretrained Borzoi outputs restricted to pre_channels(): 1,888 channels, shared grid) or
     'probe' (frozen-trunk embedding 1920 channels at 32 bp; fit at 32 bp, predictions pooled to the shared grid)."""
-    def __init__(self, kind): self.kind = kind; self.p = N_HUMAN if kind.startswith("pre") else EMB_DIM
+    def __init__(self, kind): self.kind = kind; self.p = len(np.load(CACHE / "pre_channels.npy")) if kind.startswith("pre") else EMB_DIM
 
     def load(self, gid):
         """returns X (m, p) float32 np (training resolution), Y (m, 183) float64 np (training resolution),

@@ -4,8 +4,9 @@ Per tile (gid), written atomically (tmp+rename) under results_phase2/trunk_cache
                                            borzoi_code/model.py), central 4104 of 6144 bins (4096 + 4 margin each side)
   emb_rc/tGID.npy   float16 (4104, 1920)  same from the reverse-complemented 524,288 bp window (train tiles only);
                                            row j <-> genomic bin (4103-j)
-  pre128/tGID.npy   float16 (896, 7611)   4-replicate-mean PRETRAINED human-head outputs (all 7611 tracks), central
-                                           4096 bins -> shared 128 bp grid (crop 256/side, mean-pool x4)
+  pre128/tGID.npy   float16 (896, 1888)   4-replicate-mean PRETRAINED human-head outputs restricted to pre_channels()
+                                           (1,882 filtered ChIP-TF + 6 DNase of the CRC list), central 4096 bins -> shared
+                                           128 bp grid (crop 256/side, mean-pool x4). [slim recipe 2026-10-20; was 7611 wide]
   tgt/tGID.npy      float32 (4104, 183)   BigWig targets at 32 bp, same 4104-bin window (bin grid aligned to 32 bp)
 fp16 is a storage deviation (embedding rel. error ~5e-4); no shift/RC augmentation randomness here -- it is emulated at
 head-training time from the margin bins and the RC cache (see DESIGN.md).
@@ -80,11 +81,16 @@ def main():
     ap.add_argument("--splits", nargs="+", default=["test", "val", "train"])
     ap.add_argument("--limit", type=int, default=None); ap.add_argument("--start", type=int, default=0)
     ap.add_argument("--workers", type=int, default=6)
-    ap.add_argument("--no-rc-for", nargs="*", default=[], help="splits where RC embeddings are skipped (default none: folds need RC for every chromosome)")
+    ap.add_argument("--rc", action="store_true", help="also cache RC embeddings (OFF in slim recipe: quota)")
+    ap.add_argument("--budget-gb", type=float, default=172.0, help="stop cleanly when total /nobackup/user/yejz1 usage exceeds this")
     a = ap.parse_args()
     from borzoi_pytorch import Borzoi
     tt = tile_table(); CACHE.mkdir(parents=True, exist_ok=True)
     tt.to_csv(CACHE / "tiles.csv", index=False)
+    U = pre_channels()[0]; np.save(CACHE / "pre_channels.npy", U); U_t = torch.as_tensor(U, device="cuda")
+    import subprocess
+    def usage_gb():
+        return int(subprocess.check_output(["du", "-sb", "/nobackup/user/yejz1"]).split()[0]) / 1e9
     dev = "cuda"
     models = [Borzoi.from_pretrained(f"johahi/borzoi-replicate-{i}").eval().to(dev) for i in range(4)]
     buf = {}
@@ -96,7 +102,7 @@ def main():
     for split in a.splits:
         sub = tt[tt.split == split]
         if a.limit: sub = sub.iloc[a.start:a.start + a.limit]
-        need_rc = split not in a.no_rc_for
+        need_rc = a.rc
         rows = []
         for r in sub.to_dict("records"):
             g = r["gid"]
@@ -117,7 +123,7 @@ def main():
                 off = (emb.shape[0] - CBINS) // 2
                 assert emb.shape[0] == 6144 and off == 1020
                 e_f = emb[off:off + CBINS].half().cpu().numpy()
-                pre = avg[:, 1024:1024 + CENTER_BINS].T.cpu().numpy()      # (4096, 7611) float32
+                pre = avg[U_t][:, 1024:1024 + CENTER_BINS].T.cpu().numpy()      # (4096, 1888) float32
                 maxv = max(maxv, float(pre.max()))
                 p128 = to_grid128(pre).astype(np.float16)
                 e_r = None
@@ -134,6 +140,10 @@ def main():
             n_done += 1
             if len(futs) > 64:
                 [f.result() for f in futs]; futs.clear()
+            if n_done % 50 == 0:
+                [f.result() for f in futs]; futs.clear(); ug = usage_gb()
+                if ug > a.budget_gb:
+                    (CACHE / "QUOTA_STOP").write_text(f"stopped at {ug:.1f} GB > budget {a.budget_gb}\n"); print("QUOTA GUARD stop", ug, flush=True); sys.exit(3)
             if n_done % 25 == 0:
                 print(f"[{split}] done {n_done} wall {time.time()-t_start:.0f}s  max_pre={maxv:.1f} (fp16 max 65504)", flush=True)
     [f.result() for f in futs]

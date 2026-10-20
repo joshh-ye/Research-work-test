@@ -24,3 +24,6 @@ Format: ID · date opened · description · needed from (user / data / compute) 
 - **BL-007 · 2026-10-20** · Law 2024 MPRA ST4 logFC sign convention (ALT/REF vs REF/ALT) unresolved from public material
   (`external_data/validation/MPRA_SIGN_CONVENTION.md`). Needed from: user — contact the authors (Law/Houlston) or EGA
   EGAD50000000596 documentation (controlled access). Blocks interpretation of the P2 direction test only (SD-017). Status: open.
+- **BL-008 · 2026-10-20 ~03:15** · Home quota (232.8 GB hard) hit by the trunk cache (52 GB of a planned ~330 GB) → cache build and Borzoi
+  variant scoring died (writes failed). Mitigation: cache + E7 outputs moved to /nobackup/user/yejz1/crc_phase2/ (symlinked); Borzoi
+  scoring resumed from 4 saved chunks; cache redesigned to fit (SD-018). Status: mitigated; user should review storage (home ~171 GB used).

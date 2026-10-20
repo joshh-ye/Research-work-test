@@ -18,7 +18,8 @@ a = ap.parse_args()
 out = Path(a.out or ROOT / f"results_phase2/e4_ridge/pretrained_valsel_{a.fold}"); out.mkdir(parents=True, exist_ok=True)
 tr, va, te = split_gids(a.fold)
 elig = filter_borzoi_tracks(load_borzoi_targets(ROOT / "borzoi_data/targets_human.csv"))[0]["track_index"].to_numpy()
-elig_t = torch.as_tensor(elig, device=DEV)
+U = np.load(CACHE / "pre_channels.npy"); elig_t = torch.as_tensor(np.searchsorted(U, elig), device=DEV)   # positions in cached columns
+assert (U[elig_t.cpu().numpy()] == elig).all()
 feat = Feat("pre_raw")
 
 

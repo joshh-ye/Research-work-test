@@ -64,3 +64,15 @@ def bw_bin_means(bw, chrom, start, end, bin_size=32):
     cov = np.isfinite(v).sum(1)
     s = np.nansum(v, 1)
     return np.where(cov > 0, s / np.maximum(cov, 1), 0.0).astype(np.float32)
+
+
+# ---- 2026-10-20 slim-cache redesign (quota): pre128 stores only PRE_CHANNELS (1,882 filtered ChIP-TF tracks + the CRC list
+# union = 1,888 channels, sorted human-track indices); RC embeddings are no longer cached (except 4 test tiles for unit tests).
+def pre_channels():
+    """Sorted human-track indices stored in pre128 = filter_borzoi_tracks (1,882) U variant_scoring CRC list (adds 6 DNase)."""
+    import pandas as pd
+    from borzoi_baseline_utils import load_borzoi_targets, filter_borzoi_tracks
+    elig = filter_borzoi_tracks(load_borzoi_targets(ROOT / "borzoi_data/targets_human.csv"))[0]["track_index"].to_numpy()
+    crc = pd.read_csv(ROOT / "variant_scoring/track_lists/borzoi_pretrained_crc_tracks.tsv", sep="\t").track_index.to_numpy()
+    assert len(elig) == 1882
+    return np.union1d(elig, crc), np.sort(elig), np.sort(crc)

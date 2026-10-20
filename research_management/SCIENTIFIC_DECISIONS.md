@@ -100,3 +100,8 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   (sign-free within-locus discrimination) remains the primary validation; P2 is reported exactly as pre-specified with an explicit
   "sign convention unresolved" caveat and is excluded from the framing rule; no post-hoc re-signing. The model-agreement pattern across
   models (sign-agnostic |concordance − 0.5|) may be reported as post-hoc exploratory only. BL-007 opened. Decided by coordinator.
+- **SD-018 · 2026-10-20 · Slim trunk cache (storage-forced deviation, BL-008).** Cache keeps forward trunk embeddings, targets and
+  pretrained Borzoi outputs for 1,888 channels (1,882 filtered ChIP-TF + 6 CRC DNase); RC embeddings dropped (regenerable intermediates;
+  905 already-written RC files removed by the engineer). Retrained heads (E5 seeds/folds, E8) = "cache recipe: shift-emulated, no-RC";
+  the original checkpoint remains the headline TL model. E4 ridge primary features = 1,888 channels (not all 7,611); sub-variants 1,882 and
+  132 CRC tracks. Quota guard stops the build above 172 GB. Decided by coordinator.

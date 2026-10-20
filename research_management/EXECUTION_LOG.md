@@ -34,3 +34,9 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   BELOW 0.5. Post-unblinding observation: the ST4 logFC sign convention is ambiguous (MPRAnalyze factor-level ordering; rs6983267 ST4
   REF G/ALT T logFC +0.16). P2 will NOT be re-signed post hoc; a model-independent convention check was dispatched
   (external_data/validation/MPRA_SIGN_CONVENTION.md). Any re-interpretation will be labelled post hoc.
+- 2026-10-20 02:36 · E2 UNBLIND look #2 (interim, Enformer only; frozen run finalised): run_e2.py --unblind --models enformer --out results_phase2/e2_validation/interim_enformer
+  Interim Enformer (unadjusted, Holm deferred): P1 0.674 [0.607, 0.756] perm p 1e-4; P2 0.364 [0.276, 0.454] (n=132), again below 0.5.
+  Post-hoc observation (not a test): two models independently anti-concordant with ST4 logFC under the ALT/REF reading — consistent with
+  logFC = log(REF/ALT) but does not resolve BL-007 (model-derived evidence; SD-017 unchanged). Held-out-chromosome subset P1 ~0.55 (10 regions, descriptive).
+- 2026-10-20 ~03:15 · Home quota exceeded → Borzoi scoring (PID 3442888, 4/20 chunks saved) and cache build died. 03:45 moved
+  results_phase2/{trunk_cache,e7_nonoracle} to /nobackup/user/yejz1/crc_phase2/ (symlinks). 03:48 Borzoi scoring resumed (PID 3611891).

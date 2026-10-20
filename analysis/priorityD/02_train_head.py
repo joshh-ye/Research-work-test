@@ -10,7 +10,7 @@ from folds import FOLDS, split_gids
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--out", required=True); ap.add_argument("--seed", type=int, required=True)
-ap.add_argument("--split-name", default="orig"); ap.add_argument("--no-rc", action="store_true")
+ap.add_argument("--split-name", default="orig"); ap.add_argument("--rc", action="store_true", help="RC augmentation (needs emb_rc; NOT in the slim cache)")
 ap.add_argument("--exclude-tracks", default="", help="comma-separated track idx dropped (E8)")
 ap.add_argument("--epochs", type=int, default=8); ap.add_argument("--eval-ckpt", default=None,
     help="skip training; evaluate this original head checkpoint (183 outputs) on the cache")
@@ -23,11 +23,11 @@ tr, va, te = split_gids(a.split_name)
 cols = None
 if a.exclude_tracks:
     ex = [int(i) for i in a.exclude_tracks.split(",")]; cols = [i for i in range(N_TGT) if i not in ex]
-log(f"split {a.split_name}: train {len(tr)} val {len(va)} test {len(te)} tiles; seed {a.seed}; rc={not a.no_rc}; n_out {N_TGT if cols is None else len(cols)}")
+log(f"split {a.split_name}: train {len(tr)} val {len(va)} test {len(te)} tiles; seed {a.seed}; rc={a.rc}; n_out {N_TGT if cols is None else len(cols)}")
 if a.eval_ckpt:
     head = make_head(N_TGT).to(DEV); head.load_state_dict(torch.load(a.eval_ckpt, map_location=DEV)); head.eval(); hist = None
 else:
-    head, hist = train_head(tr, va, out / "ckpt", a.seed, cols=cols, rc_prob=0.0 if a.no_rc else 0.5, epochs=a.epochs, log=log)
+    head, hist = train_head(tr, va, out / "ckpt", a.seed, cols=cols, rc_prob=0.5 if a.rc else 0.0, epochs=a.epochs, log=log)
     torch.save(head.state_dict(), out / "head_best.pt")
 res = {}
 for nm, g in [("val", va), ("test", te)]:
@@ -35,6 +35,6 @@ for nm, g in [("val", va), ("test", te)]:
     st["gid"] = np.asarray(g); np.savez(out / f"{nm}_stats.npz", **st)
     r = mean_r(st); res[nm] = dict(mean_pearson_r=float(np.nanmean(r)), loss=loss, n_tiles=len(g), n_tracks=int(r.size))
     log(nm, res[nm])
-res.update(seed=a.seed, split=a.split_name, rc=not a.no_rc, best_epoch=None if hist is None else hist["best_epoch"],
+res.update(seed=a.seed, split=a.split_name, rc=a.rc, best_epoch=None if hist is None else hist["best_epoch"],
            columns=cols)
 (out / "metrics.json").write_text(json.dumps(res, indent=1))
