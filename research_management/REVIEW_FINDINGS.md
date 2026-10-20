@@ -90,3 +90,18 @@ Findings:
 - [minor] "track-matched" comparator is mostly non-same-TF, non-CRC (38/152 same-TF) — relabelled; same-TF sensitivity pre-registered (A3).
 - [info] AG quantile primary has 254 distinct values; midranks verified.
 Unblinding permitted for AlphaGenome after the A3 code change; other models when finalised.
+
+## RV-006 · 2026-10-20 · Priority D milestone (E4 EXP-013, E4 sensitivity EXP-014, E5 EXP-015, E8 EXP-016, SD-018..023) — scientific-reviewer (Opus)
+Verdict: **REVISE** (documentation/traceability only; numbers recompute; SD-019 outcome holds).
+Findings:
+1. [major] SD-019 cites TL−ridge CIs for seeds 1–3 / F2 that no saved file contains (reviewer recompute agrees: seeds −0.059..−0.060, F2 −0.066, F3 −0.083, F4 −0.068, all CIs exclude 0) → add paired TL−ridge and TL−probe per seed/fold to E5 outputs.
+2. [major] SD-020 Framing-A title overgeneralises ("head-only transfer learning") — evidence covers one recipe (Poisson MLP, batch 1, lr 1e-4, 8 epochs); probe on same embedding also beats TL, so loss/optimisation is an untested explanation → scope to "the original head-only fine-tuning recipe".
+3. [minor] E4 SUMMARY header/limitations say 7,611 features; primary is union1888 (06_summaries.py:71,76).
+4. [minor] E4 sensitivity parts C/D were specified after the primary E4 result (SD-023 07:13 vs results 06:12) → "post-primary-result sensitivity analyses".
+5. [minor] Quote SD-006 primary inference (TF-cluster, not_identical152: −0.0555 [−0.0756, −0.0428]) plus cell-line-cluster CI.
+6. [minor] EXP-015 "TL > pretrained valsel in every fold" rests on tile-block CIs; cell-line-cluster CI includes 0 on orig.
+7. [minor] E5 SUMMARY stale (seeds 4–5 done: 0.6819, 0.6822) → regenerate after the queue.
+8. [minor] R² labels: E5 folds pretrained valsel and E8 per-track R² columns need "validation-calibrated" vs raw labels.
+9. [minor] E8: LEAKY reference should also be reported for the cache-recipe seed1 head (0.5494); selection freedom differs (1,882 any-TF vs few same-TF); LS174T derives from LS180 (≈3 donor clusters; general knowledge); not zero-shot (validation labels of held-out tracks used) → wording "no transfer advantage".
+Verified: train-only standardisation, val-only λ, no refit, disjoint folds, no target-derived features, parity of tiles/targets/metric, cluster-CI construction, SD-008 rule and variant set committed before results (a896b9e), worst variant reported. Probe should be foregrounded as the exposure-symmetric comparison.
+Actions: SD text (2, 5, 6) by coordinator; code/summary fixes (1, 3, 4, 7, 8, 9) dispatched to computational-engineer.

@@ -109,9 +109,12 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   variants, the trunk linear probe, seeds 1–3 and fold F2). Claims of Borzoi-TL superiority/CRC-specific adaptation are withdrawn; TL results
   are reported descriptively. Borzoi-TL remains one of the four pre-registered E2 models; it is not the methodological contribution.
   Strategist memo 2026-10-20; decided by coordinator (pre-registered rule, no post-hoc change).
+  Primary inference (SD-006, TF-cluster, not_identical152): TL − ridge[pre_raw:union1888] −0.0555 [−0.0756, −0.0428]; cell-line-cluster
+  [−0.0828, −0.0476]; TL − trunk probe −0.0378 TF-cluster [−0.0525, −0.0289] (exposure-symmetric comparison). Per-seed/per-fold paired CIs: see
+  E5 outputs (RV-006 #1). TL > pretrained valsel is not robust to cell-line clustering (orig all183 [−0.018, 0.041]).
 - **SD-020 · 2026-10-20 · Framing still decided by E2_ANALYSIS_PLAN §7 at the final 4-model run.** Titles fixed before E2 final —
   B: "Leakage-aware evaluation of genomic foundation models for colorectal cancer risk-variant annotation and transcription-factor binding";
-  A: "A leakage-aware benchmark shows head-only transfer learning from Borzoi does not exceed a linear readout for colorectal-cancer TF binding".
+  A: "A leakage-aware benchmark shows the original head-only Borzoi fine-tuning recipe does not exceed a linear readout for colorectal-cancer TF binding" (RV-006: scoped to the one recipe tested — Poisson MLP head, batch 1, lr 1e-4, 8 epochs; loss/optimisation as the explanation is untested).
   The track-prediction benchmark is reported as a negative result under either framing.
 - **SD-021 · 2026-10-20 · No new head architectures (e.g. MLP) are evaluated on chr9/chr22 in this phase** (forking paths on a
   development-exposed test set; the linear probe already settles the comparison).
