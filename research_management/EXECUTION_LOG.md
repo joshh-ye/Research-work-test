@@ -51,3 +51,8 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   Pre-registered SD-008 rule triggered: CRC-specific adaptation claim not supported beyond a supervised linear readout. E5 seeds running.
 - 2026-10-20 08:35 CDT · queue_downstream2.sh finished (all E4/E5/E8 + fold seeds 2–3). Final summaries: 9 fold×seed heads; TL − ridge
   (152 primary) F2 −0.062/−0.062/−0.062, F3 −0.073/−0.072/−0.077, F4 −0.063/−0.062/−0.062 (tile-block CIs exclude 0). Fig 6 regenerated.
+- 2026-10-20 10:55 CDT · EXP-008 Borzoi/TL scoring finalised (10,148 rows, 0 NaN, ref_match 10,148/10,148). E2 FINAL UNBLIND look (all 4 models; Borzoi pretrained + TL unblinded for the first time): ./torch-venv/bin/python analysis/e2_validation/run_e2.py --unblind --out results_phase2/e2_validation/final
+  E2 FINAL (EXP-017): P1 AUROC AG 0.666 [0.590, 0.759], Borzoi 0.640 [0.554, 0.744], TL 0.661 [0.584, 0.768], Enformer 0.674 [0.607, 0.756];
+  Holm p 0.0004 for all; every model beats distance baseline (Δ CI excludes 0). §7 → Framing B. Not better than annotation count (Δ CIs include 0).
+  P2 0.27–0.36 (all below 0.5; SD-017 uninterpretable). Fig 5 regenerated (FINAL); EXP-012 re-run with Borzoi models
+  (Enformer–Borzoi pretrained Spearman 0.80; TL vs others 0.50–0.58).

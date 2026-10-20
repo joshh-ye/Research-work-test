@@ -123,3 +123,8 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
 - **SD-023 · 2026-10-20 · E4 reporting.** TL − ridge reported with tile-block, TF-cluster and cell-line-cluster CIs (SD-006). Exposure-controlled
   ridge (feature channels matching the target's GSM, or same cell line + TF, removed) and Borzoi-training-fold stratification of test tiles are
   labelled sensitivity analyses; they cannot overturn SD-019.
+- **SD-024 · 2026-10-20 · Framing B adopted per E2_ANALYSIS_PLAN §7 (pre-registered rule; E2 final, EXP-017).** All four headline models meet
+  the three criteria (Holm p < 0.05; CI excludes 0.5; Δ vs distance baseline CI excludes 0). Title = SD-020 B. Required qualifiers: no model is
+  shown to exceed the Chen annotation-count baseline (paired Δ CIs include 0); no model differs from another (paired Δ CIs include 0); signal is
+  weak on the held-out-chromosome subset (descriptive, 10 regions); P2 direction uninterpretable (SD-017); MPRA is episomal; Borzoi/AlphaGenome
+  training includes GTEx and ENCODE data overlapping CRC-relevant assays. Pending scientific-reviewer confirmation (RV-007).

@@ -43,7 +43,7 @@ base["model_label"] = base.model.map({"baseline_neg_log10_dist_tss": "distance t
 base["kind"] = "baseline"
 a = pd.concat([p1, base], ignore_index=True)
 status = p1.status.iloc[0] if "status" in p1 else ""
-interim = (not final) or ("interim" in " ".join(p1.status.astype(str)).lower())
+interim = (not final) or ("interim" in " ".join(p1["status"].astype(str)).lower() if "status" in p1 else False)
 ttl = ("INTERIM, unadjusted, Holm deferred; Borzoi/Borzoi-TL pending" if interim else "FINAL; Holm across headline models (holm_p in source table)")
 n_pos, n_neg, n_reg = int(p1.n_pos.iloc[0]), int(p1.n_neg.iloc[0]), int(p1.n_regions_informative.iloc[0])
 
