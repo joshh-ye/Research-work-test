@@ -68,17 +68,22 @@ pre = load_stats(Path(a.pre_dir) / "valsel_test_stats.npz"); assert (pre["gid"] 
 PRE = {k: pre[k][:, HELD] for k in KEYS}
 tlq = np.load(ROOT / "reports/qing_deliverables/evaluation_evidence/tl_per_tile_sufficient_stats_shared128.npz")
 LEAK = {k: tlq[k][:, HELD] for k in KEYS}
+S1 = np.load(ROOT / "results_phase2/e5_seeds/seed1/test_stats.npz"); assert (S1["gid"] == np.asarray(te)).all()
+LEAK2 = {k: np.asarray(S1[k], float)[:, HELD] for k in KEYS}   # cache-recipe seed1 183-track head (trained WITH the held-out tracks) = 2nd LEAKY reference
+assert np.allclose(LEAK2["sy"], tlq["sy"][:, HELD], rtol=1e-4, atol=1e-3)
 assert np.allclose(LEAK["sy"], TLx["sy"], rtol=1e-4, atol=1e-3), "target alignment mismatch between cache and Qing TL stats"
 tiles = tt.loc[te].reset_index()
 w = block_w(tiles, a.n_boot)
-M = {"valsel_sameTF_TL_transfer": TLx, "pretrained_valsel_nonoracle": PRE, "TL_head_saw_track_LEAKY_reference": LEAK}
+M = {"valsel_sameTF_TL_transfer": TLx, "pretrained_valsel_nonoracle": PRE, "TL_head_saw_track_LEAKY_reference": LEAK, "TL_cacheRecipe_seed1_head_saw_track_LEAKY_reference2": LEAK2}
 per = metrics_pt = {k: metrics(S, w[:1]) for k, S in M.items()}
 df = pd.DataFrame(dict(track_idx=HELD, TF=exp.TF.values[HELD], cell_line=exp.cell_line.values[HELD],
                        Borzoi_class=exp.Borzoi_class.values[HELD], Enformer_class=exp.Enformer_class.values[HELD], rule=rule,
                        selected_TL_track_idx=np.asarray(cols)[sel], selected_TL_TF=tf_cols[sel], selected_TL_cell_line=exp.cell_line.values[cols][sel],
                        val_r_selected=rv[ar, sel]))
 for k in M:
-    df[f"r_{k}"] = per[k]["pearson_r"][0]; df[f"R2_{k}"] = per[k]["prediction_R2"][0]
+    # R^2 labels: valsel_sameTF_TL_transfer and pretrained_valsel use a VALIDATION-CALIBRATED linear map (a0 + c*pred; fitted on chr1/chr8) -> R2_valcal_*;
+    # the LEAKY references are raw (uncalibrated) head outputs -> R2_raw_*.
+    df[f"r_{k}"] = per[k]["pearson_r"][0]; df[f"R2_{'valcal' if k in ('valsel_sameTF_TL_transfer', 'pretrained_valsel_nonoracle') else 'raw'}_{k}"] = per[k]["prediction_R2"][0]
 df.to_csv(out / "e8_per_track.csv", index=False)
 agg = []
 for sub, m in [("all17", np.ones(17, bool)), ("same_TF_rule_13", np.array([r == "same_TF" for r in rule])),
@@ -87,6 +92,9 @@ for sub, m in [("all17", np.ones(17, bool)), ("same_TF_rule_13", np.array([r == 
         pt, lo, hi = summarize(M[k], w, m); agg.append(dict(subset=sub, n_tracks=int(m.sum()), model=k, mean_pearson_r=pt, ci_lo=lo, ci_hi=hi, ci_type="tile-block bootstrap (10-tile blocks), tracks fixed"))
     for k in ["valsel_sameTF_TL_transfer"]:
         pt, lo, hi = paired(M[k], PRE, w, m); agg.append(dict(subset=sub, n_tracks=int(m.sum()), model="DIFF TL_transfer - pretrained_valsel", mean_pearson_r=pt, ci_lo=lo, ci_hi=hi, ci_type="tile-block bootstrap, paired"))
+fine = df[df.TF.isin(["CEBPB", "CDX2"]) & (df.cell_line == "LS180")]
+d_ls = (df.r_valsel_sameTF_TL_transfer - df.r_pretrained_valsel_nonoracle)
+ls_part = (d_ls[fine.index].sum()) / d_ls.sum()
 pd.DataFrame(agg).to_csv(out / "e8_aggregate.csv", index=False)
 # descriptive cell-line cluster table (4 clusters only)
 cl = df.groupby("cell_line").agg(n=("track_idx", "size"), r_TL=("r_valsel_sameTF_TL_transfer", "mean"), r_pre=("r_pretrained_valsel_nonoracle", "mean")).reset_index()
@@ -98,5 +106,13 @@ lines = ["# E8 held-out-vocabulary generalisation: validation-selected same-TF t
          "## Cell-line clusters (descriptive; 4 clusters)", "", md(cl),
          f"\nSign-flip test over {len(cl)} clusters: p={p:.3f} ({kind}); minimum attainable two-sided p with 4 clusters is 0.125, so this is descriptive only.", "",
          "## Per-track", "", md(df), "",
+         "## Interpretation and limits (added after RV-006 finding 9)", "",
+         "- Conclusion wording: there is **no transfer advantage** of validation-selected same-TF TL transfer over the pretrained validation-selected mapping on these 17 held-out-vocabulary tracks (all17 delta CI excludes 0 on the negative side; the 4 fallback tracks are slightly positive). This is NOT evidence that 'pretrained Borzoi generalises better'.",
+         "- Selection freedom differs: the pretrained comparator chooses among 1,882 any-TF ChIP channels, TL transfer among the few trained same-TF tracks of other cell lines (or all 166 for fallback), so the comparison is not selection-matched.",
+         f"- The gap is concentrated in LS180: LS180 diff = {cl.set_index('cell_line').loc['LS180','diff']:.4f} (see cell-line table; GP5d {cl.set_index('cell_line').loc['GP5d','diff']:.4f}, LS174T {cl.set_index('cell_line').loc['LS174T','diff']:.4f}, DLD-1 {cl.set_index('cell_line').loc['DLD-1','diff']:.4f}). The four LS180 CEBPB/CDX2 tracks (idx {', '.join(map(str, fine.track_idx))}) have TL - pretrained r deltas of {', '.join(f'{x:.3f}' for x in d_ls[fine.index])}, i.e. {100*ls_part:.0f}% of the summed per-track gap over all 17 tracks (computed from e8_per_track.csv).",
+         "- LS174T is reported in the literature to derive from LS180 (same donor); this is general knowledge, NOT verified in this repository. If so, the 4 cell lines form about 3 independent donor clusters (GP5d; LS180+LS174T; DLD-1), further limiting inference.",
+         "- Not zero-shot: pretrained-track selection, the TL track selection and the linear calibration all use the held-out tracks' OWN validation-chromosome (chr1, chr8) labels.",
+         "- Two LEAKY references (heads that saw the held-out tracks in training; upper reference only): `TL_head_saw_track_LEAKY_reference` = original checkpoint (Qing stats), `TL_cacheRecipe_seed1_head_saw_track_LEAKY_reference2` = results_phase2/e5_seeds/seed1 (cache recipe, 183 tracks).",
+         "- R^2 columns: R2_valcal_* = validation-calibrated prediction R^2 (TL transfer, pretrained valsel); R2_raw_* = raw prediction R^2 (leaky heads, uncalibrated). Pearson r is primary.", "",
          "Caveats: only 4 cell-line clusters; same-TF candidate tracks (LoVo/HCT-116/Caco-2) are themselves TL training tracks, and 'TL_head_saw_track_LEAKY' is shown only as an upper reference. Pretrained comparator uses 1,882 ChIP-TF outputs with validation selection (non-oracle). Chromosomes chr9/22 remain largely inside Borzoi/Enformer training folds (exposure_audit), so this tests cell-line/vocabulary transfer, not sequence-held-out generalisation. Tile-block bootstrap does not capture track/cell-line variance (hence cluster table)."]
 (out / "SUMMARY.md").write_text("\n".join(lines)); print("\n".join(lines[:12]))
