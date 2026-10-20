@@ -1,0 +1,32 @@
+S6 rows=5741 unique_rsid=5741 unique_hg19_pos=5741 signals(region,lead)=238 regions=142
+S6 liftover unmapped=2  chrom_changed=0
+input rows=10148 unique_rsid=5739 unique_pos=5739 dup_key=0
+positions with >1 rsid in input: 0;  rsids with >1 position: 0
+alts per position: {1: 2419, 2: 2231, 3: 1089}
+input REF != hg38 FASTA: 0
+S6 rsids in input=5739, not in input=2: ['rs149685934', 'rs1312157506']
+rsid-matched S6 rows: liftover(hg19)->hg38 equals input pos: 5737/5739; mismatches: 2
+  liftover mismatch rs35204860: hg19 17:81053330 -> lift nan:nan vs input 17:83095585
+  liftover mismatch rs34403018: hg19 17:81054079 -> lift nan:nan vs input 17:83096335
+input rsids not in S6: 0
+  missing rs149685934 hg19 1:222148219 -> hg38 1:221974877.0; input rows at that pos: 0; hg38 ref base=G
+  missing rs1312157506 hg19 9:33952629 -> hg38 9:33952631.0; input rows at that pos: 0; hg38 ref base=T
+Ensembl(GRCh38) rsID resolved for 5740/5741 S6 rsIDs (via merged-synonym: 1); for rsID-matched input rows: Ensembl pos == input pos 5739/5739; disagree 0
+  missing-from-input rs149685934: Ensembl -> 1:221974877.0 (synonym)
+  missing-from-input rs1312157506: Ensembl -> X:nan (direct)
+GWAS Catalog harmonised rows retained (rsid or hg19-pos in S6)=5728
+S6 rsids present in GWAS Catalog (any row)=5726/5741; with hg19 position equal to Chen S6 = 5725
+S6 rows without rsid+hg19pos GWAS Catalog match=16
+  of which matched by hg19 position only (rsid differs)=2
+S6 CCVs with allele info in Chen supplement (S3-5 leads / S15-19 coloc CCVs)=3154
+fallback original GRCh37 file: S6 CCVs without harmonised match=16; found by exact hg19 position=6
+  fallback rows in input=4; hg38 position corroborated by liftover or Ensembl=4
+match_status counts: {'matched': 5729, 'alt_not_in_reported_pair': 4396, 'no_allele_info': 23}
+palindromic among matched rows: 822 ; strand-flipped matched rows: 0
+matched rows=5729 unique rsid=5729 unique positions=5729
+hm_code among matched rsids: {'10': 4897, '5': 820, '11': 7, 'orig_GRCh37_unharmonised': 4, '6': 1}
+Chen-supplement alleles available for 3149 matched rsids; allele set consistent with tested pair: 3149; inconsistent: 0
+orientation check vs Chen S15 (effect allele, GWAS_Beta): n=1893 sign-concordant=1893; palindromic n=278 concordant=278
+position-level status (>=1 matched ALT => matched): {'matched': 5729, 'no_allele_info': 10}
+S6 CCVs (5741) with >=1 allele-matched input row: 5729; without: 12
+positions with both alleles of an allele pair tested (ALT=effect and ALT=other present): n/a (input has REF fixed to hg38; the reported pair is {REF,ALT_reported})

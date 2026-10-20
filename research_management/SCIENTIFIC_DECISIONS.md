@@ -82,3 +82,12 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   (31 identical-experiment excluded); pretrained Borzoi / Enformer = 132 keyword-selected CRC tracks (126 TF ChIP + 6 DNase; 118 LoVo —
   noted imbalance; per-cell-line sensitivity to be reported); AlphaGenome headline = quantile version, raw log2 = sensitivity.
   512 bp centre (bin-aligned; deviation from the 501 bp in SD-005), sum over bins, pseudocount 1, RC-averaged. Decided by coordinator under approved SD-005.
+- **SD-015 · 2026-10-20 · Allele source for the allele-matched set (deviation from SD-003 wording).** Chen 2024 Supp Data 6
+  (5,741 CCVs, hg19, unique rsIDs) contains no alleles. Alleles are taken from the GWAS Catalog study cited in Chen 2024's data
+  availability (GCST90129505; harmonised GRCh38 file, GRCh37 original for 4 rows). "Matched" = REF/ALT equals the GWAS-tested pair;
+  it does not identify the causal/risk allele (risk-by-beta-sign column provided). 5,729 matched; 12 S6 CCVs unmatched (10 no allele
+  info, 2 rsID drift: rs149685934, rs1312157506); 5,741 vs 5,739 reconciled. 544 palindromic rows rely on harmonisation strand.
+  Accepted by coordinator (scientifically equivalent primary source; no guessed alleles). Evidence: `variant_provenance/PROVENANCE.md`.
+- **SD-016 · 2026-10-20 · E2/E6 analysis plan frozen** (`variant_scoring/E2_ANALYSIS_PLAN.md`) before unblinding: Law MPRA ST4
+  positives vs flag-0 negatives, within Chen region; stratified AUROC + region bootstrap + permutation; direction sign test; Holm
+  over 4 models; distance-to-TSS and annotation-count baselines; framing rule.
