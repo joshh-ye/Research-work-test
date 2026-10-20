@@ -83,3 +83,14 @@ Report n regions informative for P1, n positives, n negatives, n flag-1 excluded
 8. **Limitations pre-declared:** episomal MPRA; non-hit may reflect low activity/power; region inference over 58 regions; Borzoi scores
    summed in the scaled/soft-clipped training output scale (differs from Borzoi's own variant scoring; per-bin values not stored);
    AlphaGenome training exposure unknown; identical-experiment count is a lower bound; Borzoi folds per README.
+
+## Amendment A2 · 2026-10-20 · implementation decisions where the plan was silent (before unblinding)
+Power (label-only, `results_phase2/e2_validation/labels/POWER.md`): null-bootstrap SE 0.0335 → minimum detectable stratified AUROC ≈ 0.583
+(one-sided α 0.05, 80% power, unadjusted). S6 held-out chr1/8/9/22: 713 pos+neg, 19 pos. ST4 orientation 132 keep / 2 flip / 0 excluded.
+Track-matched Borzoi comparator = 73 unique validation-selected channels for the 152 TL primary tracks (Qing track_mappings.csv).
+Decisions: (1) P1 Holm on one-sided (greater) permutation p; P2 Holm on two-sided bootstrap p. (2) ST2 flag-2 not in ST4 → excluded (none).
+(3) Orientation mismatch (incl. complement-strand pair) excludes the variant from all MPRA label sets. (4) S2 per-line positive = ST4
+FDR<1e-3 in that line; flag-1 in that line otherwise excluded. (5) Annotation count = sum of 7 S6 flags. (6) Distance = nearest GENCODE v46
+protein_coding transcript TSS. (7) Region bootstrap resamples all regions (uninformative weight 0). (8) Conditional logit exact DP,
+z-scored covariates, score as rank-z. (9) `run_e2.py` requires all headline models unless `--allow-partial` (outputs marked PARTIAL);
+models may be unblinded as their frozen scores become available, with no change to spec or plan in between.
