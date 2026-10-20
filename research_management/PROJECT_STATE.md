@@ -28,7 +28,7 @@ Full evidence: `PHASE1_INVENTORY.md`. Recovery report: `PHASE1_RECOVERY_REPORT.m
 - Borzoi-TL: r 0.6634 (native 32 bp); r 0.682, r² 0.4866, prediction R² 0.4810 (shared 128 bp).
 - Pretrained Borzoi: oracle r 0.664; validation-selected r 0.661; validation-calibrated R² 0.444.
 - Enformer 0.644, AlphaGenome 0.661 — August **oracle** r, not re-run.
-- Δr TL − Borzoi (shared): +0.018 [0.009, 0.026]; TF-cluster CI [+0.004, +0.028]; **cell-line-cluster CI [−0.021, +0.038] (includes 0)**.
+- Δr TL − Borzoi (shared, oracle): +0.018; track bootstrap [0.009, 0.026]; TF-cluster CI [+0.005, +0.028] (0.00457; RV-002 earlier run 0.0044); **two-way tile-block × cell-line CI [−0.021, +0.038]; cell-line-cluster-only CI [−0.020, +0.037] (both include 0)**. Pretrained validation-calibrated R² 0.444 (val-selected mapping) / 0.448 (oracle mapping).
 - Contamination: **≥28 tracks** are training experiments of pretrained Borzoi/Enformer = 24 LoVo GSE51142 (by GSM) + 4 ENCODE colon tracks 145–148 (ENCSR102CSD, ENCSR107EUS, ENCSR667UWT, ENCSR769WKR; by ENCSR; missed by Qing's GSM-only check). Lower bound (Qing A19 open).
   Δr 159/24 split (Qing): +0.030 / −0.061; RV-002 re-stratified 155/28: +0.030 / −0.051 (direction unchanged).
 
