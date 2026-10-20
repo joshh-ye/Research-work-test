@@ -20,3 +20,5 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   epoch 5 (0.185226).
 - Registry: EXP-001..EXP-004 imported from pre-existing work.
 - No GPU jobs, no experiments run.
+- 2026-10-19 · RV-002 scientific-reviewer (opus) Phase 1 gate: CPU-only read-only recomputation (scratch scripts refchk.py,
+  recomp.py, delta.py in session scratchpad, not committed). No GPU, no new experiments. Verdict REVISE; doc corrections applied.

@@ -3,8 +3,12 @@
 Ordered; the coordinator picks from the top. Source: strategist report in `PHASE1_RECOVERY_REPORT.md`.
 
 ## Close Phase 1
-0. scientific-reviewer: review `PHASE1_INVENTORY.md` + `PHASE1_RECOVERY_REPORT.md` → PASS required before Phase 2.
-0b. User: approve/modify proposed SD-003..SD-010 and the Framing B (conditional) direction.
+0. ~~scientific-reviewer gate~~ RV-002 REVISE → RV-003 PASS. **Phase 1 accepted 2026-10-19.**
+0b. User: approve/modify proposed SD-003..SD-010 and the Framing B (conditional) direction. RV-002 recommendations per SD are in `SCIENTIFIC_DECISIONS.md`.
+0c. User: decide whether E8 (held-out-vocabulary generalisation test) becomes required; approve the CLAUDE.md note change
+    "24 LoVo GSE51142 tracks" → "≥28 (24 GSM + 4 ENCSR)" (coordinator does not edit CLAUDE.md without user approval).
+0d. Phase 2 prerequisites (CPU/data): BL-004 ENCODE accession lookup; BL-005 fold BEDs; BL-006 GTEx eQTL access; check the
+    cell-line-cluster bootstrap handling of the 20 unannotated tracks.
 
 ## Phase 2 — SNP experiments and model analysis (none started; GPU not authorized yet)
 1. **E1** research-investigator: obtain Chen 2024 Supp Data 6 and Law 2024 Supp Table 4; map rsID/position

@@ -8,6 +8,15 @@ Format: ID · date opened · description · needed from (user / data / compute) 
   on EGA (controlled access). Needed from: data / possibly user. Status: open — blocks E2 primary validation.
 - **BL-003 · 2026-10-19** · Phase 2 GPU work (E3, E4/E5, E7) requires explicit user authorization. Status: open.
 
+- **BL-004 · 2026-10-19** · ENCODE accession lookup (network) needed to finalise the contamination count (Qing A19:
+  HCT-116 ENCODE tracks may share experiments with GSM-labelled targets). Current count ≥28 is a lower bound. Needed from: data. Status: open.
+- **BL-005 · 2026-10-19** · Published Borzoi/Enformer fold BEDs are not in the repo, so chr9/chr22 test-tile exposure
+  to backbone training cannot be quantified. Needed from: data (public download). Status: open.
+- **BL-006 · 2026-10-19** · GTEx v8 colon eQTL access/version for E6 not recorded. Needed from: data. Status: open.
+- **Validation gap (not a blocker, decision needed):** no independent validation is planned for the TL accuracy claim
+  (held-out tracks/cell lines absent from pretrained vocabularies, orthogonal ChIP replicates). RV-002 recommends making E8
+  required for any generalisation claim, and adding allele-specific binding or colon caQTL as a second readout for Framing B.
+
 ## Notes (not blocking)
 - AlphaGenome hosted-API runs need the existing key file; local runs need an HF token. No new credentials will be
   created or requested by agents.

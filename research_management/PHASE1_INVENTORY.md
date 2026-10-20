@@ -123,7 +123,7 @@ Test split = chr9+chr22, 359 tiles, 183 tracks, hg38. "shared128" = central 114,
 | 1 | Borzoi-TL val mean over 183 tracks (native32) | 0.6434 | r | `borzoi_eval-12212537.out` "mean R=0.6434" | VERIFIED |
 | 2 | Borzoi-TL test mean (native32) | 0.6634 (median 0.6904) | r | same log; `results_comparison_borzoi/summary_stats_test.csv`; `summary_numbers.json` `pearson_r_native32` | VERIFIED |
 | 3 | Borzoi-TL test mean (shared128), all 359 tiles | 0.6820 (median 0.7083) | r | `results_benchmark/aggregate_metrics_test.csv`; `summary_numbers.json` | VERIFIED |
-| 4 | Borzoi-TL test mean (shared128) | 0.4809 (median 0.4948) | prediction R² | `summary_numbers.json` `prediction_R2_shared128` | VERIFIED |
+| 4 | Borzoi-TL test mean (shared128) | 0.4810 (0.480966; median 0.4948) | prediction R² | `summary_numbers.json` `prediction_R2_shared128` | VERIFIED |
 | 5 | Borzoi-TL test mean (shared128) | 0.4866 | r² | same, `pearson_r_squared_shared128` | VERIFIED |
 | 6 | Borzoi-TL native32 prediction R² | 0.4578 | R² | same | VERIFIED |
 | 7 | Borzoi-TL, 51 zero-signal tiles masked (308 tiles) | r 0.6629, R² 0.4595 | r, R² | `summary_numbers_followup.json` | VERIFIED |
@@ -263,3 +263,18 @@ Overall: the draft is a complete skeleton with traceable *test-split* TL-vs-filt
 8. Is the validation-split comparison (draft 0.625) reproducible from `per_tile_stats_val_*.npz` and what are the validation-selected values? (Not computed.)
 9. Whether the colon/CRC-specific AlphaGenome tracks (RNA-seq 371 merged tracks, ontology CURIEs) cover CRC cell lines adequately for the intended SNP analysis (not checked).
 10. Why 242 variants have shifted windows and whether any lie within CRC-relevant loci.
+
+---
+## Errata from RV-002 scientific-reviewer gate (2026-10-19)
+These corrections supersede the inventory text above where they conflict.
+- **§3 / §8.1 contamination:** ≥28 tracks, not 24. Tracks 145–148 (DCid 62707/62737/64170/64457 = ENCSR102CSD/ENCSR107EUS/
+  ENCSR667UWT/ENCSR769WKR; CTCF/POLR2A, colon) each appear in `borzoi_data/targets_human.csv` and
+  `enformer_data/targets_human.txt` (coordinator grep-confirmed). `contamination_flags.csv` marks them False (GSM-only check).
+  The oracle picked the identical experiment for targets 145 and 147. The count is a lower bound (A19 open).
+- **§8 item 7 cell lines:** the listed counts sum to 163. 20 tracks have `Cell_line=None` (colon tissue/unannotated).
+  Whether Qing's 10-cluster cell-line bootstrap dropped or merged them is unchecked.
+- **Row 4:** prediction R² = 0.4810 (0.480966).
+- **SNP input:** 4,409 surplus rows; the tested allele is unidentifiable at 3,320 positions / 7,729 rows. ALTs are alphabetical.
+  The pattern suggests a dbSNP multi-allelic expansion. The GRCh37 origin is INFERRED.
+- **Shifted windows:** 242 rows = 147 positions (chr19 133, chr21 93, chr17 16 rows).
+- **chr9/chr22 backbone exposure:** UNVERIFIED is correct. No fold BEDs exist in the repo.

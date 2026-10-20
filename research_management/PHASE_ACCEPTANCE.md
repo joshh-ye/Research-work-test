@@ -3,14 +3,14 @@
 A phase is accepted only when every box is checked, a scientific-reviewer PASS is recorded in
 `REVIEW_FINDINGS.md`, and the milestone is committed and pushed to `research/crc-autonomous-study`.
 
-## Phase 1 — Repository discovery and research inventory · status: INVENTORY COMPLETE — REVIEWER GATE PENDING
+## Phase 1 — Repository discovery and research inventory · status: **ACCEPTED 2026-10-19** (RV-002 REVISE → corrections → RV-003 PASS)
 - [x] Every existing result file mapped to its producing script and commit (or flagged untraceable). (Enformer/AG producing runs flagged unrecorded)
-- [x] Genome build confirmed for each dataset, model, and the SNP inputs. (hg38; SNP input remapped from GRCh37, method undocumented)
-- [x] Train/val/test splits and pretrained-model training overlap documented. (pretrained held-out-chromosome conventions still UNVERIFIED)
+- [x] Genome build confirmed for each dataset, model, and the SNP inputs. (hg38 verified: 0 REF mismatches 1-based; GRCh37 origin of SNP input INFERRED, remap undocumented — RV-002 F5)
+- [x] Train/val/test splits and pretrained-model training overlap documented. (contamination corrected to ≥28 per RV-002 F1; pretrained held-out-chromosome conventions UNVERIFIED — fold BEDs not in repo)
 - [x] Unfinished work and inconsistencies listed.
 - [x] `PROJECT_STATE.md` and `EXPERIMENT_REGISTRY.csv` updated.
 - [x] Strategist recommendations recorded in `SCIENTIFIC_DECISIONS.md` (as PROPOSED).
-- [ ] Reviewer PASS.
+- [x] Reviewer PASS. (RV-003, 2026-10-19)
 
 ## Phase 2 — SNP experiments and model analysis · status: NOT STARTED
 - [ ] REF alleles verified against the reference FASTA; mismatch counts reported.
