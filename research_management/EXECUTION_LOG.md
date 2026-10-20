@@ -28,3 +28,9 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
 - User approved SD-003..SD-010 (with RV-002 modifications), SD-011 framing B→A fallback, SD-012 E8, SD-013 CLAUDE.md note; BL-003 resolved.
 - Dispatched (native subagents, parallel, independent): research-investigator ×3 (E1 provenance; validation availability BL-002/006;
   training-exposure audit BL-004/005/E8); computational-engineer (E3 scoring spec + Borzoi/TL/Enformer scorers + GPU run).
+- 2026-10-20 01:04 · E2 UNBLIND look #1 (interim, AlphaGenome only): ./torch-venv/bin/python analysis/e2_validation/run_e2.py --unblind --models alphagenome_quantile --out results_phase2/e2_validation/interim_alphagenome (RV-005 permitted)
+  Interim AlphaGenome result (unadjusted, Holm deferred): P1 stratified AUROC 0.666 [0.590, 0.759], perm p 1e-4 (58 regions);
+  distance baseline 0.515; Chen annotation-count baseline 0.618. P2 direction concordance 0.311 [0.232, 0.395] (n=132) — significantly
+  BELOW 0.5. Post-unblinding observation: the ST4 logFC sign convention is ambiguous (MPRAnalyze factor-level ordering; rs6983267 ST4
+  REF G/ALT T logFC +0.16). P2 will NOT be re-signed post hoc; a model-independent convention check was dispatched
+  (external_data/validation/MPRA_SIGN_CONVENTION.md). Any re-interpretation will be labelled post hoc.
