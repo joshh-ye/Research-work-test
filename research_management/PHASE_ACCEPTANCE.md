@@ -3,13 +3,13 @@
 A phase is accepted only when every box is checked, a scientific-reviewer PASS is recorded in
 `REVIEW_FINDINGS.md`, and the milestone is committed and pushed to `research/crc-autonomous-study`.
 
-## Phase 1 — Repository discovery and research inventory · status: NOT STARTED
-- [ ] Every existing result file mapped to its producing script and commit (or flagged untraceable).
-- [ ] Genome build confirmed for each dataset, model, and the SNP inputs.
-- [ ] Train/val/test splits and pretrained-model training overlap documented.
-- [ ] Unfinished work and inconsistencies listed.
-- [ ] `PROJECT_STATE.md` and `EXPERIMENT_REGISTRY.csv` updated.
-- [ ] Strategist recommendations recorded in `SCIENTIFIC_DECISIONS.md`.
+## Phase 1 — Repository discovery and research inventory · status: INVENTORY COMPLETE — REVIEWER GATE PENDING
+- [x] Every existing result file mapped to its producing script and commit (or flagged untraceable). (Enformer/AG producing runs flagged unrecorded)
+- [x] Genome build confirmed for each dataset, model, and the SNP inputs. (hg38; SNP input remapped from GRCh37, method undocumented)
+- [x] Train/val/test splits and pretrained-model training overlap documented. (pretrained held-out-chromosome conventions still UNVERIFIED)
+- [x] Unfinished work and inconsistencies listed.
+- [x] `PROJECT_STATE.md` and `EXPERIMENT_REGISTRY.csv` updated.
+- [x] Strategist recommendations recorded in `SCIENTIFIC_DECISIONS.md` (as PROPOSED).
 - [ ] Reviewer PASS.
 
 ## Phase 2 — SNP experiments and model analysis · status: NOT STARTED
