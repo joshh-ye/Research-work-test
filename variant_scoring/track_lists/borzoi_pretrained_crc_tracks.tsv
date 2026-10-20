@@ -1,0 +1,133 @@
+model	track_index	identifier	assay	factor	cell_line	description
+borzoi_pretrained	1335	ENCFF085OHV	DNASE		Caco-2	DNASE:Caco-2
+borzoi_pretrained	1364	ENCFF169PCK	DNASE		HCT116	DNASE:HCT116
+borzoi_pretrained	1550	ENCFF726FED	DNASE		SW480	DNASE:SW480
+borzoi_pretrained	1653	ENCFF175IFH	DNASE		RKO	DNASE:RKO
+borzoi_pretrained	1693	ENCFF692FQU	DNASE		LoVo	DNASE:LoVo
+borzoi_pretrained	1851	ENCFF528SGI	DNASE		HT-29	DNASE:HT-29
+borzoi_pretrained	2474	ENCFF794LVU	CHIP	POLR2AphosphoS5	HCT116	CHIP:POLR2AphosphoS5:HCT116
+borzoi_pretrained	2552	ENCFF415KJH	CHIP	JUND	HCT116	CHIP:JUND:HCT116
+borzoi_pretrained	2553	ENCFF142PEQ	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+borzoi_pretrained	2625	ENCFF473QVA	CHIP	CTCF	Caco-2	CHIP:CTCF:Caco-2
+borzoi_pretrained	2670	ENCFF620LDT	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+borzoi_pretrained	3083	ENCFF604ZUW	CHIP	EZH2	HCT116	CHIP:EZH2:HCT116
+borzoi_pretrained	3666	ENCFF115GQW	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+borzoi_pretrained	4198	ENCFF011JWE	CHIP	EZH2phosphoT487	HCT116	CHIP:EZH2phosphoT487:HCT116
+borzoi_pretrained	4452	ENCFF168KEG	CHIP	ZFX	HCT116	CHIP:ZFX:HCT116
+borzoi_pretrained	5909	GSM1208590	CHIP	ARNT	LoVo	CHIP:ARNT:ARNT / LoVo / colon adenocarcinoma
+borzoi_pretrained	5910	GSM1208591	CHIP	ASCL2	LoVo	CHIP:ASCL2:ASCL2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5911	GSM1208592	CHIP	ATOH1	LoVo	CHIP:ATOH1:ATOH1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5912	GSM1208593	CHIP	BARX2	LoVo	CHIP:BARX2:BARX2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5913	GSM1208594	CHIP	CAMTA2	LoVo	CHIP:CAMTA2:CAMTA2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5914	GSM1208595	CHIP	CASP8AP2	LoVo	CHIP:CASP8AP2:CASP8AP2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5915	GSM1208598	CHIP	CEBPB	LoVo	CHIP:CEBPB:CEBPB / LoVo / colon adenocarcinoma
+borzoi_pretrained	5916	GSM1208599	CHIP	CEBPG	LoVo	CHIP:CEBPG:CEBPG / LoVo / colon adenocarcinoma
+borzoi_pretrained	5917	GSM1208603	CHIP	CTCF	LoVo	CHIP:CTCF:CTCF / LoVo / colon adenocarcinoma
+borzoi_pretrained	5918	GSM1208605	CHIP	DBP	LoVo	CHIP:DBP:DBP / LoVo / colon adenocarcinoma
+borzoi_pretrained	5919	GSM1208606	CHIP	E2F2	LoVo	CHIP:E2F2:E2F2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5920	GSM1208607	CHIP	E2F4	LoVo	CHIP:E2F4:E2F4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5921	GSM1208608	CHIP	EGR1	LoVo	CHIP:EGR1:EGR1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5922	GSM1208609	CHIP	EHF	LoVo	CHIP:EHF:EHF / LoVo / colon adenocarcinoma
+borzoi_pretrained	5923	GSM1208610	CHIP	ELF1	LoVo	CHIP:ELF1:ELF1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5924	GSM1208611	CHIP	USF2	LoVo	CHIP:USF2:USF2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5925	GSM1208615	CHIP	ESRRA	LoVo	CHIP:ESRRA:ESRRA / LoVo / colon adenocarcinoma
+borzoi_pretrained	5926	GSM1208616	CHIP	ETV4	LoVo	CHIP:ETV4:ETV4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5927	GSM1208620	CHIP	GATA4	LoVo	CHIP:GATA4:GATA4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5928	GSM1208621	CHIP	GATA6	LoVo	CHIP:GATA6:GATA6 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5929	GSM1208622	CHIP	GLI2	LoVo	CHIP:GLI2:GLI2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5930	GSM1208625	CHIP	GMEB1	LoVo	CHIP:GMEB1:GMEB1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5931	GSM1208626	CHIP	GMEB2	LoVo	CHIP:GMEB2:GMEB2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5932	GSM1208627	CHIP	HBP1	LoVo	CHIP:HBP1:HBP1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5933	GSM1208629	CHIP	HES2	LoVo	CHIP:HES2:HES2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5934	GSM1208630	CHIP	HES4	LoVo	CHIP:HES4:HES4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5935	GSM1208631	CHIP	HINFP	LoVo	CHIP:HINFP:HINFP / LoVo / colon adenocarcinoma
+borzoi_pretrained	5936	GSM1208632	CHIP	HNF4A	LoVo	CHIP:HNF4A:HNF4A / LoVo / colon adenocarcinoma
+borzoi_pretrained	5937	GSM1208633	CHIP	HOXA10	LoVo	CHIP:HOXA10:HOXA10 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5938	GSM1208634	CHIP	HOXA1	LoVo	CHIP:HOXA1:HOXA1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5939	GSM1208635	CHIP	HOXA7	LoVo	CHIP:HOXA7:HOXA7 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5940	GSM1208638	CHIP	IRX3	LoVo	CHIP:IRX3:IRX3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5941	GSM1208639	CHIP	JUN	LoVo	CHIP:JUN:JUN / LoVo / colon adenocarcinoma
+borzoi_pretrained	5942	GSM1208641	CHIP	KLF3	LoVo	CHIP:KLF3:KLF3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5943	GSM1208642	CHIP	KLF5	LoVo	CHIP:KLF5:KLF5 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5944	GSM1208644	CHIP	LHX2	LoVo	CHIP:LHX2:LHX2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5945	GSM1208646	CHIP	MED12	LoVo	CHIP:MED12:MED12 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5946	GSM1208647	CHIP	MED1	LoVo	CHIP:MED1:MED1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5947	GSM1208649	CHIP	MEF2C	LoVo	CHIP:MEF2C:MEF2C / LoVo / colon adenocarcinoma
+borzoi_pretrained	5948	GSM1208652	CHIP	MYB	LoVo	CHIP:MYB:MYB / LoVo / colon adenocarcinoma
+borzoi_pretrained	5949	GSM1208653	CHIP	MYBL2	LoVo	CHIP:MYBL2:MYBL2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5950	GSM1208654	CHIP	MYC	LoVo	CHIP:MYC:MYC / LoVo / colon adenocarcinoma
+borzoi_pretrained	5951	GSM1208655	CHIP	MZF1	LoVo	CHIP:MZF1:MZF1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5952	GSM1208656	CHIP	NEUROG3	LoVo	CHIP:NEUROG3:NEUROG3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5953	GSM1208657	CHIP	NFAT5	LoVo	CHIP:NFAT5:NFAT5 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5954	GSM1208659	CHIP	NFE2L2	LoVo	CHIP:NFE2L2:NFE2L2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5955	GSM1208660	CHIP	NFIL3	LoVo	CHIP:NFIL3:NFIL3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5956	GSM1208661	CHIP	NIPBL	LoVo	CHIP:NIPBL:NIPBL / LoVo / colon adenocarcinoma
+borzoi_pretrained	5957	GSM1208662	CHIP	NPAT	LoVo	CHIP:NPAT:NPAT / LoVo / colon adenocarcinoma
+borzoi_pretrained	5958	GSM1208664	CHIP	NR2F1	LoVo	CHIP:NR2F1:NR2F1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5959	GSM1208665	CHIP	NR2F2	LoVo	CHIP:NR2F2:NR2F2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5960	GSM1208666	CHIP	NR3C1	LoVo	CHIP:NR3C1:NR3C1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5961	GSM1208668	CHIP	RAD21	LoVo	CHIP:RAD21:RAD21 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5962	GSM1208670	CHIP	RFX1	LoVo	CHIP:RFX1:RFX1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5963	GSM1208671	CHIP	RFX2	LoVo	CHIP:RFX2:RFX2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5964	GSM1208672	CHIP	RFX5	LoVo	CHIP:RFX5:RFX5 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5965	GSM1208673	CHIP	RXRA	LoVo	CHIP:RXRA:RXRA / LoVo / colon adenocarcinoma
+borzoi_pretrained	5966	GSM1208674	CHIP	SMAD2	LoVo	CHIP:SMAD2:SMAD2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5967	GSM1208676	CHIP	SMAD3	LoVo	CHIP:SMAD3:SMAD3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5968	GSM1208678	CHIP	SMC1A	LoVo	CHIP:SMC1A:SMC1A / LoVo / colon adenocarcinoma
+borzoi_pretrained	5969	GSM1208679	CHIP	SMC3	LoVo	CHIP:SMC3:SMC3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5970	GSM1208681	CHIP	SOX4	LoVo	CHIP:SOX4:SOX4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5971	GSM1208683	CHIP	SP1	LoVo	CHIP:SP1:SP1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5972	GSM1208684	CHIP	SP3	LoVo	CHIP:SP3:SP3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5973	GSM1208687	CHIP	TBX3	LoVo	CHIP:TBX3:TBX3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5974	GSM1208688	CHIP	TCF12	LoVo	CHIP:TCF12:TCF12 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5975	GSM1208689	CHIP	TCF7L2	LoVo	CHIP:TCF7L2:TCF7L2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5976	GSM1208690	CHIP	TFAP2A	LoVo	CHIP:TFAP2A:TFAP2A / LoVo / colon adenocarcinoma
+borzoi_pretrained	5977	GSM1208691	CHIP	TFDP1	LoVo	CHIP:TFDP1:TFDP1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5978	GSM1208697	CHIP	UBTF	LoVo	CHIP:UBTF:UBTF / LoVo / colon adenocarcinoma
+borzoi_pretrained	5979	GSM1208699	CHIP	YY1	LoVo	CHIP:YY1:YY1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5980	GSM1208700	CHIP	ZBED4	LoVo	CHIP:ZBED4:ZBED4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5981	GSM1208702	CHIP	ZBTB7B	LoVo	CHIP:ZBTB7B:ZBTB7B / LoVo / colon adenocarcinoma
+borzoi_pretrained	5982	GSM1208703	CHIP	ZNF236	LoVo	CHIP:ZNF236:ZNF236 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5983	GSM1208704	CHIP	ZNF250	LoVo	CHIP:ZNF250:ZNF250 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5984	GSM1208705	CHIP	ZNF407	LoVo	CHIP:ZNF407:ZNF407 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5985	GSM1208706	CHIP	ZNF706	LoVo	CHIP:ZNF706:ZNF706 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5986	GSM1208709	CHIP	AEBP2	LoVo	CHIP:AEBP2:AEBP2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5987	GSM1208712	CHIP	ATF1	LoVo	CHIP:ATF1:ATF1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5988	GSM1208713	CHIP	ATF5	LoVo	CHIP:ATF5:ATF5 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5989	GSM1208714	CHIP	BARHL1	LoVo	CHIP:BARHL1:BARHL1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5990	GSM1208719	CHIP	CLOCK	LoVo	CHIP:CLOCK:CLOCK / LoVo / colon adenocarcinoma
+borzoi_pretrained	5991	GSM1208721	CHIP	CREB3L4	LoVo	CHIP:CREB3L4:CREB3L4 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5992	GSM1208723	CHIP	DLX1	LoVo	CHIP:DLX1:DLX1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5993	GSM1208729	CHIP	E2F3	LoVo	CHIP:E2F3:E2F3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5994	GSM1208730	CHIP	E2F7	LoVo	CHIP:E2F7:E2F7 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5995	GSM1208731	CHIP	E2F8	LoVo	CHIP:E2F8:E2F8 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5996	GSM1208736	CHIP	ERM	LoVo	CHIP:ERM:ERM / LoVo / colon adenocarcinoma
+borzoi_pretrained	5997	GSM1208737	CHIP	ESR1	LoVo	CHIP:ESR1:ESR1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5998	GSM1208738	CHIP	ETS2	LoVo	CHIP:ETS2:ETS2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	5999	GSM1208739	CHIP	ETV7	LoVo	CHIP:ETV7:ETV7 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6000	GSM1208740	CHIP	EVI1	LoVo	CHIP:EVI1:EVI1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6001	GSM1208742	CHIP	FEV	LoVo	CHIP:FEV:FEV / LoVo / colon adenocarcinoma
+borzoi_pretrained	6002	GSM1208743	CHIP	ZFHX3	LoVo	CHIP:ZFHX3:ZFHX3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6003	GSM1208745	CHIP	FOXD2	LoVo	CHIP:FOXD2:FOXD2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6004	GSM1208746	CHIP	FOXG1	LoVo	CHIP:FOXG1:FOXG1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6005	GSM1208749	CHIP	GATA1	LoVo	CHIP:GATA1:GATA1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6006	GSM1208751	CHIP	GLI3	LoVo	CHIP:GLI3:GLI3 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6007	GSM1208752	CHIP	GLIS1	LoVo	CHIP:GLIS1:GLIS1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6008	GSM1208756	CHIP	HOXA13	LoVo	CHIP:HOXA13:HOXA13 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6009	GSM1208757	CHIP	HOXA2	LoVo	CHIP:HOXA2:HOXA2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6010	GSM1208758	CHIP	HOXC6	LoVo	CHIP:HOXC6:HOXC6 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6011	GSM1208763	CHIP	JUND	LoVo	CHIP:JUND:JUND / LoVo / colon adenocarcinoma
+borzoi_pretrained	6012	GSM1208767	CHIP	LYL1	LoVo	CHIP:LYL1:LYL1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6013	GSM1208768	CHIP	MAZ	LoVo	CHIP:MAZ:MAZ / LoVo / colon adenocarcinoma
+borzoi_pretrained	6014	GSM1208771	CHIP	MNT	LoVo	CHIP:MNT:MNT / LoVo / colon adenocarcinoma
+borzoi_pretrained	6015	GSM1208776	CHIP	NFKB2	LoVo	CHIP:NFKB2:NFKB2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6016	GSM1208777	CHIP	NFYA	LoVo	CHIP:NFYA:NFYA / LoVo / colon adenocarcinoma
+borzoi_pretrained	6017	GSM1208780	CHIP	NKX2.2	LoVo	CHIP:NKX2.2:NKX2.2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6018	GSM1208788	CHIP	RARG	LoVo	CHIP:RARG:RARG / LoVo / colon adenocarcinoma
+borzoi_pretrained	6019	GSM1208789	CHIP	RBCK1	LoVo	CHIP:RBCK1:RBCK1 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6020	GSM1208790	CHIP	REST	LoVo	CHIP:REST:REST / LoVo / colon adenocarcinoma
+borzoi_pretrained	6021	GSM1208794	CHIP	SOX2	LoVo	CHIP:SOX2:SOX2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6022	GSM1208796	CHIP	SP2	LoVo	CHIP:SP2:SP2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6023	GSM1208802	CHIP	TEAD2	LoVo	CHIP:TEAD2:TEAD2 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6024	GSM1208805	CHIP	TP73	LoVo	CHIP:TP73:TP73 / LoVo / colon adenocarcinoma
+borzoi_pretrained	6025	GSM1208807	CHIP	VEZF1	LoVo	CHIP:VEZF1:VEZF1 / LoVo / colon adenocarcinoma

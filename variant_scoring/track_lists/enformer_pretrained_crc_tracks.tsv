@@ -1,0 +1,133 @@
+model	track_index	identifier	assay	factor	cell_line	description
+enformer_pretrained	59	ENCFF085OHV	DNASE		Caco-2	DNASE:Caco-2
+enformer_pretrained	88	ENCFF169PCK	DNASE		HCT116	DNASE:HCT116
+enformer_pretrained	274	ENCFF726FED	DNASE		SW480	DNASE:SW480
+enformer_pretrained	377	ENCFF175IFH	DNASE		RKO	DNASE:RKO
+enformer_pretrained	417	ENCFF692FQU	DNASE		LoVo	DNASE:LoVo
+enformer_pretrained	575	ENCFF528SGI	DNASE		HT-29	DNASE:HT-29
+enformer_pretrained	976	ENCFF794LVU	CHIP	POLR2AphosphoS5	HCT116	CHIP:POLR2AphosphoS5:HCT116
+enformer_pretrained	1054	ENCFF415KJH	CHIP	JUND	HCT116	CHIP:JUND:HCT116
+enformer_pretrained	1055	ENCFF142PEQ	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+enformer_pretrained	1127	ENCFF473QVA	CHIP	CTCF	Caco-2	CHIP:CTCF:Caco-2
+enformer_pretrained	1172	ENCFF620LDT	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+enformer_pretrained	1593	ENCFF604ZUW	CHIP	EZH2	HCT116	CHIP:EZH2:HCT116
+enformer_pretrained	2203	ENCFF115GQW	CHIP	CTCF	HCT116	CHIP:CTCF:HCT116
+enformer_pretrained	2753	ENCFF011JWE	CHIP	EZH2phosphoT487	HCT116	CHIP:EZH2phosphoT487:HCT116
+enformer_pretrained	3011	ENCFF168KEG	CHIP	ZFX	HCT116	CHIP:ZFX:HCT116
+enformer_pretrained	4516	GSM1208590	CHIP	ARNT	LoVo	CHIP:.:batch1_chrom1_LoVo_ARNT_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4517	GSM1208591	CHIP	ASCL2	LoVo	CHIP:.:batch1_chrom1_LoVo_ASCL2_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4518	GSM1208592	CHIP	ATOH1	LoVo	CHIP:.:batch1_chrom1_LoVo_ATOH1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4519	GSM1208593	CHIP	BARX2	LoVo	CHIP:.:batch1_chrom1_LoVo_BARX2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4520	GSM1208594	CHIP	CAMTA2	LoVo	CHIP:.:batch1_chrom1_LoVo_CAMTA2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4521	GSM1208595	CHIP	CASP8AP2	LoVo	CHIP:.:batch1_chrom1_LoVo_CASP8AP2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4522	GSM1208598	CHIP	CEBPB	LoVo	CHIP:.:batch1_chrom1_LoVo_CEBPB_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4523	GSM1208599	CHIP	CEBPG	LoVo	CHIP:.:batch1_chrom1_LoVo_CEBPG_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4524	GSM1208603	CHIP	CTCF	LoVo	CHIP:.:batch1_chrom1_LoVo_CTCF_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4525	GSM1208605	CHIP	DBP	LoVo	CHIP:.:batch1_chrom1_LoVo_DBP_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4526	GSM1208606	CHIP	E2F2	LoVo	CHIP:.:batch1_chrom1_LoVo_E2F2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4527	GSM1208607	CHIP	E2F4	LoVo	CHIP:.:batch1_chrom1_LoVo_E2F4_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4528	GSM1208608	CHIP	EGR1	LoVo	CHIP:.:batch1_chrom1_LoVo_EGR1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4529	GSM1208609	CHIP	EHF	LoVo	CHIP:.:batch1_chrom1_LoVo_EHF_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4530	GSM1208610	CHIP	ELF1	LoVo	CHIP:.:batch1_chrom1_LoVo_ELF1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4531	GSM1208611	CHIP	USF2	LoVo	CHIP:.:batch1_chrom1_LoVo_USF2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4532	GSM1208615	CHIP	ESRRA	LoVo	CHIP:.:batch1_chrom1_LoVo_ESRRA_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4533	GSM1208616	CHIP	ETV4	LoVo	CHIP:.:batch1_chrom1_LoVo_ETV4_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4534	GSM1208620	CHIP	GATA4	LoVo	CHIP:.:batch1_chrom1_LoVo_GATA4_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4535	GSM1208621	CHIP	GATA6	LoVo	CHIP:.:batch1_chrom1_LoVo_GATA6_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4536	GSM1208622	CHIP	GLI2	LoVo	CHIP:.:batch1_chrom1_LoVo_GLI2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4537	GSM1208625	CHIP	GMEB1	LoVo	CHIP:.:batch1_chrom1_LoVo_GMEB1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4538	GSM1208626	CHIP	GMEB2	LoVo	CHIP:.:batch1_chrom1_LoVo_GMEB2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4539	GSM1208627	CHIP	HBP1	LoVo	CHIP:.:batch1_chrom1_LoVo_HBP1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4540	GSM1208629	CHIP	HES2	LoVo	CHIP:.:batch1_chrom1_LoVo_HES2_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4541	GSM1208630	CHIP	HES4	LoVo	CHIP:.:batch1_chrom1_LoVo_HES4_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4542	GSM1208631	CHIP	HINFP	LoVo	CHIP:.:batch1_chrom1_LoVo_HINFP_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4543	GSM1208632	CHIP	HNF4A	LoVo	CHIP:.:batch1_chrom1_LoVo_HNF4A_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4544	GSM1208633	CHIP	HOXA10	LoVo	CHIP:.:batch1_chrom1_LoVo_HOXA10_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4545	GSM1208634	CHIP	HOXA1	LoVo	CHIP:.:batch1_chrom1_LoVo_HOXA1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4546	GSM1208635	CHIP	HOXA7	LoVo	CHIP:.:batch1_chrom1_LoVo_HOXA7_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4547	GSM1208638	CHIP	IRX3	LoVo	CHIP:.:batch1_chrom1_LoVo_IRX3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4548	GSM1208639	CHIP	JUN	LoVo	CHIP:.:batch1_chrom1_LoVo_JUN_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4549	GSM1208641	CHIP	KLF3	LoVo	CHIP:.:batch1_chrom1_LoVo_KLF3_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4550	GSM1208642	CHIP	KLF5	LoVo	CHIP:.:batch1_chrom1_LoVo_KLF5_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4551	GSM1208644	CHIP	LHX2	LoVo	CHIP:.:batch1_chrom1_LoVo_LHX2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4552	GSM1208646	CHIP	MED12	LoVo	CHIP:.:batch1_chrom1_LoVo_MED12_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4553	GSM1208647	CHIP	MED1	LoVo	CHIP:.:batch1_chrom1_LoVo_MED1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4554	GSM1208649	CHIP	MEF2C	LoVo	CHIP:.:batch1_chrom1_LoVo_MEF2C_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4555	GSM1208652	CHIP	MYB	LoVo	CHIP:.:batch1_chrom1_LoVo_MYB_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4556	GSM1208653	CHIP	MYBL2	LoVo	CHIP:.:batch1_chrom1_LoVo_MYBL2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4557	GSM1208654	CHIP	MYC	LoVo	CHIP:.:batch1_chrom1_LoVo_MYC_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4558	GSM1208655	CHIP	MZF1	LoVo	CHIP:.:batch1_chrom1_LoVo_MZF1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4559	GSM1208656	CHIP	NEUROG3	LoVo	CHIP:.:batch1_chrom1_LoVo_NEUROG3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4560	GSM1208657	CHIP	NFAT5	LoVo	CHIP:.:batch1_chrom1_LoVo_NFAT5_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4561	GSM1208659	CHIP	NFE2L2	LoVo	CHIP:.:batch1_chrom1_LoVo_NFE2L2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4562	GSM1208660	CHIP	NFIL3	LoVo	CHIP:.:batch1_chrom1_LoVo_NFIL3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4563	GSM1208661	CHIP	NIPBL	LoVo	CHIP:.:batch1_chrom1_LoVo_NIPBL_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4564	GSM1208662	CHIP	NPAT	LoVo	CHIP:.:batch1_chrom1_LoVo_NPAT_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4565	GSM1208664	CHIP	NR2F1	LoVo	CHIP:.:batch1_chrom1_LoVo_NR2F1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4566	GSM1208665	CHIP	NR2F2	LoVo	CHIP:.:batch1_chrom1_LoVo_NR2F2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4567	GSM1208666	CHIP	NR3C1	LoVo	CHIP:.:batch1_chrom1_LoVo_NR3C1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4568	GSM1208668	CHIP	RAD21	LoVo	CHIP:.:batch1_chrom1_LoVo_RAD21_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4569	GSM1208670	CHIP	RFX1	LoVo	CHIP:.:batch1_chrom1_LoVo_RFX1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4570	GSM1208671	CHIP	RFX2	LoVo	CHIP:.:batch1_chrom1_LoVo_RFX2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4571	GSM1208672	CHIP	RFX5	LoVo	CHIP:.:batch1_chrom1_LoVo_RFX5_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4572	GSM1208673	CHIP	RXRA	LoVo	CHIP:.:batch1_chrom1_LoVo_RXRA_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4573	GSM1208674	CHIP	SMAD2	LoVo	CHIP:.:batch1_chrom1_LoVo_SMAD2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4574	GSM1208676	CHIP	SMAD3	LoVo	CHIP:.:batch1_chrom1_LoVo_SMAD3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4575	GSM1208678	CHIP	SMC1A	LoVo	CHIP:.:batch1_chrom1_LoVo_SMC1A_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4576	GSM1208679	CHIP	SMC3	LoVo	CHIP:.:batch1_chrom1_LoVo_SMC3_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4577	GSM1208681	CHIP	SOX4	LoVo	CHIP:.:batch1_chrom1_LoVo_SOX4_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4578	GSM1208683	CHIP	SP1	LoVo	CHIP:.:batch1_chrom1_LoVo_SP1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4579	GSM1208684	CHIP	SP3	LoVo	CHIP:.:batch1_chrom1_LoVo_SP3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4580	GSM1208687	CHIP	TBX3	LoVo	CHIP:.:batch1_chrom1_LoVo_TBX3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4581	GSM1208688	CHIP	TCF12	LoVo	CHIP:.:batch1_chrom1_LoVo_TCF12_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4582	GSM1208689	CHIP	TCF7L2	LoVo	CHIP:.:batch1_chrom1_LoVo_TCF7L2_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4583	GSM1208690	CHIP	TFAP2A	LoVo	CHIP:.:batch1_chrom1_LoVo_TFAP2A_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4584	GSM1208691	CHIP	TFDP1	LoVo	CHIP:.:batch1_chrom1_LoVo_TFDP1_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4585	GSM1208697	CHIP	UBTF	LoVo	CHIP:.:batch1_chrom1_LoVo_UBTF_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4586	GSM1208699	CHIP	YY1	LoVo	CHIP:.:batch1_chrom1_LoVo_YY1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4587	GSM1208700	CHIP	ZBED4	LoVo	CHIP:.:batch1_chrom1_LoVo_ZBED4_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4588	GSM1208702	CHIP	ZBTB7B	LoVo	CHIP:.:batch1_chrom1_LoVo_ZBTB7B_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4589	GSM1208703	CHIP	ZNF236	LoVo	CHIP:.:batch1_chrom1_LoVo_ZNF236_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4590	GSM1208704	CHIP	ZNF250	LoVo	CHIP:.:batch1_chrom1_LoVo_ZNF250_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4591	GSM1208705	CHIP	ZNF407	LoVo	CHIP:.:batch1_chrom1_LoVo_ZNF407_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4592	GSM1208706	CHIP	ZNF706	LoVo	CHIP:.:batch1_chrom1_LoVo_ZNF706_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4593	GSM1208709	CHIP	AEBP2	LoVo	CHIP:.:batch2_chrom1_LoVo_AEBP2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4594	GSM1208712	CHIP	ATF1	LoVo	CHIP:.:batch2_chrom1_LoVo_ATF1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4595	GSM1208713	CHIP	ATF5	LoVo	CHIP:.:batch2_chrom1_LoVo_ATF5_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4596	GSM1208714	CHIP	BARHL1	LoVo	CHIP:.:batch2_chrom1_LoVo_BARHL1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4597	GSM1208719	CHIP	CLOCK	LoVo	CHIP:.:batch2_chrom1_LoVo_CLOCK_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4598	GSM1208721	CHIP	CREB3L4	LoVo	CHIP:.:batch2_chrom1_LoVo_CREB3L4_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4599	GSM1208723	CHIP	DLX1	LoVo	CHIP:.:batch2_chrom1_LoVo_DLX1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4600	GSM1208729	CHIP	E2F3	LoVo	CHIP:.:batch2_chrom1_LoVo_E2F3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4601	GSM1208730	CHIP	E2F7	LoVo	CHIP:.:batch2_chrom1_LoVo_E2F7_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4602	GSM1208731	CHIP	E2F8	LoVo	CHIP:.:batch2_chrom1_LoVo_E2F8_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4603	GSM1208736	CHIP	ERM	LoVo	CHIP:.:batch2_chrom1_LoVo_ERM_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4604	GSM1208737	CHIP	ESR1	LoVo	CHIP:.:batch2_chrom1_LoVo_ESR1_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4605	GSM1208738	CHIP	ETS2	LoVo	CHIP:.:batch2_chrom1_LoVo_ETS2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4606	GSM1208739	CHIP	ETV7	LoVo	CHIP:.:batch2_chrom1_LoVo_ETV7_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4607	GSM1208740	CHIP	EVI1	LoVo	CHIP:.:batch2_chrom1_LoVo_EVI1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4608	GSM1208742	CHIP	FEV	LoVo	CHIP:.:batch2_chrom1_LoVo_FEV_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4609	GSM1208743	CHIP	ZFHX3	LoVo	CHIP:.:batch2_chrom1_LoVo_ZFHX3_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4610	GSM1208745	CHIP	FOXD2	LoVo	CHIP:.:batch2_chrom1_LoVo_FOXD2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4611	GSM1208746	CHIP	FOXG1	LoVo	CHIP:.:batch2_chrom1_LoVo_FOXG1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4612	GSM1208749	CHIP	GATA1	LoVo	CHIP:.:batch2_chrom1_LoVo_GATA1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4613	GSM1208751	CHIP	GLI3	LoVo	CHIP:.:batch2_chrom1_LoVo_GLI3_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4614	GSM1208752	CHIP	GLIS1	LoVo	CHIP:.:batch2_chrom1_LoVo_GLIS1_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4615	GSM1208756	CHIP	HOXA13	LoVo	CHIP:.:batch2_chrom1_LoVo_HOXA13_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4616	GSM1208757	CHIP	HOXA2	LoVo	CHIP:.:batch2_chrom1_LoVo_HOXA2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4617	GSM1208758	CHIP	HOXC6	LoVo	CHIP:.:batch2_chrom1_LoVo_HOXC6_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4618	GSM1208763	CHIP	JUND	LoVo	CHIP:.:batch2_chrom1_LoVo_JUND_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4619	GSM1208767	CHIP	LYL1	LoVo	CHIP:.:batch2_chrom1_LoVo_LYL1_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4620	GSM1208768	CHIP	MAZ	LoVo	CHIP:.:batch2_chrom1_LoVo_MAZ_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4621	GSM1208771	CHIP	MNT	LoVo	CHIP:.:batch2_chrom1_LoVo_MNT_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4622	GSM1208776	CHIP	NFKB2	LoVo	CHIP:.:batch2_chrom1_LoVo_NFKB2_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4623	GSM1208777	CHIP	NFYA	LoVo	CHIP:.:batch2_chrom1_LoVo_NFYA_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4624	GSM1208780	CHIP	NKX2.2	LoVo	CHIP:.:batch2_chrom1_LoVo_NKX2.2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4625	GSM1208788	CHIP	RARG	LoVo	CHIP:.:batch2_chrom1_LoVo_RARG_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4626	GSM1208789	CHIP	RBCK1	LoVo	CHIP:.:batch2_chrom1_LoVo_RBCK1_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4627	GSM1208790	CHIP	REST	LoVo	CHIP:.:batch2_chrom1_LoVo_REST_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4628	GSM1208794	CHIP	SOX2	LoVo	CHIP:.:batch2_chrom1_LoVo_SOX2_Goat_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4629	GSM1208796	CHIP	SP2	LoVo	CHIP:.:batch2_chrom1_LoVo_SP2_Mouse_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4630	GSM1208802	CHIP	TEAD2	LoVo	CHIP:.:batch2_chrom1_LoVo_TEAD2_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4631	GSM1208805	CHIP	TP73	LoVo	CHIP:.:batch2_chrom1_LoVo_TP73_Rabbit_PassedQC / LoVo / colon adenocarcinoma
+enformer_pretrained	4632	GSM1208807	CHIP	VEZF1	LoVo	CHIP:.:batch2_chrom1_LoVo_VEZF1_Rabbit_PassedQC / LoVo / colon adenocarcinoma

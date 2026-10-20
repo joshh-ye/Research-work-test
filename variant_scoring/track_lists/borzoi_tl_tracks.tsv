@@ -1,0 +1,184 @@
+tl_head_index	bw_filename	GSMID	factor	cell_line	contam_lovo_gsm	contam_encsr_145_148	borzoi_exposure_class	enformer_exposure_class	alphagenome_exposure_class	contaminated	primary
+0	1151.bw	GSM749821	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+1	1152.bw	GSM749817	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+2	34078.bw	GSM937561	CDK8		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+3	34398.bw	GSM1154513	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+4	34399.bw	GSM1154509	MECP2	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+5	356.bw	GSM575225	CDX2	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+6	357.bw	GSM575224	CDX2	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+7	362.bw	GSM575226	GATA6	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+8	371.bw	GSM575229	HNF4A	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+9	372.bw	GSM575228	HNF4A	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+10	37565.bw	GSM1141538	REPIN1	DLD-1	False	False	unexposed	unexposed	same_target_other_cellline	False	True
+11	38576.bw	GSM1065010	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+12	38585.bw	GSM1065008	TAF3		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+13	38650.bw	GSM1208777	NFYA	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+14	38653.bw	GSM1208646	MED12	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+15	38658.bw	GSM1208794	SOX2	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+16	38663.bw	GSM1208654	MYC	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+17	38666.bw	GSM1208702	ZBTB7B	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+18	38691.bw	GSM1208668	RAD21	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+19	38704.bw	GSM1208631	HINFP	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+20	38712.bw	GSM1208738	ETS2	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+21	38719.bw	GSM1208723	DLX1	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+22	38724.bw	GSM1208626	GMEB2	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+23	38731.bw	GSM1208691	TFDP1	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+24	38758.bw	GSM1208763	JUND	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+25	38761.bw	GSM1208671	RFX2	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+26	38763.bw	GSM1208598	CEBPB	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+27	38772.bw	GSM1208719	CLOCK	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+28	38774.bw	GSM1208603	CTCF	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+29	38778.bw	GSM1208678	SMC1A	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+30	38784.bw	GSM1208670	RFX1	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+31	38785.bw	GSM1208661	NIPBL	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+32	38804.bw	GSM1208731	E2F8	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+33	38811.bw	GSM1208679	SMC3	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+34	38814.bw	GSM1208790	REST	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+35	38820.bw	GSM1208593	BARX2	LoVo	True	False	identical_experiment	identical_experiment	unknown	True	False
+36	38831.bw	GSM1208642	KLF5	LoVo	True	False	identical_experiment	identical_experiment	same_target_other_cellline	True	False
+37	39914.bw	GSM1162754	ICE1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+38	39917.bw	GSM1162752	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+39	39920.bw	GSM1162751	ICE1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+40	39921.bw	GSM1162755	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+41	41572.bw	GSM1146447	ING2	RKO	False	False	same_cellline_other_target	same_cellline_other_target	unknown	False	True
+42	41574.bw	GSM1146449	BRD1	RKO	False	False	same_cellline_other_target	same_cellline_other_target	unknown	False	True
+43	42148.bw	GSM1224649	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+44	42149.bw	GSM1224650	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+45	42150.bw	GSM1224651	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+46	42151.bw	GSM1224652	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+47	42152.bw	GSM1224653	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+48	42153.bw	GSM1224654	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+49	42154.bw	GSM1224655	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+50	42650.bw	GSM1239390	CTCF	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+51	42655.bw	GSM1239395	FOXA2	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+52	42706.bw	GSM1239446	RAD21	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+53	42708.bw	GSM1239448	ATF2	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+54	42710.bw	GSM1239450	CREB1	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+55	42712.bw	GSM1239452	E2F3	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	unknown	False	True
+56	42714.bw	GSM1239454	ETV5	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+57	42722.bw	GSM1239462	HOXA6	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	unknown	False	True
+58	42725.bw	GSM1239465	IRF1	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+59	42727.bw	GSM1239467	JUN	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+60	42738.bw	GSM1239478	NFYA	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+61	42744.bw	GSM1239484	RELA	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+62	42774.bw	GSM1239514	NFYC	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+63	42798.bw	GSM1239538	RAD21	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+64	42845.bw	GSM1239585	RAD21	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+65	42883.bw	GSM1239623	ZNF143	LoVo	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+66	42906.bw	GSM1240109	KMT2B	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+67	42907.bw	GSM1240110	EP300	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+68	42918.bw	GSM1240813	CTCF	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+69	42920.bw	GSM1240815	HNF4A	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+70	42927.bw	GSM1240822	NIPBL	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	unknown	False	True
+71	42928.bw	GSM1240823	RAD21	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+72	42931.bw	GSM1240826	SMC3	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+73	42942.bw	GSM1240837	RAD21	GP5d	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+74	42947.bw	GSM1242266	HNF4A	LoVo	False	False	same_cellline_same_target	same_cellline_same_target	same_target_other_cellline	False	True
+75	43642.bw	GSM1296645	CDK8	SW480	False	False	same_cellline_other_target	same_cellline_other_target	unknown	False	True
+76	45714.bw	GSM782123	TCF7L2	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+77	45715.bw	GSM935426	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+78	45716.bw	GSM1022652	CTCF	HCT-116	False	False	identical_experiment	identical_experiment	same_cellline_same_target	True	False
+79	45717.bw	GSM1022651	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+80	46200.bw	GSM803458	ZBTB33	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+81	46201.bw	GSM803474	POLR2A	HCT-116	False	False	identical_experiment	identical_experiment	same_cellline_other_target	True	False
+82	46202.bw	GSM1010765	ELF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+83	46203.bw	GSM1010869	REST	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+84	46204.bw	GSM803354	YY1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+85	46205.bw	GSM1010836	USF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+86	46206.bw	GSM1010852	CEBPB	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+87	46207.bw	GSM1010848	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+88	46208.bw	GSM1010905	SIN3A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+89	46209.bw	GSM1010758	CBX3	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+90	46210.bw	GSM1010772	TEAD4	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+91	46211.bw	GSM1010851	SRF	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+92	46212.bw	GSM1010756	FOSL1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+93	46213.bw	GSM1010847	JUND	HCT-116	False	False	identical_experiment	identical_experiment	same_cellline_same_target	True	False
+94	46214.bw	GSM1010846	EGR1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+95	46215.bw	GSM1010902	SP1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+96	46216.bw	GSM1010904	MAX	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+97	46217.bw	GSM1010757	ATF3	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+98	47431.bw	GSM1197320	GATA6	LS174T	False	False	same_target_other_cellline	same_target_other_cellline	unknown	False	True
+99	47432.bw	GSM1197321	GATA6	LS174T	False	False	same_target_other_cellline	same_target_other_cellline	unknown	False	True
+100	47433.bw	GSM1197322	GATA6	LS174T	False	False	same_target_other_cellline	same_target_other_cellline	unknown	False	True
+101	49276.bw	GSM1430921	ZBTB17	LS174T	False	False	same_target_other_cellline	unexposed	same_target_other_cellline	False	True
+102	49279.bw	GSM1430924	ZBTB17	LS174T	False	False	same_target_other_cellline	unexposed	same_target_other_cellline	False	True
+103	49535.bw	GSM1465034	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+104	49669.bw	GSM1477597	PROX1	SW480	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+105	51843.bw	GSM1545657	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+106	51844.bw	GSM1545658	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+107	51845.bw	GSM1545659	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+108	51846.bw	GSM1545660	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+109	51847.bw	GSM1545661	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+110	51848.bw	GSM1545662	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+111	51849.bw	GSM1545663	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+112	51850.bw	GSM1545664	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+113	51856.bw	GSM1545670	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+114	51857.bw	GSM1545671	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+115	51858.bw	GSM1545672	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+116	51859.bw	GSM1545673	POLR2A		False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+117	53493.bw	GSM1554224	SOX9	HT29	False	False	same_cellline_other_target	same_cellline_other_target	unknown	False	True
+118	5451.bw	GSM791404	VDR	LS180	False	False	unexposed	unexposed	unknown	False	True
+119	5458.bw	GSM791411	CEBPB	LS180	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+120	5459.bw	GSM791412	CEBPB	LS180	False	False	same_target_other_cellline	same_target_other_cellline	same_target_other_cellline	False	True
+121	5460.bw	GSM791413	CDX2	LS180	False	False	unexposed	unexposed	unknown	False	True
+122	5461.bw	GSM791414	CDX2	LS180	False	False	unexposed	unexposed	unknown	False	True
+123	54661.bw	GSM1535697	TCF4	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+124	54673.bw	GSM1535709	HNF4A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+125	54674.bw	GSM1535710	HNF4A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+126	55321.bw	GSM1617408	FOXA2	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+127	55322.bw	GSM1617409	FOXA2	Caco-2	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+128	55662.bw	GSM1727092	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+129	55663.bw	GSM1727093	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+130	55664.bw	GSM1727094	PAF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+131	55666.bw	GSM1727096	PAF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+132	55667.bw	GSM1727097	PAF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+133	55668.bw	GSM1727098	PAF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+134	55669.bw	GSM1727099	PAF1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+135	55671.bw	GSM1727101	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+136	55672.bw	GSM1727102	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+137	55673.bw	GSM1727103	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+138	55674.bw	GSM1727104	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+139	55675.bw	GSM1727105	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+140	5661.bw	GSM833286	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+141	57088.bw	GSM1866693	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+142	57089.bw	GSM1866694	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+143	57091.bw	GSM1866696	LARP7	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+144	57092.bw	GSM1866697	HEXIM1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+145	62707.bw	ENCSR102CSD_1	CTCF		False	True	identical_experiment	identical_experiment	unknown	True	False
+146	62737.bw	ENCSR107EUS_1	POLR2A		False	True	identical_experiment	identical_experiment	unknown	True	False
+147	64170.bw	ENCSR667UWT_1	POLR2A		False	True	identical_experiment	identical_experiment	unknown	True	False
+148	64457.bw	ENCSR769WKR_1	CTCF		False	True	identical_experiment	identical_experiment	unknown	True	False
+149	68460.bw	GSM1917774	ATF3	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+150	68464.bw	GSM1917770	ATF3	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+151	68778.bw	GSM2058672	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+152	68779.bw	GSM2058671	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+153	68783.bw	GSM2058664	BRD4	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+154	68784.bw	GSM2058663	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+155	68785.bw	GSM2058662	POLR2A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+156	70802.bw	GSM2065888	TCF7L1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+157	70804.bw	GSM2065886	TCF7L1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+158	70808.bw	GSM2065882	MYC	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+159	70809.bw	GSM2065881	MYC	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+160	70813.bw	GSM2065877	SP1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+161	70814.bw	GSM2065876	SP1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+162	70816.bw	GSM2065874	SP1	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+163	71319.bw	GSM2297331	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+164	71320.bw	GSM2297330	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+165	71321.bw	GSM2297329	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+166	71322.bw	GSM2297328	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+167	72779.bw	GSM2439226	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+168	81159.bw	GSM2741773	ZFX	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+169	81160.bw	GSM2741772	ZFX	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+170	81366.bw	GSM2809609	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+171	81525.bw	GSM2746543	POLR2A	SW480	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+172	81528.bw	GSM2746540	TP53	SW480	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+173	82732.bw	GSM2459951	OGT		False	False	unexposed	unexposed	unknown	False	True
+174	83065.bw	GSM2809636	H2AZ	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+175	8482.bw	GSM818282	KAT7	RKO	False	False	same_cellline_other_target	same_cellline_other_target	same_target_other_cellline	False	True
+176	84953.bw	GSM2809638	NIPBL	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+177	85284.bw	GSM2809616	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+178	85285.bw	GSM2809615	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+179	85286.bw	GSM2809614	CTCF	HCT-116	False	False	same_cellline_same_target	same_cellline_same_target	same_cellline_same_target	False	True
+180	85289.bw	GSM2809611	SMC1A	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True
+181	85290.bw	GSM2809610	RAD21	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_same_target	False	True
+182	88450.bw	GSM2809637	NIPBL	HCT-116	False	False	same_cellline_other_target	same_cellline_other_target	same_cellline_other_target	False	True

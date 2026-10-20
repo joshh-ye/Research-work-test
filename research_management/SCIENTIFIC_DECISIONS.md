@@ -77,3 +77,8 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
 - **SD-013 CLAUDE.md contamination note** updated to "≥28 (24 LoVo GSE51142 by GSM + 4 ENCODE colon ENCSR, tracks 145–148);
   lower bound pending BL-004" — approved by user 2026-10-20.
 - **GPU authorization (BL-003 resolved).** User authorized use of the allocated A100 for justified Phase 2 experiments (2026-10-20).
+- **SD-014 · 2026-10-20 · Frozen variant-scoring specification.** `variant_scoring/SCORING_SPEC.md` + `variant_scoring/track_lists/`
+  frozen and committed before any validation label (Law 2024 MPRA, GTEx/CEDAR eQTL) is joined. Borzoi-TL primary = 152 tracks
+  (31 identical-experiment excluded); pretrained Borzoi / Enformer = 132 keyword-selected CRC tracks (126 TF ChIP + 6 DNase; 118 LoVo —
+  noted imbalance; per-cell-line sensitivity to be reported); AlphaGenome headline = quantile version, raw log2 = sensitivity.
+  512 bp centre (bin-aligned; deviation from the 501 bp in SD-005), sum over bins, pseudocount 1, RC-averaged. Decided by coordinator under approved SD-005.
