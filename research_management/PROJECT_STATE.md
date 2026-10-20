@@ -1,45 +1,46 @@
 # Project State
 
-Last updated: 2026-10-20 (overnight session)
+Last updated: 2026-10-20 08:15 CDT (overnight autonomous session; Slurm job 14717985, A100, ends ~22:00 CDT)
 
 ## Current phase
-**Phase 2 — IN PROGRESS (started 2026-10-20).** SD-003..SD-013 approved by user; GPU authorized. Active: E1 provenance, validation availability, exposure audit, E3 scorer.
+**Phase 2 — IN PROGRESS** (E2 final 4-model MPRA run pending Borzoi/TL variant scores). Phases 3–5 partially done in parallel
+(figures 1–6, ST1–ST4, manuscript v2 track-benchmark sections, REPRODUCE.md + CPU clean room).
+Phase 1 — ACCEPTED 2026-10-19 (RV-003 PASS). Full evidence: `PHASE1_INVENTORY.md`.
 
-Previous: **Phase 1 — ACCEPTED 2026-10-19** (RV-002 REVISE → documentation corrections → RV-003 PASS). Phase 2 not started: it awaits the user's
-decisions on SD-003..SD-010, framing, the E8 requirement and the CLAUDE.md contamination note, plus data blockers BL-001/002/004–006 and GPU authorization BL-003.
-Full evidence: `PHASE1_INVENTORY.md`. Recovery report: `PHASE1_RECOVERY_REPORT.md`.
+## Active jobs (check with `ps`; all resumable / skip-if-done)
+- EXP-008 Borzoi + Borzoi-TL variant scoring: `variant_scoring/score_borzoi.py` (PID 3611891), chunks in
+  `results_phase2/variant_scores/borzoi/chunks/` (12/20 at 08:10; ~36 min/chunk). Resume: `nohup ./torch-venv/bin/python variant_scoring/score_borzoi.py`.
+  When `results_phase2/variant_scores/borzoi/summary.tsv` exists → `./torch-venv/bin/python analysis/e2_validation/run_e2.py --unblind --out results_phase2/e2_validation/final`.
+- `analysis/priorityD/queue_downstream2.sh` (PID 3621911): fold-seed extras (F2–F4 seeds 2–3); regenerates summaries at end.
+- Storage: home 172.6/186.3 GB soft; nobackup 160.5 GB (trunk cache 160 GB + e7 outputs symlinked from `results_phase2/`). Check `accre_storage`.
 
-## Repository snapshot
-- Branch `research/crc-autonomous-study` from `research/crc-manuscript-study` = `experimental_branch` = `ff88be2`.
-  Other branches (`main`, `stable-version`, `experimentational_fix`) hold no unique results.
-- Uncommitted pre-existing work left as is: `.gitignore` edit; `alphagenome_variant_effects/` (≈26 GB, untracked).
-- Genome build: **hg38 throughout** (FASTA/BigWig chromosome lengths match for all 183 tracks; SNP REFs match hg38 1-based: 0 mismatches vs 7,757 if 0-based). No liftover performed here. GRCh37 origin of the SNP input is INFERRED (source table not opened).
+## Verified results (test chr9+chr22, 359 tiles, 183 tracks, shared 128 bp grid, hg38; Pearson r unless stated)
+- Borzoi-TL original ckpt 0.6820 (r² 0.4866, prediction R² 0.4810); cache-recipe seeds 1–5 0.6819–0.6837 (SD 0.0006 over 1–3).
+- Pretrained Borzoi val-selected 0.6609 (validation-calibrated R² 0.444); oracle 0.6640.
+- **E4 (EXP-013/014, RV-006 REVISE → corrected):** ridge[pre_raw:union1888] 0.7426, trunk linear probe 0.7223. Primary (SD-006, TF-cluster,
+  152 non-identical): TL − ridge −0.0555 [−0.0756, −0.0428]; TL − probe −0.0378 [−0.0525, −0.0289]. Robust over seeds and folds F2/F3/F4
+  (TL − ridge −0.062…−0.083 TF-cluster CIs exclude 0), exposure-controlled ridge (0.7420), Borzoi-held-out-fold tiles (−0.068).
+  **SD-019: SD-008 rule triggered → no TL-superiority / CRC-adaptation claim.**
+- TL − pretrained valsel +0.021 (all183) — cell-line-cluster CI [−0.018, 0.041] includes 0.
+- E7 non-oracle: Enformer 0.6406, AlphaGenome 0.6569 (EXP-010).
+- E8 (EXP-016): held-out cell lines GP5d/LS174T/LS180/DLD-1 (17 tracks): TL same-TF transfer 0.465 vs pretrained valsel 0.514 → "no transfer advantage" (≈3 donor clusters; descriptive).
+- Exposure audit (EXP-005): ≥31 identical experiments; test tiles 43.6% bp in Borzoi training folds.
+- E1 (EXP-007): 5,729 allele-matched CCVs (GWAS Catalog GCST90129505 alleles; SD-015).
+- E2 interim (EXP-011; unadjusted, Holm deferred): P1 within-locus AUROC AlphaGenome 0.666 [0.590, 0.759], Enformer 0.674 [0.607, 0.756];
+  distance baseline 0.515; annotation count 0.618. P2 direction uninterpretable (SD-017, BL-007).
+- EXP-012 (label-free): AlphaGenome vs Enformer Spearman 0.577 [0.554, 0.599] (matched set).
 
-## Completed work (do not repeat)
-| Item | Output | Status |
-|---|---|---|
-| Borzoi-TL training (Slurm 12212537) | `borzoi_ckpt_full/model_head_best.pt` (epoch 5/8, val NLL 0.18523), `results_full/` | done; single seed, no seed set |
-| Filtered pretrained-Borzoi baseline (13005163) | `results_baseline_filtered/` | done |
-| Four-model benchmark (oracle mapping) | `results_benchmark/` | done; Enformer/AG producing runs unrecorded |
-| Qing deliverables (2026-10-11/12) | `reports/qing_deliverables/` | done; two prior Opus reviews, no critical issues |
-| AlphaGenome variant scoring (S6_CCV, hosted API) | `alphagenome_variant_effects/output/` | 10,148/10,148 SUCCESS, 0 REF mismatches; **unanalysed** |
+## Framing
+Decided by `variant_scoring/E2_ANALYSIS_PLAN.md` §7 at the E2 final run (SD-011, SD-020). Both titles fixed in SD-020. Track benchmark is a
+negative result under either framing.
 
-## Verified headline numbers (test chr9+chr22, 359 tiles, 183 tracks)
-- Borzoi-TL: r 0.6634 (native 32 bp); r 0.682, r² 0.4866, prediction R² 0.4810 (shared 128 bp).
-- Pretrained Borzoi: oracle r 0.664; validation-selected r 0.661; validation-calibrated R² 0.444.
-- Enformer 0.644, AlphaGenome 0.661 — August **oracle** r, not re-run.
-- Δr TL − Borzoi (shared, oracle): +0.018; track bootstrap [0.009, 0.026]; TF-cluster CI [+0.005, +0.028] (0.00457; RV-002 earlier run 0.0044); **two-way tile-block × cell-line CI [−0.021, +0.038]; cell-line-cluster-only CI [−0.020, +0.037] (both include 0)**. Pretrained validation-calibrated R² 0.444 (val-selected mapping) / 0.448 (oracle mapping).
-- Contamination: **≥28 tracks** are training experiments of pretrained Borzoi/Enformer = 24 LoVo GSE51142 (by GSM) + 4 ENCODE colon tracks 145–148 (ENCSR102CSD, ENCSR107EUS, ENCSR667UWT, ENCSR769WKR; by ENCSR; missed by Qing's GSM-only check). Lower bound (Qing A19 open).
-  Δr 159/24 split (Qing): +0.030 / −0.061; RV-002 re-stratified 155/28: +0.030 / −0.051 (direction unchanged).
+## Reviews
+RV-004 (E2 design) REVISE → A1; RV-005 REVISE → A3; RV-006 (Priority D) REVISE → corrected (re-review folded into E2-final review).
 
 ## Do not quote (untraceable / conflicting)
-- 0.6104 / 0.5022 "no augmentation" ablation and derived +28%/+9% (draft §5.1, manuscript.md, build_presentation.py).
-- Validation filtered-Borzoi stats (r 0.625 etc.) — source dir `results_comparison/` missing.
-- "42 same-experiment tracks" (description-based) and "24 contaminated" — use "≥28 identical experiments (24 GSM + 4 ENCSR)".
+- 0.6104 / 0.5022 "no augmentation" ablation and derived +28%/+9%; validation filtered-Borzoi stats (r 0.625); "42 same-experiment" / "24 contaminated" (use ≥31).
 - Never mix native-grid 0.663 with shared-grid 0.682.
 
-## Key gaps
-No variant-effect analysis; no Borzoi/Enformer/Borzoi-TL variant scorer; no supervised baseline on pretrained
-outputs; Enformer/AG not re-run with non-oracle mapping; no ablations; single split/seed; S6_CCV provenance unknown.
-Draft inaccuracies: claims inverse-signal loss weighting (not used), low-variance down-weighting (not used), "three cell lines" (10 named + 20 colon-tissue/unannotated tracks), stale Enformer text, untraceable validation/ablation claims (see SD-010).
-SNP input: 4,409 surplus rows over 5,739 positions; GWAS-tested allele unidentifiable at 3,320 multi-ALT positions (7,729 rows) without the source table (ALTs alphabetical; pattern consistent with dbSNP multi-allelic expansion). 242 rows / 147 positions have chromosome-end-shifted windows (chr17/19/21 q-ter).
+## Provenance status (REPRODUCE.md)
+hg38.ml.fa md5 c2cc5a20… = Calico basenji_barnyard2 hg38.ml.fa.gz (verified 2026-10-20); Enformer targets byte-identical to calico/basenji
+cross2020; Borzoi targets row-identical to seqnn-share; bigwigs Cistrome-DB style, download source UNRECORDED (ask PI/Qing).
