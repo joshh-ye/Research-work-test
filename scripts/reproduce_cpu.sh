@@ -17,6 +17,11 @@ while [ $# -gt 0 ]; do case $1 in
   --scratch) SCR=$2; shift 2;; --with-provenance) WITH_PROV=1; shift;; --skip-e2) SKIP_E2=1; shift;; --skip-extended) SKIP_EXT=1; shift;;
   --n-boot) NBOOT=$2; shift 2;; *) echo "unknown arg $1"; exit 2;; esac; done
 cd "$REPO"; SCR=$(readlink -m "$SCR")
+# safety guard before the destructive rm -rf: refuse empty, "/", $HOME, the repo root or any parent of it; require "cleanroom" in the path
+REPO_R=$(readlink -m "$REPO")
+case "$SCR" in ""|/) echo "refusing unsafe --scratch '$SCR'" >&2; exit 2;; esac
+if [ "$SCR" = "$(readlink -m "$HOME")" ] || [ "$SCR" = "$REPO_R" ] || [[ "$REPO_R/" == "$SCR/"* ]] || [[ "$SCR" != *cleanroom* ]]; then
+  echo "refusing unsafe --scratch '$SCR' (must contain 'cleanroom' and not be \$HOME, the repo root or a parent of it)" >&2; exit 2; fi
 rm -rf "$SCR"; mkdir -p "$SCR/results_phase2" "$SCR/logs"
 # ---- code copies with rewritten ROOT -------------------------------------------------------------------------------------------------
 for d in analysis/exposure_stratified analysis/e7_nonoracle analysis/e2_validation analysis/priorityD analysis/exploratory variant_scoring variant_provenance figures; do

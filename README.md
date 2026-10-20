@@ -1,5 +1,24 @@
 # Borzoi Transfer Learning Pipeline
 
+## CRC autonomous study (branch `research/crc-autonomous-study`)
+
+This branch extends the original pipeline below into a documented, reviewed study of sequence-to-function models
+(pretrained Borzoi, Borzoi-TL, Enformer, AlphaGenome) for colorectal cancer. All analyses use genome build hg38.
+No results are quoted here; see the manuscript.
+
+- **Reproduce:** `REPRODUCE.md` (datasets, checkpoints, per-experiment commands, one-command CPU clean-room check `scripts/reproduce_cpu.sh`; the clean room re-runs the same code from saved intermediates on the same host).
+- **Environments:** `env/` (`ENVIRONMENT.md`, per-venv requirements and Python versions).
+- **Manuscript:** `manuscript/manuscript_v2.md` (references: `manuscript/references.tsv`). **Figures:** `figures/FIGURES.md` (scripts in `figures/scripts/`, plotted values in `figures/data/`).
+- **Project record:** `research_management/` (`PROJECT_STATE.md`, `SCIENTIFIC_DECISIONS.md`, `REVIEW_FINDINGS.md`, `BLOCKERS.md`, `NEXT_ACTIONS.md`, `EXPERIMENT_REGISTRY.csv`, `EXECUTION_LOG.md`).
+- **Key directories:** `analysis/` (E2 MPRA validation, E4/E5/E8 baselines in `priorityD/`, exposure-stratified and non-oracle analyses), `variant_scoring/` (variant-effect scoring), `variant_provenance/` (CCV tables), `exposure_audit/` (training-data exposure of the CRC tracks), `scripts/` (clean-room reproduction and comparison).
+- **Virtual environments (not in git):** `torch-venv` (PyTorch; Borzoi, Borzoi-TL, analyses), `tf-venv` (TensorFlow), `ag-venv` (AlphaGenome hosted API) and `alphagenome_variant_effects/ag-local-venv` (AlphaGenome local weights). The venvs have copied shebangs, so always install with `./torch-venv/bin/python -m pip ...` and never bare `pip`.
+- **Storage:** home quota is limited; large caches (e.g. the trunk-embedding cache) and clean-room scratch live on `/nobackup/user/<user>/` and are symlinked where needed.
+- **Not in git:** restricted or controlled-access data (e.g. EGA MPRA data), `external_data/`, `exposure_audit/cache/`, `alphagenome_variant_effects/` (about 26 GB), `results*/`, `reports/`, `borzoi_data/`, `hf_cache/`, venvs, tarballs, and API keys/tokens. Exception: some checkpoint files (`borzoi_ckpt_full/*.pt`) and `results_comparison_*/` files were committed before this study and are tracked (see BL-009 in `research_management/BLOCKERS.md`).
+
+---
+
+# Original pipeline: Borzoi Transfer Learning
+
 Transfer learning on frozen Borzoi backbones to predict ChIP-seq / ATAC-seq signal from DNA sequence.
 
 ---
