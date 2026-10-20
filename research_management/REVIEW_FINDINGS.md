@@ -117,3 +117,16 @@ annotation-count baseline alone 0.618 [0.556, 0.684]; HCEC-1CT (normal) ≈ tumo
 (8) stale docs: analysis/e2_validation/RUNS.md, results_phase2/exploratory/README.md, EXP-012 row, manuscript_v2.md:67.
 Verified: Borzoi/TL scoring per frozen spec (recompute ≤1.2e-7), resume after BL-008 clean (20 chunks, unique row ids), timings, Holm, permutation, §7.
 Actions: (1)(2)(4)(6) SD-024 text updated by coordinator; (3)(5)(7)(8) dispatched to computational-engineer as exploratory/doc fixes.
+
+## RV-008 · 2026-10-20 · Phase 4 manuscript + Phase 5 reproducibility — scientific-reviewer (Opus)
+Verdict: **Phase 4 PASS** (≈60 numbers spot-checked, all match; minor 4.1–4.7); **Phase 5 REVISE** (2 major).
+Phase 4 minor: 4.1 power figure 0.5847 is the final-run recompute, pre-unblinding = 0.5834/SE 0.0335 (labels/power_statement.tsv); 4.2 abstract
+wording implies equivalence; 4.3 data availability says checkpoint not committed (it is); 4.4 "reviewed in lee2023" → "described in";
+tuupanen2009/wright2010 uncited; 4.5 "independent models", "clearly better than distance"; 4.6 FIGURES.md Fig 6 legend stale; 4.7 source for
+GTEx 0.57 p 0.17; shared-grid crop size; fold-stratification window.
+Phase 5: 5.1 [major] borzoi_ckpt_full/*.pt (8.6+8.6+17.2 MB) and 43 results_comparison_*/ files are tracked since ff88be2 (pre-project, already
+on origin) — docs say not in git → correct docs; untracking (git rm --cached, no history rewrite) is a user decision (BL-009); 5.2 [major]
+README.md not updated; 5.3 .gitignore edit uncommitted (user's own pending edit — left for user, BL-009); 5.4 GWAS Catalog summary-stat columns
+in tracked variant_provenance TSVs — licence/sharing is a user decision (BL-009); 5.5 reproduce_cpu.sh rm -rf guard; state same-host clean room.
+Verified: clean room 92 files + 24 numbers bit-identical; no restricted data (external_data/EGA/MPRA/GTEx/AG) tracked; no secret patterns.
+Also: Phase 4 acceptance requires a strategist PASS (pending).

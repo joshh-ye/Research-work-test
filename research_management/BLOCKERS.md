@@ -27,3 +27,9 @@ Format: ID · date opened · description · needed from (user / data / compute) 
 - **BL-008 · 2026-10-20 ~03:15** · Home quota (232.8 GB hard) hit by the trunk cache (52 GB of a planned ~330 GB) → cache build and Borzoi
   variant scoring died (writes failed). Mitigation: cache + E7 outputs moved to /nobackup/user/yejz1/crc_phase2/ (symlinked); Borzoi
   scoring resumed from 4 saved chunks; cache redesigned to fit (SD-018). Status: mitigated; user should review storage (home ~171 GB used).
+- **BL-009 · 2026-10-20** · Repository hygiene decisions for the user (RV-008 5.1/5.3/5.4; not blocking analysis):
+  (a) `borzoi_ckpt_full/{model_head,model_head_best,optimizer}.pt` (34 MB) and 43 `results_comparison_*/` files were committed in ff88be2 (2026-08-21,
+  pre-project) and are on origin; untrack going forward with `git rm --cached` (history unchanged; force-push forbidden)? (b) commit your pending
+  `.gitignore` edit (results*/, reports/, *.tar, __pycache__)? (c) the tracked `variant_provenance/{allele_matched_variants,exploratory_all_rows}.tsv`
+  include GWAS Catalog GCST90129505 beta/SE/p columns (licence recorded as academic non-commercial in PROVENANCE.md:76) — OK to keep in a public repo?
+  Status: open (agents left all three unchanged).
