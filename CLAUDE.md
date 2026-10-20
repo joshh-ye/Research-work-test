@@ -47,7 +47,7 @@ Enformer, AlphaGenome, and SNP/variant-effect analysis.
 - Training/test leakage assessed, including test experiments that were training data of pretrained
   models (≥31 of 183 tracks are identical Borzoi/Enformer training experiments: 24 LoVo GSE51142 by GSM (idx 13–36),
   3 HCT-116 ENCODE (idx 78/81/93: ENCSR000DTO/BML/BSA) and 4 colon-tissue ENCSR (idx 145–148); 0-based; lower bound —
-  only HCT116/Caco-2 ENCODE xrefs searched; AlphaGenome identity unverifiable). Tracks = 11 resolved cell lines
+  only HCT116/Caco-2 ENCODE xrefs searched; AlphaGenome identity unverifiable). Tracks = 10 resolved cell lines
   (HCT-116 105, LoVo 41, …) + 4 colon tissue + 1 tumour; see `exposure_audit/track_exposure.tsv`. Project test
   chromosomes chr9/chr22 are largely in Borzoi/Enformer *training* folds (`exposure_audit/EXPOSURE_AUDIT.md`).
 - Statistical uncertainty reported (CIs, bootstrap over appropriate units, paired tests, multiple-testing control).
