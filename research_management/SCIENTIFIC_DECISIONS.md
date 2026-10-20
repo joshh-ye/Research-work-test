@@ -105,3 +105,18 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   905 already-written RC files removed by the engineer). Retrained heads (E5 seeds/folds, E8) = "cache recipe: shift-emulated, no-RC";
   the original checkpoint remains the headline TL model. E4 ridge primary features = 1,888 channels (not all 7,611); sub-variants 1,882 and
   132 CRC tracks. Quota guard stops the build above 172 GB. Decided by coordinator.
+- **SD-019 · 2026-10-20 · SD-008 rule triggered (E4, EXP-013).** TL − best pre-specified ridge is negative with CI excluding 0 (all ridge
+  variants, the trunk linear probe, seeds 1–3 and fold F2). Claims of Borzoi-TL superiority/CRC-specific adaptation are withdrawn; TL results
+  are reported descriptively. Borzoi-TL remains one of the four pre-registered E2 models; it is not the methodological contribution.
+  Strategist memo 2026-10-20; decided by coordinator (pre-registered rule, no post-hoc change).
+- **SD-020 · 2026-10-20 · Framing still decided by E2_ANALYSIS_PLAN §7 at the final 4-model run.** Titles fixed before E2 final —
+  B: "Leakage-aware evaluation of genomic foundation models for colorectal cancer risk-variant annotation and transcription-factor binding";
+  A: "A leakage-aware benchmark shows head-only transfer learning from Borzoi does not exceed a linear readout for colorectal-cancer TF binding".
+  The track-prediction benchmark is reported as a negative result under either framing.
+- **SD-021 · 2026-10-20 · No new head architectures (e.g. MLP) are evaluated on chr9/chr22 in this phase** (forking paths on a
+  development-exposed test set; the linear probe already settles the comparison).
+- **SD-022 · 2026-10-20 · Ridge-head variant scoring NOT run this session.** It would require new GPU REF/ALT raw scoring after two interim
+  E2 looks and a new amendment; value judged lower than the risk of forking paths. May be proposed later as exploratory (outside Holm/§7).
+- **SD-023 · 2026-10-20 · E4 reporting.** TL − ridge reported with tile-block, TF-cluster and cell-line-cluster CIs (SD-006). Exposure-controlled
+  ridge (feature channels matching the target's GSM, or same cell line + TF, removed) and Borzoi-training-fold stratification of test tiles are
+  labelled sensitivity analyses; they cannot overturn SD-019.
