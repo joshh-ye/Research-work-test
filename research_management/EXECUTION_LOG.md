@@ -49,3 +49,5 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   from the fp16 slim cache gives test r 0.68199 (= 0.6820); pretrained val-selected 0.6609 (= EXP-006). E4 (EXP-013): ridge on pretrained
   outputs pre_raw union1888 test r 0.7426 (λ=1e-4 from val), probe on frozen trunk 0.7223; TL − ridge −0.061 [−0.066, −0.053] (tile-block).
   Pre-registered SD-008 rule triggered: CRC-specific adaptation claim not supported beyond a supervised linear readout. E5 seeds running.
+- 2026-10-20 08:35 CDT · queue_downstream2.sh finished (all E4/E5/E8 + fold seeds 2–3). Final summaries: 9 fold×seed heads; TL − ridge
+  (152 primary) F2 −0.062/−0.062/−0.062, F3 −0.073/−0.072/−0.077, F4 −0.063/−0.062/−0.062 (tile-block CIs exclude 0). Fig 6 regenerated.
