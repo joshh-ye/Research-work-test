@@ -106,3 +106,14 @@ Findings:
 Verified: train-only standardisation, val-only λ, no refit, disjoint folds, no target-derived features, parity of tiles/targets/metric, cluster-CI construction, SD-008 rule and variant set committed before results (a896b9e), worst variant reported. Probe should be foregrounded as the exposure-symmetric comparison.
 Actions: SD text (2, 5, 6) by coordinator; code/summary fixes (1, 3, 4, 7, 8, 9) dispatched to computational-engineer.
 RV-006 corrections applied 2026-10-20 ~08:00 (engineer; coordinator-verified): #1 e5_seed_vs_ridge.csv / e5_fold_vs_ridge.csv (TL−ridge seeds 1–5 −0.059..−0.061, folds −0.065..−0.083; tile-block, TF- and cell-line-cluster CIs all exclude 0; match reviewer recompute); #3 E4 SUMMARY features text fixed; #4 C/D relabelled post-primary; #7 seeds 4–5 included, run-status line (fold-seed extras pending, queue regenerates); #8 R² labels; #9 E8 second LEAKY reference (cache seed1 0.5494), LS180 CEBPB/CDX2 = 94% of gap, interpretation limits. Re-review deferred to the E2-final review (doc-only fixes).
+
+## RV-007 · 2026-10-20 · E2 final 4-model MPRA validation + framing (SD-024) + RV-006 corrections — scientific-reviewer (Opus)
+Verdict: **PASS** (Framing B correctly adopted under the pre-registered rule; numbers recompute; A3 unblinding protocol followed; RV-006 corrections adequate).
+Minor findings: (1) rename "held-out-chromosome" subset → "Borzoi-TL val/test chromosomes"; underpowered, not leakage evidence; (2) add qualifiers:
+annotation-count baseline alone 0.618 [0.556, 0.684]; HCEC-1CT (normal) ≈ tumour lines → no CRC-specific signal; (3) clogit LR p anticonservative
+(LD) → exploratory; region-bootstrap CI before citing; (4) "no model differs" = 6 headline pairs; TL − valsel-mapping +0.032 [0.007, 0.052] unadjusted
+(BH q 0.39); annotation-count deltas mislabelled family; (5) P1 weight: top 3 regions 45% → report + equal-weight sensitivity (exploratory);
+(6) P2 anti-concordance must not be used to infer REF/ALT; (7) AG RNA vs GTEx eQTL direction 0.5008 — sanity-check before reporting;
+(8) stale docs: analysis/e2_validation/RUNS.md, results_phase2/exploratory/README.md, EXP-012 row, manuscript_v2.md:67.
+Verified: Borzoi/TL scoring per frozen spec (recompute ≤1.2e-7), resume after BL-008 clean (20 chunks, unique row ids), timings, Holm, permutation, §7.
+Actions: (1)(2)(4)(6) SD-024 text updated by coordinator; (3)(5)(7)(8) dispatched to computational-engineer as exploratory/doc fixes.

@@ -126,5 +126,10 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
 - **SD-024 · 2026-10-20 · Framing B adopted per E2_ANALYSIS_PLAN §7 (pre-registered rule; E2 final, EXP-017).** All four headline models meet
   the three criteria (Holm p < 0.05; CI excludes 0.5; Δ vs distance baseline CI excludes 0). Title = SD-020 B. Required qualifiers: no model is
   shown to exceed the Chen annotation-count baseline (paired Δ CIs include 0); no model differs from another (paired Δ CIs include 0); signal is
-  weak on the held-out-chromosome subset (descriptive, 10 regions); P2 direction uninterpretable (SD-017); MPRA is episomal; Borzoi/AlphaGenome
-  training includes GTEx and ENCODE data overlapping CRC-relevant assays. Pending scientific-reviewer confirmation (RV-007).
+  weak on the "Borzoi-TL val/test chromosomes (chr1/8/9/22)" subset (renamed per RV-007: not held out from the pretrained trunks,
+  AlphaGenome or Enformer; 10 regions, 19 positives; the annotation-count baseline also drops; consistent with low power/locus heterogeneity,
+  not evidence for or against leakage); the annotation-count baseline alone gives 0.618 [0.556, 0.684] so added value over existing annotation
+  is not shown; normal-colon HCEC-1CT labels give AUROC similar to tumour lines (no CRC/tumour-specific signal shown); "no model differs" refers to
+  the 6 headline pairs; P1 weight concentrated (top 3 regions 45%); P2 is significantly below 0.5 for all 4 models (Holm p ≤ 0.004) but
+  uninterpretable (SD-017) and must not be used to infer the REF/ALT convention (BL-007); MPRA is episomal; pretrained models' training includes
+  the REF sequence of all loci and ENCODE/GTEx data. No "CRC-specific annotation" wording. Confirmed by RV-007 PASS.
