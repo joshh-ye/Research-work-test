@@ -1,0 +1,13 @@
+node,label,count,note
+S6,Chen 2024 Supp. Data 6 CCVs (hg19),5741,source
+input_unique,S6_CCV input: unique rsIDs/positions (hg38),5739,S6 minus 2 rsID-drift losses
+input_rows,S6_CCV input rows (one per REF>ALT),10148,1-3 ALTs per position
+matched,"ALT = GWAS-reported allele (allele-matched, 1 per position)",5729,primary set
+nonreported,ALT not the reported counter-allele (exploratory only),4396,excluded
+na,no allele information,23,excluded (10 rsIDs)
+mpra_tested,tested in MPRA (Law 2024 ST2),4323,label_counts: pos+neg+excluded
+untested,not tested in MPRA,1406,no label
+pos,MPRA positives (primary),134,
+neg,MPRA negatives,4098,
+excl,excluded (ambiguous),91,
+regions,informative regions (>=1 pos and >=1 neg),58,130 pos / 2518 neg in these

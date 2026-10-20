@@ -1,0 +1,8 @@
+label	n_pos	n_neg	n_excluded	n_untested	n_informative_regions	n_pos_in_informative	n_neg_in_informative	n_pairs_pos_x_neg
+mpra_primary	134	4098	91	1406	58	130	2518	7832
+mpra_S1	225	4098	0	1406	73	220	2769	14761
+mpra_S2_HT29	57	4241	25	1406	32	56	1486	3373
+mpra_S2_SW403	49	4238	36	1406	30	46	1836	3354
+mpra_S2_HCEC	69	4206	48	1406	38	68	1651	4435
+eqtl_gtex_v10_colon_any_lab	2688	3041	0	0	46	2301	870	40621
+eqtl_cedar_credible_lab	208	5521	0	0	9	194	469	13106

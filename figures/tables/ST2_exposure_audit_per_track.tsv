@@ -1,0 +1,184 @@
+track_idx	DCid	name	cell_line	cell_line_source	TF	GSM	ENCSR	ENCSR_via	GEO_series_or_xref	biosample_text	note	Borzoi_class	Borzoi_cellline_assays	Borzoi_n_same_target_ChIP_tracks	Enformer_class	Enformer_cellline_assays	Enformer_n_same_target_ChIP_tracks	AlphaGenome_class	AlphaGenome_possible_identical_ENCODE	AlphaGenome_n_same_target_ChIPTF_tracks
+0	1151	POLR2A_HCT-116_1151	HCT-116	csv	POLR2A	GSM749821			GSE30267;GSE30268	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+1	1152	POLR2A_HCT-116_1152	HCT-116	csv	POLR2A	GSM749817			GSE30267;GSE30268	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+2	34078	CDK8_HCT-116_34078	HCT-116	geo_text	CDK8	GSM937561			GSE38258	colorectal cancer cells, normoxia, CDK8 ChIP		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+3	34398	POLR2A_HCT-116_34398	HCT-116	csv	POLR2A	GSM1154513			GSE47677;GSE47678	HCT116_ser2p		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+4	34399	MECP2_HCT-116_34399	HCT-116	csv	MECP2	GSM1154509			GSE47677;GSE47678	HCT116_MeCP2		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+5	356	CDX2_Caco-2_356	Caco-2	csv	CDX2	GSM575225			GSE23436	differentiated Caco-2 cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	0	same_cellline_other_target	CAGE|CHIP|DNASE	0	same_cellline_other_target	False	0
+6	357	CDX2_Caco-2_357	Caco-2	csv	CDX2	GSM575224			GSE23436	proliferating Caco-2 cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	0	same_cellline_other_target	CAGE|CHIP|DNASE	0	same_cellline_other_target	False	0
+7	362	GATA6_Caco-2_362	Caco-2	csv	GATA6	GSM575226			GSE23436	proliferating Caco-2 cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	1	same_cellline_other_target	CAGE|CHIP|DNASE	1	same_cellline_other_target	False	0
+8	371	HNF4A_Caco-2_371	Caco-2	csv	HNF4A	GSM575229			GSE23436	differentiated Caco-2 cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	4	same_cellline_other_target	CAGE|CHIP|DNASE	4	same_cellline_other_target	False	3
+9	372	HNF4A_Caco-2_372	Caco-2	csv	HNF4A	GSM575228			GSE23436	proliferating Caco-2 cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	4	same_cellline_other_target	CAGE|CHIP|DNASE	4	same_cellline_other_target	False	3
+10	37565	REPIN1_DLD-1_37565	DLD-1	csv	REPIN1	GSM1141538			GSE46935	Colorectal cancer cells		unexposed		0	unexposed		0	same_target_other_cellline	False	1
+11	38576	POLR2A_HCT-116_38576	HCT-116	geo_text	POLR2A	GSM1065010			GSE43539;GSE43542	HCT116 cells		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+12	38585	TAF3_HCT-116_38585	HCT-116	geo_text	TAF3	GSM1065008			GSE43539;GSE43542	HCT116 cells		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+13	38650	NFYA_LoVo_38650	LoVo	csv	NFYA	GSM1208777			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	2	same_target_other_cellline	False	3
+14	38653	MED12_LoVo_38653	LoVo	csv	MED12	GSM1208646			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+15	38658	SOX2_LoVo_38658	LoVo	csv	SOX2	GSM1208794			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+16	38663	MYC_LoVo_38663	LoVo	csv	MYC	GSM1208654			GSE49402	LoVo		identical_experiment	CHIP|DNASE	12	identical_experiment	CHIP|DNASE	12	same_target_other_cellline	False	8
+17	38666	ZBTB7B_LoVo_38666	LoVo	csv	ZBTB7B	GSM1208702			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	2	same_target_other_cellline	False	1
+18	38691	RAD21_LoVo_38691	LoVo	csv	RAD21	GSM1208668			GSE49402	LoVo		identical_experiment	CHIP|DNASE	15	identical_experiment	CHIP|DNASE	13	same_target_other_cellline	False	16
+19	38704	HINFP_LoVo_38704	LoVo	csv	HINFP	GSM1208631			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	1	same_target_other_cellline	False	2
+20	38712	ETS2_LoVo_38712	LoVo	csv	ETS2	GSM1208738			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	1	unknown	False	0
+21	38719	DLX1_LoVo_38719	LoVo	csv	DLX1	GSM1208723			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+22	38724	GMEB2_LoVo_38724	LoVo	csv	GMEB2	GSM1208626			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	1	same_target_other_cellline	False	1
+23	38731	TFDP1_LoVo_38731	LoVo	csv	TFDP1	GSM1208691			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	1	same_target_other_cellline	False	3
+24	38758	JUND_LoVo_38758	LoVo	csv	JUND	GSM1208763			GSE49402	LoVo		identical_experiment	CHIP|DNASE	15	identical_experiment	CHIP|DNASE	15	same_target_other_cellline	False	12
+25	38761	RFX2_LoVo_38761	LoVo	csv	RFX2	GSM1208671			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+26	38763	CEBPB_LoVo_38763	LoVo	csv	CEBPB	GSM1208598			GSE49402	LoVo		identical_experiment	CHIP|DNASE	18	identical_experiment	CHIP|DNASE	17	same_target_other_cellline	False	10
+27	38772	CLOCK_LoVo_38772	LoVo	csv	CLOCK	GSM1208719			GSE49402	LoVo		identical_experiment	CHIP|DNASE	5	identical_experiment	CHIP|DNASE	5	same_target_other_cellline	False	1
+28	38774	CTCF_LoVo_38774	LoVo	csv	CTCF	GSM1208603			GSE49402	LoVo		identical_experiment	CHIP|DNASE	207	identical_experiment	CHIP|DNASE	206	same_target_other_cellline	False	153
+29	38778	SMC1A_LoVo_38778	LoVo	csv	SMC1A	GSM1208678			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+30	38784	RFX1_LoVo_38784	LoVo	csv	RFX1	GSM1208670			GSE49402	LoVo		identical_experiment	CHIP|DNASE	6	identical_experiment	CHIP|DNASE	6	same_target_other_cellline	False	3
+31	38785	NIPBL_LoVo_38785	LoVo	csv	NIPBL	GSM1208661			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+32	38804	E2F8_LoVo_38804	LoVo	csv	E2F8	GSM1208731			GSE49402	LoVo		identical_experiment	CHIP|DNASE	4	identical_experiment	CHIP|DNASE	4	same_target_other_cellline	False	2
+33	38811	SMC3_LoVo_38811	LoVo	csv	SMC3	GSM1208679			GSE49402	LoVo		identical_experiment	CHIP|DNASE	7	identical_experiment	CHIP|DNASE	7	same_target_other_cellline	False	7
+34	38814	REST_LoVo_38814	LoVo	csv	REST	GSM1208790			GSE49402	LoVo		identical_experiment	CHIP|DNASE	22	identical_experiment	CHIP|DNASE	21	same_target_other_cellline	False	17
+35	38820	BARX2_LoVo_38820	LoVo	csv	BARX2	GSM1208593			GSE49402	LoVo		identical_experiment	CHIP|DNASE	1	identical_experiment	CHIP|DNASE	1	unknown	False	0
+36	38831	KLF5_LoVo_38831	LoVo	csv	KLF5	GSM1208642			GSE49402	LoVo		identical_experiment	CHIP|DNASE	2	identical_experiment	CHIP|DNASE	2	same_target_other_cellline	False	1
+37	39914	ICE1_HCT-116_39914	HCT-116	csv	ICE1	GSM1162754			GSE47938	HCT116 cell culture		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+38	39917	POLR2A_HCT-116_39917	HCT-116	csv	POLR2A	GSM1162752			GSE47938	HCT116 cell culture		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+39	39920	ICE1_HCT-116_39920	HCT-116	csv	ICE1	GSM1162751			GSE47938	HCT116 cell culture		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+40	39921	POLR2A_HCT-116_39921	HCT-116	csv	POLR2A	GSM1162755			GSE47938	HCT116 cell culture		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+41	41572	ING2_RKO_41572	RKO	csv	ING2	GSM1146447			GSE47190	human colon carcinoma		same_cellline_other_target	DNASE	0	same_cellline_other_target	DNASE	0	unknown	False	0
+42	41574	BRD1_RKO_41574	RKO	csv	BRD1	GSM1146449			GSE47190	human colon carcinoma		same_cellline_other_target	DNASE	0	same_cellline_other_target	DNASE	0	unknown	False	0
+43	42148	CTCF_HCT-116_42148	HCT-116	csv	CTCF	GSM1224649			GSE50610	HCT116 colorectal cancer cells		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+44	42149	CTCF_HCT-116_42149	HCT-116	csv	CTCF	GSM1224650			GSE50610	HCT116 colorectal cancer cells		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+45	42150	CTCF_HCT-116_42150	HCT-116	csv	CTCF	GSM1224651			GSE50610	HCT116 colorectal cancer cells		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+46	42151	CTCF_HCT-116_42151	HCT-116	csv	CTCF	GSM1224652			GSE50610	HCT116 colorectal cancer cells DNMT1KO		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+47	42152	CTCF_HCT-116_42152	HCT-116	csv	CTCF	GSM1224653			GSE50610	HCT116 colorectal cancer cells DNMT3BKO		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+48	42153	CTCF_HCT-116_42153	HCT-116	csv	CTCF	GSM1224654			GSE50610	HCT116 colorectal cancer cells DNMT1KO/DNMT3BKO		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+49	42154	CTCF_HCT-116_42154	HCT-116	csv	CTCF	GSM1224655			GSE50610	HCT116 colorectal cancer cells DNMT1KO/DNMT3BKO		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+50	42650	CTCF_LoVo_42650	LoVo	csv	CTCF	GSM1239390			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	207	same_cellline_same_target	CHIP|DNASE	206	same_target_other_cellline	False	153
+51	42655	FOXA2_LoVo_42655	LoVo	csv	FOXA2	GSM1239395			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	4	same_cellline_other_target	CHIP|DNASE	4	same_target_other_cellline	False	3
+52	42706	RAD21_LoVo_42706	LoVo	csv	RAD21	GSM1239446			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	15	same_cellline_same_target	CHIP|DNASE	13	same_target_other_cellline	False	16
+53	42708	ATF2_LoVo_42708	LoVo	csv	ATF2	GSM1239448			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	5	same_cellline_other_target	CHIP|DNASE	4	same_target_other_cellline	False	6
+54	42710	CREB1_LoVo_42710	LoVo	csv	CREB1	GSM1239450			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	6	same_cellline_other_target	CHIP|DNASE	5	same_target_other_cellline	False	9
+55	42712	E2F3_LoVo_42712	LoVo	csv	E2F3	GSM1239452			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	1	same_cellline_same_target	CHIP|DNASE	1	unknown	False	0
+56	42714	ETV5_LoVo_42714	LoVo	csv	ETV5	GSM1239454			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	CHIP|DNASE	0	same_target_other_cellline	False	2
+57	42722	HOXA6_LoVo_42722	LoVo	csv	HOXA6	GSM1239462			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	CHIP|DNASE	0	unknown	False	0
+58	42725	IRF1_LoVo_42725	LoVo	csv	IRF1	GSM1239465			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	5	same_cellline_other_target	CHIP|DNASE	4	same_target_other_cellline	False	1
+59	42727	JUN_LoVo_42727	LoVo	csv	JUN	GSM1239467			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	9	same_cellline_same_target	CHIP|DNASE	9	same_target_other_cellline	False	6
+60	42738	NFYA_LoVo_42738	LoVo	csv	NFYA	GSM1239478			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	2	same_cellline_same_target	CHIP|DNASE	2	same_target_other_cellline	False	3
+61	42744	RELA_LoVo_42744	LoVo	csv	RELA	GSM1239484			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	CHIP|DNASE	0	same_target_other_cellline	False	1
+62	42774	NFYC_LoVo_42774	LoVo	csv	NFYC	GSM1239514			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	CHIP|DNASE	0	same_target_other_cellline	False	1
+63	42798	RAD21_LoVo_42798	LoVo	csv	RAD21	GSM1239538			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	15	same_cellline_same_target	CHIP|DNASE	13	same_target_other_cellline	False	16
+64	42845	RAD21_LoVo_42845	LoVo	csv	RAD21	GSM1239585			GSE51142	LoVo		same_cellline_same_target	CHIP|DNASE	15	same_cellline_same_target	CHIP|DNASE	13	same_target_other_cellline	False	16
+65	42883	ZNF143_LoVo_42883	LoVo	csv	ZNF143	GSM1239623			GSE51142	LoVo		same_cellline_other_target	CHIP|DNASE	4	same_cellline_other_target	CHIP|DNASE	4	same_target_other_cellline	False	3
+66	42906	KMT2B_HCT-116_42906	HCT-116	csv	KMT2B	GSM1240109			GSE51176	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	1
+67	42907	EP300_HCT-116_42907	HCT-116	csv	EP300	GSM1240110			GSE51176	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	54	same_cellline_other_target	CHIP|DNASE	54	same_cellline_other_target	False	15
+68	42918	CTCF_GP5d_42918	GP5d	csv	CTCF	GSM1240813			GSE51234	GP5d		same_target_other_cellline		207	same_target_other_cellline		206	same_target_other_cellline	False	153
+69	42920	HNF4A_GP5d_42920	GP5d	csv	HNF4A	GSM1240815			GSE51234	GP5d		same_target_other_cellline		4	same_target_other_cellline		4	same_target_other_cellline	False	3
+70	42927	NIPBL_GP5d_42927	GP5d	csv	NIPBL	GSM1240822			GSE51234	GP5d		same_target_other_cellline		1	same_target_other_cellline		1	unknown	False	0
+71	42928	RAD21_GP5d_42928	GP5d	csv	RAD21	GSM1240823			GSE51234	GP5d		same_target_other_cellline		15	same_target_other_cellline		13	same_target_other_cellline	False	16
+72	42931	SMC3_GP5d_42931	GP5d	csv	SMC3	GSM1240826			GSE51234	GP5d		same_target_other_cellline		7	same_target_other_cellline		7	same_target_other_cellline	False	7
+73	42942	RAD21_GP5d_42942	GP5d	csv	RAD21	GSM1240837			GSE51234	GP5d		same_target_other_cellline		15	same_target_other_cellline		13	same_target_other_cellline	False	16
+74	42947	HNF4A_LoVo_42947	LoVo	csv	HNF4A	GSM1242266			GSE51290	LoVo		same_cellline_same_target	CHIP|DNASE	4	same_cellline_same_target	CHIP|DNASE	4	same_target_other_cellline	False	3
+75	43642	CDK8_SW480_43642	SW480	csv	CDK8	GSM1296645			GSE53602	Colon Carcinoma		same_cellline_other_target	DNASE	0	same_cellline_other_target	DNASE	0	unknown	False	0
+76	45714	TCF7L2_HCT-116_45714	HCT-116	csv	TCF7L2	GSM782123	ENCSR000EUV	ENCODE_dbxref_GSM	GSE31477	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	3	same_cellline_other_target	CHIP|DNASE	3	same_cellline_other_target	True	5
+77	45715	POLR2A_HCT-116_45715	HCT-116	csv	POLR2A	GSM935426	ENCSR000EUU	ENCODE_dbxref_GSM	GSE31477	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	True	44
+78	45716	CTCF_HCT-116_45716	HCT-116	csv	CTCF	GSM1022652	ENCSR000DTO	ENCODE_dbxref_GSM	GSE30263	HCT-116		identical_experiment	CHIP|DNASE|RNA	207	identical_experiment	CHIP|DNASE	206	same_cellline_same_target	True	153
+79	45717	CTCF_HCT-116_45717	HCT-116	csv	CTCF	GSM1022651			GSE30263	HCT-116		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+80	46200	ZBTB33_HCT-116_46200	HCT-116	csv	ZBTB33	GSM803458	ENCSR000BNY	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	8	same_cellline_other_target	True	5
+81	46201	POLR2A_HCT-116_46201	HCT-116	csv	POLR2A	GSM803474	ENCSR000BML	ENCODE_dbxref_GSM	GSE32465	HCT-116		identical_experiment	CHIP|DNASE|RNA	85	identical_experiment	CHIP|DNASE	85	same_cellline_other_target	True	44
+82	46202	ELF1_HCT-116_46202	HCT-116	csv	ELF1	GSM1010765	ENCSR000BVH	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	6	same_cellline_same_target	True	9
+83	46203	REST_HCT-116_46203	HCT-116	csv	REST	GSM1010869	ENCSR000BVI	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	22	same_cellline_other_target	CHIP|DNASE	21	same_cellline_same_target	True	17
+84	46204	YY1_HCT-116_46204	HCT-116	csv	YY1	GSM803354	ENCSR000BNX	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	14	same_cellline_other_target	True	10
+85	46205	USF1_HCT-116_46205	HCT-116	csv	USF1	GSM1010836	ENCSR000BVK	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	4	same_cellline_other_target	CHIP|DNASE	4	same_cellline_same_target	True	8
+86	46206	CEBPB_HCT-116_46206	HCT-116	csv	CEBPB	GSM1010852	ENCSR000BSD	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	18	same_cellline_other_target	CHIP|DNASE	17	same_cellline_same_target	True	10
+87	46207	RAD21_HCT-116_46207	HCT-116	csv	RAD21	GSM1010848	ENCSR000BSB	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	True	16
+88	46208	SIN3A_HCT-116_46208	HCT-116	csv	SIN3A	GSM1010905	ENCSR000BSG	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	10	same_cellline_other_target	CHIP|DNASE	10	same_cellline_same_target	True	10
+89	46209	CBX3_HCT-116_46209	HCT-116	csv	CBX3	GSM1010758	ENCSR000BUH	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	3	same_cellline_other_target	CHIP|DNASE	3	same_cellline_same_target	True	2
+90	46210	TEAD4_HCT-116_46210	HCT-116	csv	TEAD4	GSM1010772	ENCSR000BVJ	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	1	same_cellline_same_target	True	8
+91	46211	SRF_HCT-116_46211	HCT-116	csv	SRF	GSM1010851	ENCSR000BSC	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	4	same_cellline_other_target	CHIP|DNASE	4	same_cellline_same_target	True	8
+92	46212	FOSL1_HCT-116_46212	HCT-116	csv	FOSL1	GSM1010756	ENCSR000BTE	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	3	same_cellline_other_target	CHIP|DNASE	2	same_cellline_same_target	True	5
+93	46213	JUND_HCT-116_46213	HCT-116	csv	JUND	GSM1010847	ENCSR000BSA	ENCODE_dbxref_GSM	GSE32465	HCT-116		identical_experiment	CHIP|DNASE|RNA	15	identical_experiment	CHIP|DNASE	15	same_cellline_same_target	True	12
+94	46214	EGR1_HCT-116_46214	HCT-116	csv	EGR1	GSM1010846	ENCSR000BRZ	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	8	same_cellline_same_target	True	10
+95	46215	SP1_HCT-116_46215	HCT-116	csv	SP1	GSM1010902	ENCSR000BSF	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	10	same_cellline_other_target	CHIP|DNASE	10	same_cellline_same_target	True	8
+96	46216	MAX_HCT-116_46216	HCT-116	csv	MAX	GSM1010904	ENCSR000BSH	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	6	same_cellline_other_target	CHIP|DNASE	6	same_cellline_same_target	True	16
+97	46217	ATF3_HCT-116_46217	HCT-116	csv	ATF3	GSM1010757	ENCSR000BUG	ENCODE_dbxref_GSM	GSE32465	HCT-116		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	7	same_cellline_other_target	True	6
+98	47431	GATA6_LS174T_47431	LS174T	csv	GATA6	GSM1197320			GSE49320;GSE56897	LS174T, GATA6 ChIP		same_target_other_cellline		1	same_target_other_cellline		1	unknown	False	0
+99	47432	GATA6_LS174T_47432	LS174T	csv	GATA6	GSM1197321			GSE49320;GSE56897	LS174T, GATA6 ChIP		same_target_other_cellline		1	same_target_other_cellline		1	unknown	False	0
+100	47433	GATA6_LS174T_47433	LS174T	csv	GATA6	GSM1197322			GSE49320;GSE56897	LS174T, GATA6 ChIP		same_target_other_cellline		1	same_target_other_cellline		1	unknown	False	0
+101	49276	ZBTB17_LS174T_49276	LS174T	csv	ZBTB17	GSM1430921			GSE59223	Ls174T cells		same_target_other_cellline		1	unexposed		0	same_target_other_cellline	False	2
+102	49279	ZBTB17_LS174T_49279	LS174T	csv	ZBTB17	GSM1430924			GSE59223	Ls174T cells		same_target_other_cellline		1	unexposed		0	same_target_other_cellline	False	2
+103	49535	POLR2A_HCT-116_49535	HCT-116	csv	POLR2A	GSM1465034			GSE60106	HCT116 RNA polymerase II ChIP-seq		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+104	49669	PROX1_SW480_49669	SW480	csv	PROX1	GSM1477597			GSE60390	SW480R		same_cellline_other_target	DNASE	0	same_cellline_other_target	DNASE	0	same_target_other_cellline	False	1
+105	51843	POLR2A_HCT-116_51843	HCT-116	geo_text	POLR2A	GSM1545657			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+106	51844	POLR2A_HCT-116_51844	HCT-116	geo_text	POLR2A	GSM1545658			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+107	51845	POLR2A_HCT-116_51845	HCT-116	geo_text	POLR2A	GSM1545659			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+108	51846	POLR2A_HCT-116_51846	HCT-116	geo_text	POLR2A	GSM1545660			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+109	51847	POLR2A_HCT-116_51847	HCT-116	geo_text	POLR2A	GSM1545661			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+110	51848	POLR2A_HCT-116_51848	HCT-116	geo_text	POLR2A	GSM1545662			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+111	51849	POLR2A_HCT-116_51849	HCT-116	geo_text	POLR2A	GSM1545663			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+112	51850	POLR2A_HCT-116_51850	HCT-116	geo_text	POLR2A	GSM1545664			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+113	51856	POLR2A_HCT-116_51856	HCT-116	geo_text	POLR2A	GSM1545670			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+114	51857	POLR2A_HCT-116_51857	HCT-116	geo_text	POLR2A	GSM1545671			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+115	51858	POLR2A_HCT-116_51858	HCT-116	geo_text	POLR2A	GSM1545672			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+116	51859	POLR2A_HCT-116_51859	HCT-116	geo_text	POLR2A	GSM1545673			GSE63314	Colon cancer cell line		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+117	53493	SOX9_HT-29_53493	HT-29	csv	SOX9	GSM1554224			GSE63629	HT29 cells		same_cellline_other_target	DNASE|RNA	0	same_cellline_other_target	DNASE	0	unknown	False	0
+118	5451	VDR_LS180_5451	LS180	csv	VDR	GSM791404			GSE31939	cultured CRC cells		unexposed		0	unexposed		0	unknown	False	0
+119	5458	CEBPB_LS180_5458	LS180	csv	CEBPB	GSM791411			GSE31939	cultured CRC cells		same_target_other_cellline		18	same_target_other_cellline		17	same_target_other_cellline	False	10
+120	5459	CEBPB_LS180_5459	LS180	csv	CEBPB	GSM791412			GSE31939	cultured CRC cells		same_target_other_cellline		18	same_target_other_cellline		17	same_target_other_cellline	False	10
+121	5460	CDX2_LS180_5460	LS180	csv	CDX2	GSM791413			GSE31939	cultured CRC cells		unexposed		0	unexposed		0	unknown	False	0
+122	5461	CDX2_LS180_5461	LS180	csv	CDX2	GSM791414			GSE31939	cultured CRC cells		unexposed		0	unexposed		0	unknown	False	0
+123	54661	TCF4_HCT-116_54661	HCT-116	csv	TCF4	GSM1535697			GSE62890;GSE62891	HNF4α2 Line		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+124	54673	HNF4A_HCT-116_54673	HCT-116	csv	HNF4A	GSM1535709			GSE62890;GSE62891	HNF4α2 Line		same_cellline_other_target	CHIP|DNASE|RNA	4	same_cellline_other_target	CHIP|DNASE	4	same_cellline_other_target	False	3
+125	54674	HNF4A_HCT-116_54674	HCT-116	csv	HNF4A	GSM1535710			GSE62890;GSE62891	HNF4α2 Line		same_cellline_other_target	CHIP|DNASE|RNA	4	same_cellline_other_target	CHIP|DNASE	4	same_cellline_other_target	False	3
+126	55321	FOXA2_Caco-2_55321	Caco-2	csv	FOXA2	GSM1617408			GSE66218	Colorectal adenocarcinoma cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	4	same_cellline_other_target	CAGE|CHIP|DNASE	4	same_cellline_other_target	False	3
+127	55322	FOXA2_Caco-2_55322	Caco-2	csv	FOXA2	GSM1617409			GSE66218	Colorectal adenocarcinoma cells		same_cellline_other_target	CAGE|CHIP|DNASE|RNA	4	same_cellline_other_target	CAGE|CHIP|DNASE	4	same_cellline_other_target	False	3
+128	55662	POLR2A_HCT-116_55662	HCT-116	csv	POLR2A	GSM1727092			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+129	55663	POLR2A_HCT-116_55663	HCT-116	csv	POLR2A	GSM1727093			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+130	55664	PAF1_HCT-116_55664	HCT-116	csv	PAF1	GSM1727094			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+131	55666	PAF1_HCT-116_55666	HCT-116	csv	PAF1	GSM1727096			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+132	55667	PAF1_HCT-116_55667	HCT-116	csv	PAF1	GSM1727097			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+133	55668	PAF1_HCT-116_55668	HCT-116	csv	PAF1	GSM1727098			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+134	55669	PAF1_HCT-116_55669	HCT-116	csv	PAF1	GSM1727099			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+135	55671	POLR2A_HCT-116_55671	HCT-116	csv	POLR2A	GSM1727101			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+136	55672	POLR2A_HCT-116_55672	HCT-116	csv	POLR2A	GSM1727102			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+137	55673	POLR2A_HCT-116_55673	HCT-116	csv	POLR2A	GSM1727103			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+138	55674	POLR2A_HCT-116_55674	HCT-116	csv	POLR2A	GSM1727104			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+139	55675	POLR2A_HCT-116_55675	HCT-116	csv	POLR2A	GSM1727105			GSE70408	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+140	5661	POLR2A_HCT-116_5661	HCT-116	csv	POLR2A	GSM833286			GSE33716	Cell culture		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+141	57088	POLR2A_HCT-116_57088	HCT-116	csv	POLR2A	GSM1866693			GSE72622	Hct 116 Cells		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+142	57089	POLR2A_HCT-116_57089	HCT-116	csv	POLR2A	GSM1866694			GSE72622	Hct 116 Cells		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+143	57091	LARP7_HCT-116_57091	HCT-116	csv	LARP7	GSM1866696			GSE72622	Hct 116 Cells		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	3	same_cellline_other_target	False	1
+144	57092	HEXIM1_HCT-116_57092	HCT-116	csv	HEXIM1	GSM1866697			GSE72622	Hct 116 Cells		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+145	62707	CTCF_transverse_colon_tissue_62707	transverse_colon_tissue	encode	CTCF		ENCSR102CSD	own	GEO:GSE105270	transverse colon		identical_experiment	CHIP|DNASE|RNA	207	identical_experiment	CHIP|DNASE	206	unknown	True	153
+146	62737	POLR2A_transverse_colon_tissue_62737	transverse_colon_tissue	encode	POLR2A		ENCSR107EUS	own	GEO:GSE105277	transverse colon		identical_experiment	CHIP|DNASE|RNA	85	identical_experiment	CHIP|DNASE	85	unknown	True	44
+147	64170	POLR2A_transverse_colon_tissue_64170	transverse_colon_tissue	encode	POLR2A		ENCSR667UWT	own	GEO:GSE105623	transverse colon		identical_experiment	CHIP|DNASE|RNA	85	identical_experiment	CHIP|DNASE	85	unknown	True	44
+148	64457	CTCF_transverse_colon_tissue_64457	transverse_colon_tissue	encode	CTCF		ENCSR769WKR	own	GEO:GSE106004	transverse colon		identical_experiment	CHIP|DNASE|RNA	207	identical_experiment	CHIP|DNASE	206	unknown	True	153
+149	68460	ATF3_HCT-116_68460	HCT-116	csv	ATF3	GSM1917774			GSE74355;GSE74363	HCT116 colon cancer cells, ATF3-WT, ATF3 ChIP		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	7	same_cellline_other_target	False	6
+150	68464	ATF3_HCT-116_68464	HCT-116	csv	ATF3	GSM1917770			GSE74355;GSE74363	HCT116 colon cancer cells, ATF3-WT, camptothecin, ATF3 ChIP		same_cellline_other_target	CHIP|DNASE|RNA	8	same_cellline_other_target	CHIP|DNASE	7	same_cellline_other_target	False	6
+151	68778	POLR2A_HCT-116_68778	HCT-116	csv	POLR2A	GSM2058672			GSE57628	HCT116 with homozygous Top1 knock-in + JQ1		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+152	68779	POLR2A_HCT-116_68779	HCT-116	csv	POLR2A	GSM2058671			GSE57628	HCT116 with homozygous Top1 knock-in		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+153	68783	BRD4_HCT-116_68783	HCT-116	csv	BRD4	GSM2058664			GSE57628	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	2	same_cellline_other_target	CHIP|DNASE	2	same_cellline_other_target	False	2
+154	68784	POLR2A_HCT-116_68784	HCT-116	csv	POLR2A	GSM2058663			GSE57628	HCT116 + JQ1		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+155	68785	POLR2A_HCT-116_68785	HCT-116	csv	POLR2A	GSM2058662			GSE57628	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	85	same_cellline_other_target	CHIP|DNASE	85	same_cellline_other_target	False	44
+156	70802	TCF7L1_HCT-116_70802	HCT-116	csv	TCF7L1	GSM2065888			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+157	70804	TCF7L1_HCT-116_70804	HCT-116	csv	TCF7L1	GSM2065886			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+158	70808	MYC_HCT-116_70808	HCT-116	csv	MYC	GSM2065882			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	12	same_cellline_other_target	CHIP|DNASE	12	same_cellline_other_target	False	8
+159	70809	MYC_HCT-116_70809	HCT-116	csv	MYC	GSM2065881			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	12	same_cellline_other_target	CHIP|DNASE	12	same_cellline_other_target	False	8
+160	70813	SP1_HCT-116_70813	HCT-116	csv	SP1	GSM2065877			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	10	same_cellline_other_target	CHIP|DNASE	10	same_cellline_same_target	False	8
+161	70814	SP1_HCT-116_70814	HCT-116	csv	SP1	GSM2065876			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	10	same_cellline_other_target	CHIP|DNASE	10	same_cellline_same_target	False	8
+162	70816	SP1_HCT-116_70816	HCT-116	csv	SP1	GSM2065874			GSE78064	HCT116		same_cellline_other_target	CHIP|DNASE|RNA	10	same_cellline_other_target	CHIP|DNASE	10	same_cellline_same_target	False	8
+163	71319	RAD21_HCT-116_71319	HCT-116	csv	RAD21	GSM2297331			GSE86191	Rad21-ChIP-seq-HCT_DAU		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+164	71320	RAD21_HCT-116_71320	HCT-116	csv	RAD21	GSM2297330			GSE86191	Rad21-ChIP-seq-HCT_NT		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+165	71321	RAD21_HCT-116_71321	HCT-116	csv	RAD21	GSM2297329			GSE86191	Rad21-ChIP-seq-HCT_DAU		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+166	71322	RAD21_HCT-116_71322	HCT-116	csv	RAD21	GSM2297328			GSE86191	Rad21-ChIP-seq-HCT_NT		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+167	72779	CTCF_HCT-116_72779	HCT-116	csv	CTCF	GSM2439226			GSE92879;GSE92881	Colon Carcinoma		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+168	81159	ZFX_HCT-116_81159	HCT-116	csv	ZFX	GSM2741773			GSE102616	Human colon cancer cell line HCT116		same_cellline_same_target	CHIP|DNASE|RNA	6	same_cellline_same_target	CHIP|DNASE	5	same_cellline_same_target	False	6
+169	81160	ZFX_HCT-116_81160	HCT-116	csv	ZFX	GSM2741772			GSE102616	Human colon cancer cell line HCT116		same_cellline_same_target	CHIP|DNASE|RNA	6	same_cellline_same_target	CHIP|DNASE	5	same_cellline_same_target	False	6
+170	81366	RAD21_HCT-116_81366	HCT-116	csv	RAD21	GSM2809609			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+171	81525	POLR2A_SW480_81525	SW480	csv	POLR2A	GSM2746543			GSE102796	SW480_16 hr TNF-α RNAPII ChIP-seq		same_cellline_other_target	DNASE	85	same_cellline_other_target	DNASE	85	same_target_other_cellline	False	44
+172	81528	TP53_SW480_81528	SW480	csv	TP53	GSM2746540			GSE102796	SW480_16 hr TNF-α p53 ChIP-seq		same_cellline_other_target	DNASE	0	same_cellline_other_target	DNASE	0	same_target_other_cellline	False	1
+173	82732	OGT_primary_colon_tumor_82732	primary_colon_tumor	geo_text	OGT	GSM2459951			GSE93656	colon tumor cells		unexposed		0	unexposed		0	unknown	False	0
+174	83065	H2AZ_HCT-116_83065	HCT-116	csv	H2AZ	GSM2809636			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	0	same_cellline_other_target	CHIP|DNASE	0	same_cellline_other_target	False	0
+175	8482	KAT7_RKO_8482	RKO	csv	KAT7	GSM818282			GSE33007;GSE33221	RKO_HBO1_ChIPseq		same_cellline_other_target	DNASE	1	same_cellline_other_target	DNASE	0	same_target_other_cellline	False	2
+176	84953	NIPBL_HCT-116_84953	HCT-116	csv	NIPBL	GSM2809638			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	False	0
+177	85284	CTCF_HCT-116_85284	HCT-116	csv	CTCF	GSM2809616			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+178	85285	CTCF_HCT-116_85285	HCT-116	csv	CTCF	GSM2809615			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+179	85286	CTCF_HCT-116_85286	HCT-116	csv	CTCF	GSM2809614			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_same_target	CHIP|DNASE|RNA	207	same_cellline_same_target	CHIP|DNASE	206	same_cellline_same_target	False	153
+180	85289	SMC1A_HCT-116_85289	HCT-116	csv	SMC1A	GSM2809611			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	False	0
+181	85290	RAD21_HCT-116_85290	HCT-116	csv	RAD21	GSM2809610			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	15	same_cellline_other_target	CHIP|DNASE	13	same_cellline_same_target	False	16
+182	88450	NIPBL_HCT-116_88450	HCT-116	csv	NIPBL	GSM2809637			GSE104334;GSE104888	Colorectal carcinoma		same_cellline_other_target	CHIP|DNASE|RNA	1	same_cellline_other_target	CHIP|DNASE	1	same_cellline_other_target	False	0
