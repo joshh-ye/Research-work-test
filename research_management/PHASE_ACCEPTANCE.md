@@ -1,0 +1,43 @@
+# Phase Acceptance Criteria
+
+A phase is accepted only when every box is checked, a scientific-reviewer PASS is recorded in
+`REVIEW_FINDINGS.md`, and the milestone is committed and pushed to `research/crc-autonomous-study`.
+
+## Phase 1 — Repository discovery and research inventory · status: NOT STARTED
+- [ ] Every existing result file mapped to its producing script and commit (or flagged untraceable).
+- [ ] Genome build confirmed for each dataset, model, and the SNP inputs.
+- [ ] Train/val/test splits and pretrained-model training overlap documented.
+- [ ] Unfinished work and inconsistencies listed.
+- [ ] `PROJECT_STATE.md` and `EXPERIMENT_REGISTRY.csv` updated.
+- [ ] Strategist recommendations recorded in `SCIENTIFIC_DECISIONS.md`.
+- [ ] Reviewer PASS.
+
+## Phase 2 — SNP experiments and model analysis · status: NOT STARTED
+- [ ] REF alleles verified against the reference FASTA; mismatch counts reported.
+- [ ] Coordinate convention (0/1-based) and variant centering tested.
+- [ ] Track mappings recorded for every model used.
+- [ ] Every run logged in the registry with command and output path.
+- [ ] Tests for allele/coordinate/metric handling pass.
+- [ ] Reviewer PASS per experiment.
+
+## Phase 3 — Statistical analysis and publication figures · status: NOT STARTED
+- [ ] Uncertainty (CI/bootstrap over appropriate units) for every headline number.
+- [ ] Paired model comparisons; multiple-testing control where applicable.
+- [ ] Contaminated vs uncontaminated tracks stratified.
+- [ ] r / r² / R² labelled correctly in all tables and figures.
+- [ ] Each figure has a script, input data, and saved plotted values.
+- [ ] Reviewer PASS.
+
+## Phase 4 — Manuscript preparation · status: NOT STARTED
+- [ ] Every numeric claim traces to a registry entry.
+- [ ] Every reference verified (DOI/PMID resolved).
+- [ ] Limitations section covers leakage, calibration, cell-type mismatch, validation gaps.
+- [ ] Independent-validation status stated for each key claim.
+- [ ] Strategist and reviewer PASS.
+
+## Phase 5 — Reproducibility and GitHub consolidation · status: NOT STARTED
+- [ ] Environment specs (requirements/lockfiles) for each venv.
+- [ ] One-command (or documented) reproduction of headline results from saved artifacts.
+- [ ] Clean-room rerun of CPU-level analyses matches recorded numbers.
+- [ ] README updated; no large data or secrets in git.
+- [ ] Reviewer PASS; final push to the dedicated branch.
