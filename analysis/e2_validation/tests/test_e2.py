@@ -300,7 +300,8 @@ def test_run_analysis_end_to_end_synthetic(tmp_path):
 
 
 def test_track_matched_columns_verified_against_targets():
-    cols = S.track_matched_borzoi_cols()
+    cols, ndrop = S.track_matched_borzoi_cols()
+    assert ndrop == 0
     tg = pd.read_csv(ROOT / "borzoi_data/targets_human.csv")
     m = pd.read_csv(S.QING_MAP)
     tl = pd.read_csv(S.TL_DIR / "borzoi_tl_tracks.tsv", sep="\t")
@@ -325,3 +326,64 @@ def test_p2_excludes_swapped_rows():
     lab = pd.DataFrame(dict(S6_CCV_input_key=[f"1:{i}:A:G" for i in range(40)], chen_region=reg, orientation=["keep"] * 38 + ["flip"] * 2))
     # emulate the filter used in run_analysis
     assert (lab[lab.orientation == "keep"].shape[0]) == 38
+
+
+def test_same_tf_comparator_drops_and_counts():
+    cols, ndrop = S.track_matched_borzoi_cols(same_tf=True)
+    m = pd.read_csv(S.QING_MAP); tl = pd.read_csv(S.TL_DIR / "borzoi_tl_tracks.tsv", sep="\t")
+    m = m[tl["primary"].to_numpy(bool)]
+    kept = ~m["sameTF_fell_back_to_val_selected"].astype(bool)
+    assert ndrop == int((~kept).sum()) and 0 < ndrop < 152 and len(cols) == m.loc[kept, "val_selected_sameTF_track_idx"].nunique()
+
+
+def _fake_enformer_summary(d):
+    (d / "enformer").mkdir(parents=True)
+    p = "pretrained__crc_dnase_tfchip__"
+    pd.DataFrame({"row_id": [0], "input_variant": ["1:1:A:G"], "window_padded": [False], "n_N_in_agg_window": [0], p + "primary_max_abs_log2fc": [0.3],
+                  p + "signed_at_argmax": [0.3], p + "argmax_track_pos": [4], p + "mean_signed_log2fc": [0.0], p + "mean_abs_log2fc": [0.1]}
+                 ).to_csv(d / "enformer/summary.tsv", sep="\t", index=False)
+
+
+def test_models_restriction_loads_only_listed(tmp_path):
+    _fake_enformer_summary(tmp_path)
+    out = S.load_all(tmp_path, models=["enformer"], finalised_only=True)
+    assert list(out) == ["enformer"]
+    with pytest.raises(ValueError):
+        S.load_all(tmp_path, models=["not_a_model"])
+
+
+def test_unfinalised_models_refused_no_chunk_fallback(tmp_path):
+    # chunk exists but no summary.tsv -> refused when finalised_only, accepted otherwise
+    s6 = tmp_path / "s6.tsv"; s6.write_text("k\trs\n1:10:A:G\trs0\n")
+    T = 7611
+    d = tmp_path / "borzoi" / "chunks"; d.mkdir(parents=True)
+    np.savez(d / "chunk_00000.npz", row_ids=np.array([0]), pos_keys=np.array(["chr1:10"]), pos_of_row=np.array([0]), n_pad_left=np.zeros(1, int),
+             n_pad_right=np.zeros(1, int), n_N_in_agg=np.zeros(1, int), ref_pretrained=np.full((1, T), 7.0, np.float32), alt_pretrained=np.full((1, T), 7.0, np.float32))
+    with pytest.raises(FileNotFoundError, match="not finalised"):
+        S.load_model("borzoi_pretrained", tmp_path, finalised_only=True)
+    with pytest.raises(FileNotFoundError, match="not finalised"):
+        S.lfc_columns("borzoi_pretrained", np.array([0]), tmp_path, s6, finalised_only=True)
+    with pytest.raises(FileNotFoundError, match="not finalised"):
+        S.load_all(tmp_path, models=["borzoi_pretrained"], finalised_only=True)
+
+
+def test_interim_run_has_no_holm_pairs_or_framing(tmp_path):
+    rng = np.random.default_rng(3)
+    n_reg, n_per = 20, 15
+    reg = np.repeat([f"r{i}" for i in range(n_reg)], n_per)
+    y = np.zeros(len(reg), int)
+    for r in range(n_reg):
+        y[r * n_per + rng.choice(n_per, 3, replace=False)] = 1
+    keys = [f"1:{i + 1}:A:G" for i in range(len(reg))]
+    lab = pd.DataFrame(dict(S6_CCV_input_key=keys, rsid=keys, chrom="1", pos=np.arange(len(reg)) + 1, chen_region=reg, chen_lead_snp=reg, palindromic=False,
+                            mpra_primary=np.where(y == 1, "pos", "neg"), mpra_S1=np.where(y == 1, "pos", "neg"), orientation="keep",
+                            logFC_alt_vs_ref=np.where(y == 1, 0.5, np.nan), chen_annot_count=rng.integers(0, 5, len(reg)),
+                            dist_tss=rng.integers(1, 1000, len(reg))))
+    for L_ in ("HT29", "SW403", "HCEC"):
+        lab[f"mpra_S2_{L_}"] = lab["mpra_primary"]
+    p = rng.random(len(y)) + y
+    models = {"enformer": pd.DataFrame(dict(primary=p, signed=p, argmax_track=0, mean_abs=p, mean_signed=0.0, excl_window=False), index=keys)}
+    res = run_e2.run_analysis(lab, models, tmp_path, B=100, n_perm=99)
+    assert list(res["p1"]["model"]) == ["enformer"] and res["p1"]["holm_p"].isna().all()
+    assert "interim" in res["p1"]["status"].iloc[0] and res["paired"].empty and res["framing"].empty and res["final"] is False
+    assert "INTERIM" in (tmp_path / "SUMMARY.md").read_text()

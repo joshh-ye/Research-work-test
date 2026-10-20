@@ -75,6 +75,8 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
                  extra_scores: dict | None = None, partial: bool = False) -> dict:
     """Pure function of the label table + score tables (all in memory). Writes tables and SUMMARY.md to `out`."""
     out = Path(out); (out / "tables").mkdir(parents=True, exist_ok=True)
+    HEAD = [m for m in S.HEADLINE if m in models]           # A3: only listed models enter any family
+    final = len(HEAD) == len(S.HEADLINE) and not partial
     lab = prepare_covariates(lab, tss)
     res: dict = {}
     # ------------------------------------------------- power statement (label only)
@@ -101,9 +103,12 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
         p2.append(dict(family="primary_P2", model=m, **r))
     p1 = pd.DataFrame(p1); p2 = pd.DataFrame(p2)
     p1["p_used_for_holm"] = p1["perm_p_greater"]          # one-sided: score higher in MPRA positives
-    p1["holm_p"] = ST.holm(p1["p_used_for_holm"])
     p2["p_used_for_holm"] = p2["boot_p_two_sided"]
-    p2["holm_p"] = ST.holm(p2["p_used_for_holm"])
+    if final:
+        p1["holm_p"] = ST.holm(p1["p_used_for_holm"]); p2["holm_p"] = ST.holm(p2["p_used_for_holm"])
+    else:                                                  # A3: interim = unadjusted p, Holm deferred
+        p1["holm_p"] = np.nan; p2["holm_p"] = np.nan
+        p1["status"] = p2["status"] = "interim, single-model, unadjusted p (Holm deferred)"
     for k, t in region_tabs.items():
         t.to_csv(out / f"tables/P1_per_region_auroc_{k}.tsv", sep="\t")
     res["p1"], res["p2"] = p1, p2
@@ -153,7 +158,7 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
     # A1 item 7: held-out-chromosome subset (chr1/8/9/22), DESCRIPTIVE only (point estimates, no CI/p)
     ho = []
     hmask = lab["chrom"].astype(str).str.replace("chr", "", regex=False).isin(["1", "8", "9", "22"])
-    for m in HEAD + [k for k in allm if k.startswith("borzoi_pretrained_trackmatched")]:
+    for m in HEAD + [k for k in allm if k.startswith("borzoi_pretrained_valsel")]:
         d = _subset(lab, allm[m], "mpra_primary", extra_mask=hmask).dropna(subset=["s"])
         t_ = ST.region_table(d["s"], d["y"], d["cluster"])
         ho.append(dict(model=m, n_pos=int(d["y"].sum()), n_neg=int((1 - d["y"]).sum()), n_informative_regions=int((t_["w"] > 0).sum()),
@@ -171,10 +176,10 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
     dsets = {m: _subset(lab, models[m], "mpra_primary") for m in HEAD}
     dsets.update({k: _subset(lab, t, "mpra_primary") for k, t in base_tabs.items()})
     for k in allm:
-        if k.startswith("borzoi_pretrained_trackmatched"):
+        if k.startswith("borzoi_pretrained_valsel"):
             dsets[k] = _subset(lab, allm[k], "mpra_primary")
     names = list(dsets)
-    for a, b in [(x, y) for i, x in enumerate(names) for y in names[i + 1:] if ((x in HEAD or y in HEAD) and not (x.startswith('borzoi_pretrained_trackmatched') and y.startswith('baseline')))]:
+    for a, b in [] if not final else [(x, y) for i, x in enumerate(names) for y in names[i + 1:] if ((x in HEAD or y in HEAD) and not (x.startswith('borzoi_pretrained_valsel') and y.startswith('baseline')))]:
         da, db = dsets[a], dsets[b]
         common = da.index.intersection(db.index)
         da, db = da.loc[common].dropna(subset=["s"]), db.loc[common].dropna(subset=["s"])
@@ -229,7 +234,7 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
     # ------------------------------------------------- Framing rule (sec 7)
     dv = res["paired"][res["paired"]["family"] == "paired_delta_vs_distance"] if len(res["paired"]) else pd.DataFrame()
     verdicts = []
-    for _, r in p1.iterrows():
+    for _, r in (p1.iterrows() if final else []):
         beats = False
         if len(dv):
             x = dv[((dv.model_a == r.model) & (dv.model_b == "baseline_neg_log10_dist_tss")) | ((dv.model_b == r.model) & (dv.model_a == "baseline_neg_log10_dist_tss"))]
@@ -239,7 +244,8 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
         ok = bool(r.holm_p < 0.05 and r.ci_lo > 0.5 and beats)
         verdicts.append(dict(model=r.model, holm_p_lt_0_05=bool(r.holm_p < 0.05), ci_excludes_0_5=bool(r.ci_lo > 0.5), beats_distance_baseline_ci=beats,
                              framing_B_criteria_met=ok))
-    res["framing"] = pd.DataFrame(verdicts)
+    res["framing"] = pd.DataFrame(verdicts) if final else pd.DataFrame()      # A3: framing rule only in the final 4-model run
+    res["final"] = final
 
     for k, v in res.items():
         if isinstance(v, pd.DataFrame):
@@ -250,19 +256,23 @@ def run_analysis(lab: pd.DataFrame, models: dict, out: Path, B: int = ST.N_BOOT,
 
 def write_summary(res: dict, out: Path, B: int, n_perm: int, partial: bool) -> None:
     f = res["framing"]
-    framing = "B" if f["framing_B_criteria_met"].any() else "A"
+    final = res.get("final", True)
+    framing = ("B" if f["framing_B_criteria_met"].any() else "A") if final else "NOT COMPUTED (interim)"
     lines = ["# E2/E6 validation summary (auto-generated by analysis/e2_validation/run_e2.py)", "",
              f"Bootstrap resamples B={B}, permutations={n_perm}, seed={ST.SEED}. AUROC = stratified (within-region, weight n_pos*n_neg) Mann-Whitney AUROC "
              "(not Pearson r, r^2 or R^2). Build hg38. All numbers below were computed by the script; none are hand-edited.", ""]
+    if not final:
+        lines += ["**INTERIM, SINGLE-MODEL (not all 4 headline models): unadjusted p (Holm deferred). Holm across models, paired model deltas and the "
+                  "framing rule are NOT computed in this run (Amendment A3).**", ""]
     if partial:
         lines += ["**WARNING: PARTIAL RUN - not every labelled variant was scored for every model; not valid for pre-registered inference.**", ""]
     lines += ["## Power statement (label only)", md_table(res["power"]),
-              "## Primary P1 (within-region discrimination; Holm across 4 headline models; one-sided permutation p)", md_table(res["p1"].drop(columns=["family", "description"])),
+              "## Primary P1 (within-region discrimination; Holm across 4 headline models in the final run only; one-sided permutation p)", md_table(res["p1"].drop(columns=["family", "description"])),
               "## Primary P2 (direction vs MPRA logFC; Holm across 4 models; bootstrap two-sided p)", md_table(res["p2"].drop(columns=["family"])),
               "## Held-out-chromosome subset chr1/8/9/22 (S6; descriptive, no inference)", md_table(res["heldout_chr_descriptive"]),
               "## Secondary P2 (non-headline scores incl. track-matched Borzoi)", md_table(res["secondary_P2"]),
               "## Trivial baselines (P1)", md_table(res["baselines"].drop(columns=["family", "description"])),
-              "## Framing rule (plan sec 7)", md_table(f), f"Result: **Framing {framing}** (B only if >=1 model meets all three criteria).", "",
+              "## Framing rule (plan sec 7)", md_table(f) if final else "(skipped: interim run)\n", f"Result: **Framing {framing}** (B only if >=1 model meets all three criteria).", "",
               "## Paired differences in stratified AUROC (secondary; BH within family)", md_table(res["paired"]),
               "## Conditional logistic regression (strata = region; exploratory)", md_table(res["clogit"]),
               "## Secondary / exploratory P1 variants (BH within family)", md_table(res["secondary_P1"].drop(columns=["label"]) if len(res["secondary_P1"]) else res["secondary_P1"])]
@@ -278,38 +288,43 @@ def write_summary(res: dict, out: Path, B: int, n_perm: int, partial: bool) -> N
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--unblind", action="store_true", help="REQUIRED: acknowledges that real scores are joined to real labels")
-    ap.add_argument("--allow-partial", action="store_true", help="allow models scored for only part of the labelled set (marks output PARTIAL)")
+    ap.add_argument("--models", nargs="+", default=None, choices=S.HEADLINE,
+                    help="restrict ALL loading/analysis to these models (default: all 4 = final run). Only finalised runs (summary.tsv) are used.")
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--boot", type=int, default=ST.N_BOOT)
     ap.add_argument("--perm", type=int, default=ST.N_PERM)
     a = ap.parse_args()
     if not a.unblind:
         sys.exit("REFUSING TO RUN: pass --unblind (reviewer-gated: this joins model scores to real MPRA/eQTL labels).")
+    sel = list(a.models) if a.models else list(S.HEADLINE)
     lab = pd.read_csv(LABELS / "variant_labels.tsv", sep="\t", dtype={"chrom": str})
-    models = S.load_all()
+    try:
+        models = S.load_all(models=sel, finalised_only=True)
+    except FileNotFoundError as e:
+        sys.exit(f"REFUSING: {e}")
     keys = set(lab["S6_CCV_input_key"])
-    partial = False
-    for m in HEAD:
+    for m in sel:
         miss = len(keys - set(models[m].index))
         if miss:
-            if not a.allow_partial:
-                sys.exit(f"model {m} lacks scores for {miss} labelled variants (run unfinished?); use --allow-partial to proceed")
-            partial = True
+            sys.exit(f"model {m} lacks scores for {miss} labelled variants; finalised run must cover all variants")
     extra = {k: models[k] for k in ("alphagenome_raw", "borzoi_tl_all183") if k in models}
-    try:                                                                         # A1 item 3: track-matched pretrained Borzoi
-        extra["borzoi_pretrained_trackmatched"] = S.track_matched_borzoi()
+    try:       # validation-selected-mapping comparator (A1.3, relabelled A3) and same-TF sensitivity; need borzoi_pretrained
+        if "borzoi_pretrained" in sel:
+            extra["borzoi_pretrained_valsel_mapping"] = S.track_matched_borzoi(finalised_only=True)
+            extra["borzoi_pretrained_valsel_sameTF"] = S.track_matched_borzoi(same_tf=True, finalised_only=True)
+            n_ch, drop = S.track_matched_borzoi_cols(True)
+            print(f"[info] same-TF comparator from Qing track_mappings.csv val_selected_sameTF_track_idx: {len(n_ch)} channels; {drop} of 152 TL tracks dropped (no same-TF candidate)")
     except Exception as e:
-        print(f"[warn] track-matched comparator skipped: {e}")
+        sys.exit(f"REFUSING: comparator failed: {e}")
     for m in ("borzoi_pretrained", "borzoi_tl", "enformer"):                      # per-cell-line sensitivity (HCT-116 / LoVo / other)
-        try:
-            cl = S.cellline_primary(m)
-            for c in cl.columns:
-                extra[f"{m}__{c}"] = pd.DataFrame({"primary": cl[c], "signed": np.nan, "excl_window": False})
-        except Exception as e:
-            print(f"[warn] per-cell-line sensitivity skipped for {m}: {e}")
+        if m not in sel:
+            continue
+        cl = S.cellline_primary(m, finalised_only=True)
+        for c in cl.columns:
+            extra[f"{m}__{c}"] = pd.DataFrame({"primary": cl[c], "signed": np.nan, "excl_window": False})
     eq = pd.read_csv(LABELS / "eqtl_pairs_aligned.tsv.gz", sep="\t")
-    rna = pd.read_csv(S.CACHE / "alphagenome_rna_colon.tsv.gz", sep="\t")
-    res = run_analysis(lab, models, Path(a.out), a.boot, a.perm, tss=ST.load_tss(), eqtl_pairs=eq, ag_rna=rna, extra_scores=extra, partial=partial)
+    rna = pd.read_csv(S.CACHE / "alphagenome_rna_colon.tsv.gz", sep="\t") if "alphagenome_quantile" in sel else None
+    res = run_analysis(lab, models, Path(a.out), a.boot, a.perm, tss=ST.load_tss(), eqtl_pairs=eq, ag_rna=rna, extra_scores=extra, partial=False)
     print(f"[run_e2] wrote {a.out} (tables/, SUMMARY.md)")
 
 

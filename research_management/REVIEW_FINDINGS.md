@@ -79,3 +79,14 @@ Findings:
 - [minor] Borzoi scores in scaled/soft-clipped space — limitation declared (A1.8).
 - [minor] palindrome caveat affects orientation only — noted.
 - [info] Priority D: label E8 "validation-selected same-TF transfer"; stratify E4 by exposure class; test RC shift-offset sign — forwarded.
+
+## RV-005 · 2026-10-20 · Phase 2 · re-review of RV-004 corrections + blinded E2 implementation
+Reviewer: scientific-reviewer (opus; same instance as RV-004)
+Verdict: **REVISE** (one code change)
+Verified: POWER.md counts independently (134/4,098/91; 58 regions, 130/2,518; held-out 713/19); all 10 A2 decisions match code; paired deltas
+share resamples; framing rule correct; 73 channels match targets_human.csv; AG cache 33 tracks × 10,148 rows, 242 shifted flagged; SUMMARY fixes correct. pytest 25 passed.
+Findings:
+- [major] `--allow-partial` AlphaGenome-first run would silently unblind Borzoi/TL/Enformer on partial chunks — fix: per-model `--models`, finalised runs only, Holm/framing deferred to final run (plan A3) — code change in progress.
+- [minor] "track-matched" comparator is mostly non-same-TF, non-CRC (38/152 same-TF) — relabelled; same-TF sensitivity pre-registered (A3).
+- [info] AG quantile primary has 254 distinct values; midranks verified.
+Unblinding permitted for AlphaGenome after the A3 code change; other models when finalised.

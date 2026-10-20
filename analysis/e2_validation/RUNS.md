@@ -8,3 +8,4 @@
 | 4 | `./ag-venv/bin/python analysis/e2_validation/stats.py build-tss` | `results_phase2/e2_validation/tss_protein_coding_gencode_v46_hg38.tsv` | 78,776 TSS; GAPDH 12:6534517 checked |
 | 5 | `./torch-venv/bin/python -m pytest analysis/e2_validation/tests -q` | stdout | synthetic data only |
 | 6 | `./torch-venv/bin/python analysis/e2_validation/run_e2.py` | refuses (no --unblind) | verified; real run NOT executed |
+| 7 | `./torch-venv/bin/python -m pytest analysis/e2_validation/tests -q` (after Amendment A3) | stdout | 29 passed; `--models` option, finalised-only loading, interim labelling added; real run NOT executed |

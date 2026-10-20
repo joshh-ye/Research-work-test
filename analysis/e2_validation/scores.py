@@ -108,17 +108,21 @@ def load_from_chunks(model: str, results_dir: Path = SCORES, s6_input: Path = S6
     return out
 
 
-def load_model(model: str, results_dir: Path = SCORES) -> pd.DataFrame:
+def load_model(model: str, results_dir: Path = SCORES, finalised_only: bool = False) -> pd.DataFrame:
+    """finalised_only=True (used by run_e2 --unblind, Amendment A3): only summary.tsv of a finalised run; NO partial-chunk fallback."""
     try:
         return load_summary(model, results_dir)
     except FileNotFoundError:
+        if finalised_only:
+            raise FileNotFoundError(f"model {model} is not finalised (no summary.tsv in {Path(results_dir)/SUMMARY_MODELS[model][0]}); "
+                                    "refusing to use partial chunks for an unblinded analysis")
         return load_from_chunks(model, results_dir)
 
 
 QING_MAP = ROOT / "reports/qing_deliverables/evaluation_evidence/baseline_borzoi_rerun/track_mappings.csv"
 
 
-def lfc_columns(model: str, cols: np.ndarray, results_dir: Path = SCORES, s6_input: Path = S6_INPUT) -> pd.DataFrame:
+def lfc_columns(model: str, cols: np.ndarray, results_dir: Path = SCORES, s6_input: Path = S6_INPUT, finalised_only: bool = False) -> pd.DataFrame:
     """Signed log2fc (pc=1) for output channels `cols` of the model's head, indexed by S6_CCV_input_key. Uses the saved whole-vocabulary
     log2fc_<head>.npy of a finalised run if present, else recomputes from chunk npz (which store the FULL head: ref_<head>/alt_<head>, all T channels)."""
     d, head, _ = SUMMARY_MODELS[model]
@@ -128,6 +132,8 @@ def lfc_columns(model: str, cols: np.ndarray, results_dir: Path = SCORES, s6_inp
         lfc = np.load(base / f"log2fc_{head}.npy", mmap_mode="r")[:, cols]
         keys = pd.read_csv(base / "variants.tsv", sep="\t")["input_variant"].to_numpy()
         return pd.DataFrame(np.asarray(lfc), index=pd.Index(keys, name="S6_CCV_input_key"), columns=cols)
+    if finalised_only:
+        raise FileNotFoundError(f"model {model} is not finalised (no log2fc_{head}.npy/variants.tsv); partial chunks refused")
     files = sorted(f for f in (base / "chunks").glob("chunk_*.npz") if ".tmp" not in f.name)
     allkeys = pd.read_csv(s6_input, sep="\t").iloc[:, 0].to_numpy()
     parts = []
@@ -149,7 +155,7 @@ def _group(cl: str) -> str:
     return "HCT116" if n == "HCT116" else ("LoVo" if n == "LOVO" else "other")
 
 
-def cellline_primary(model: str, results_dir: Path = SCORES, by: str = "group") -> pd.DataFrame:
+def cellline_primary(model: str, results_dir: Path = SCORES, by: str = "group", finalised_only: bool = False) -> pd.DataFrame:
     """Per-cell-line (by='cell_line') or HCT-116 / LoVo / other (by='group') max|log2fc| over the frozen track set of `model`
     (TL: the 152 primary tracks). Amendment A1 item 3."""
     d, head, _ = SUMMARY_MODELS[model]
@@ -159,7 +165,7 @@ def cellline_primary(model: str, results_dir: Path = SCORES, by: str = "group") 
         f = "borzoi_pretrained_crc_tracks.tsv" if model.startswith("borzoi") else "enformer_pretrained_crc_tracks.tsv"
         t = pd.read_csv(TL_DIR / f, sep="\t"); t = t.assign(idx=t["track_index"])
     t = t.assign(g=t["cell_line"].map(_group) if by == "group" else t["cell_line"].map(_norm_cl))
-    lfc = lfc_columns(model, t["idx"].to_numpy(), results_dir)
+    lfc = lfc_columns(model, t["idx"].to_numpy(), results_dir, finalised_only=finalised_only)
     lfc.columns = t["idx"].to_numpy()
     out = {}
     for g, grp in t.groupby("g"):
@@ -167,23 +173,28 @@ def cellline_primary(model: str, results_dir: Path = SCORES, by: str = "group") 
     return pd.DataFrame(out)
 
 
-def track_matched_borzoi_cols() -> np.ndarray:
-    """Unique pretrained-Borzoi output channels = val-selected mapping (Qing track_mappings.csv, column val_selected_track_idx, 0-based
-    targets_human track_index; identifiers verified against borzoi_data/targets_human.csv) of the 152 TL primary tracks."""
+def track_matched_borzoi_cols(same_tf: bool = False) -> tuple:
+    """(unique pretrained-Borzoi output channels, n_tl_tracks_dropped) for the 'validation-selected-mapping comparator' (A1.3, relabelled by A3).
+    Source: Qing track_mappings.csv (0-based targets_human track_index; identifiers verified against borzoi_data/targets_human.csv) for the 152 TL
+    primary tracks. same_tf=False: column val_selected_track_idx (73 channels). same_tf=True: val_selected_sameTF_track_idx, keeping only tracks with
+    sameTF_fell_back_to_val_selected == False (a same-TF candidate existed); the others are dropped and counted."""
     m = pd.read_csv(QING_MAP)
     tl = pd.read_csv(TL_DIR / "borzoi_tl_tracks.tsv", sep="\t")
     assert (tl["tl_head_index"].to_numpy() == m["track_idx"].to_numpy()).all()
-    return np.unique(m.loc[tl["primary"].to_numpy(bool), "val_selected_track_idx"].to_numpy())
+    m = m[tl["primary"].to_numpy(bool)]
+    if not same_tf:
+        return np.unique(m["val_selected_track_idx"].to_numpy()), 0
+    keep = ~m["sameTF_fell_back_to_val_selected"].astype(bool)
+    return np.unique(m.loc[keep, "val_selected_sameTF_track_idx"].astype(int).to_numpy()), int((~keep).sum())
 
 
-def track_matched_borzoi(results_dir: Path = SCORES) -> pd.DataFrame:
-    """Pre-registered secondary comparator (A1 item 3): pretrained Borzoi max|log2fc| over the track-matched channels (STD columns)."""
-    cols = track_matched_borzoi_cols()
-    lfc = lfc_columns("borzoi_pretrained", cols, results_dir)
+def track_matched_borzoi(results_dir: Path = SCORES, same_tf: bool = False, finalised_only: bool = False) -> pd.DataFrame:
+    """Validation-selected-mapping comparator (or same-TF variant): pretrained Borzoi max|log2fc| over the mapped channels (STD columns)."""
+    cols, _ = track_matched_borzoi_cols(same_tf)
+    lfc = lfc_columns("borzoi_pretrained", cols, results_dir, finalised_only=finalised_only)
     out = summarize_matrix(lfc.to_numpy(np.float64), cols)
     out.index = lfc.index
-    full = load_model("borzoi_pretrained", results_dir)
-    out["excl_window"] = full["excl_window"].reindex(out.index).to_numpy()
+    out["excl_window"] = load_model("borzoi_pretrained", results_dir, finalised_only).reindex(out.index)["excl_window"].to_numpy()
     return out
 
 
@@ -234,10 +245,21 @@ def load_alphagenome(version: str, cache: Path = CACHE) -> pd.DataFrame:
     return s[STD]
 
 
-def load_all(results_dir: Path = SCORES, cache: Path = CACHE) -> dict:
-    out = {"alphagenome_quantile": load_alphagenome("quantile", cache), "alphagenome_raw": load_alphagenome("raw", cache)}
-    for m in SUMMARY_MODELS:
-        out[m] = load_model(m, results_dir)
+def load_all(results_dir: Path = SCORES, cache: Path = CACHE, models: list | None = None, finalised_only: bool = False) -> dict:
+    """models: subset of HEADLINE (default all). Only the listed models (and their own sensitivity variants) are loaded (Amendment A3)."""
+    models = list(models) if models is not None else list(HEADLINE)
+    bad = [m for m in models if m not in HEADLINE]
+    if bad:
+        raise ValueError(f"unknown model(s) {bad}; choose from {HEADLINE}")
+    out = {}
+    if "alphagenome_quantile" in models:
+        out["alphagenome_quantile"] = load_alphagenome("quantile", cache)
+        out["alphagenome_raw"] = load_alphagenome("raw", cache)          # sensitivity of the same model
+    for m in ("borzoi_pretrained", "borzoi_tl", "enformer"):
+        if m in models:
+            out[m] = load_model(m, results_dir, finalised_only)
+    if "borzoi_tl" in models:
+        out["borzoi_tl_all183"] = load_model("borzoi_tl_all183", results_dir, finalised_only)
     return out
 
 
