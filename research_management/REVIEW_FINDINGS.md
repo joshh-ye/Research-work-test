@@ -134,3 +134,8 @@ Also: Phase 4 acceptance requires a strategist PASS (pending).
 ## RV-009 · 2026-10-20 · Phase 5 re-review — scientific-reviewer (Opus)
 Verdict: **PASS** (Phase 5 accepted; BL-009 left to user). Minor: REPRODUCE.md checkpoint file sizes by name (fixed); manuscript data
 availability results_comparison_* exception (fixed); `--scratch ""` exits rc 1 not 2 (safe, cosmetic).
+
+## Strategist Phase 4 reviews · 2026-10-20
+1st: **REVISE** (8 items: Results order; clogit vs annotation-count wording; abstract equivalence wording; rank future work; title term;
+Holm-p floor note; novelty check; track-count confound) → SD-025..SD-028, novelty check (Law 2024 full text: only Akita; hu2026), applied.
+Re-check: **PASS** with 4 minor edits (Fig. 5 to supplement, cite figures in Results, Methods-order sentence, CLAIMS_AUDIT F8/F10) — applied.

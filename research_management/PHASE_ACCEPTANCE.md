@@ -28,7 +28,7 @@ A phase is accepted only when every box is checked, a scientific-reviewer PASS i
 - [ ] Each figure has a script, input data, and saved plotted values.
 - [ ] Reviewer PASS.
 
-## Phase 4 — Manuscript preparation · status: NOT STARTED
+## Phase 4 — Manuscript preparation · status: ACCEPTED 2026-10-20 (RV-008 PASS; strategist REVISE → SD-025..028 → strategist PASS; pre-submission items open: Fig. 1, Suppl. Methods S1, intro prose, title wording)
 - [ ] Every numeric claim traces to a registry entry.
 - [ ] Every reference verified (DOI/PMID resolved).
 - [ ] Limitations section covers leakage, calibration, cell-type mismatch, validation gaps.
