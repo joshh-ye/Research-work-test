@@ -52,3 +52,28 @@ Record each decision as: ID · date · decision · rationale · evidence · alte
 | SD-009 | approve with clarification | Chromosome-fold CV tests head robustness only. It does not remove backbone sequence exposure. |
 | SD-010 | approve with modification | Additions above. |
 Status of all SD-003..SD-010: still PROPOSED until the user decides.
+
+---
+## USER DECISIONS · 2026-10-20 (overnight autonomous session instructions)
+SD-003..SD-010 are **APPROVED with the RV-002 scientific-reviewer modifications** (table above), with the following
+user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
+
+- **SD-003 (approved, modified).** Two datasets:
+  (a) **Exploratory set** = the complete 10,148-row S6_CCV input (all ALTs) is preserved for exploratory
+  mutational-sensitivity analysis; no valid prediction is discarded.
+  (b) **Allele-matched set** = a separate dataset of positions whose reported allele(s) are confirmed against the original
+  source (Chen 2024 Supp Data 6 or equivalent); this is the only set used for claims about the reported CRC-associated variants.
+  Missing alleles are never guessed; unmatched positions are excluded from (b) and listed. 5,741 vs 5,739 must be reconciled.
+- **SD-004 (approved, modified)** as RV-002; conditional on BL-002.
+- **SD-005 (approved, modified)** as RV-002: signed + absolute scores, frozen track-list file, pseudocount, aggregation, RC
+  averaging, AlphaGenome quantile definition, mean-over-tracks sensitivity — frozen in a committed file **before** any validation label is joined.
+- **SD-006, SD-007, SD-008, SD-009, SD-010 (approved)** with RV-002 modifications.
+- **SD-011 Manuscript framing.** Provisionally adopt **Framing B** (computational annotation of CRC-associated variants with
+  multiple genomic foundation models). If independent MPRA validation cannot be obtained (BL-002), fall back to **Framing A**
+  (leakage-aware benchmark of transfer learning for CRC TF binding).
+- **SD-012 Generalisation (E8 approved).** Investigate the ~10 cell lines / tracks possibly absent from pretrained training
+  data. Actual training exposure (by GSM/ENCSR/experiment identity in the Borzoi/Enformer target vocabularies) must be verified
+  before the analysis is interpreted as generalisation.
+- **SD-013 CLAUDE.md contamination note** updated to "≥28 (24 LoVo GSE51142 by GSM + 4 ENCODE colon ENCSR, tracks 145–148);
+  lower bound pending BL-004" — approved by user 2026-10-20.
+- **GPU authorization (BL-003 resolved).** User authorized use of the allocated A100 for justified Phase 2 experiments (2026-10-20).

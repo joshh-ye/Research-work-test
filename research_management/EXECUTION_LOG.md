@@ -22,3 +22,9 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
 - No GPU jobs, no experiments run.
 - 2026-10-19 · RV-002 scientific-reviewer (opus) Phase 1 gate: CPU-only read-only recomputation (scratch scripts refchk.py,
   recomp.py, delta.py in session scratchpad, not committed). No GPU, no new experiments. Verdict REVISE; doc corrections applied.
+
+## 2026-10-20 · Overnight autonomous session (Phase 2 start)
+- Branch verified `research/crc-autonomous-study` at c91806f. Slurm job 14717985 (A100-80GB, 8 CPU, 64G), ~22 h left at start.
+- User approved SD-003..SD-010 (with RV-002 modifications), SD-011 framing B→A fallback, SD-012 E8, SD-013 CLAUDE.md note; BL-003 resolved.
+- Dispatched (native subagents, parallel, independent): research-investigator ×3 (E1 provenance; validation availability BL-002/006;
+  training-exposure audit BL-004/005/E8); computational-engineer (E3 scoring spec + Borzoi/TL/Enformer scorers + GPU run).

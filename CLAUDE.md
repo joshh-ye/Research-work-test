@@ -45,7 +45,9 @@ Enformer, AlphaGenome, and SNP/variant-effect analysis.
 - Consistent genomic coordinates across variants, tracks, model windows, and bins.
 - Correct model output → track/assay/cell-type mappings, with the mapping file recorded.
 - Training/test leakage assessed, including test experiments that were training data of pretrained
-  models (24 LoVo GSE51142 tracks are known Borzoi/Enformer training experiments).
+  models (≥28 of 183 tracks are identical Borzoi/Enformer training experiments: 24 LoVo GSE51142 by GSM + 4 ENCODE
+  colon tracks 145–148 by ENCSR; lower bound — HCT-116 ENCODE overlap (BL-004) unresolved; track set = 10 named cell
+  lines + 20 colon-tissue/unannotated tracks).
 - Statistical uncertainty reported (CIs, bootstrap over appropriate units, paired tests, multiple-testing control).
 - Independent validation where a claim requires it.
 - Always distinguish **Pearson r**, **squared Pearson r (r²)**, and **prediction R² = 1 − SS_res/SS_tot**.

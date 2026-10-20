@@ -6,7 +6,7 @@ Format: ID · date opened · description · needed from (user / data / compute) 
   recover GWAS-reported alleles for the 10,148-row variant input. Needed from: data (Nature/PMC supplement download, or user copy). Status: open — blocks SNP analysis (E2, E3).
 - **BL-002 · 2026-10-19** · Law 2024 MPRA per-variant table (Supp Table 4) public availability unconfirmed; raw data
   on EGA (controlled access). Needed from: data / possibly user. Status: open — blocks E2 primary validation.
-- **BL-003 · 2026-10-19** · Phase 2 GPU work (E3, E4/E5, E7) requires explicit user authorization. Status: open.
+- **BL-003 · 2026-10-19** · Phase 2 GPU work requires explicit user authorization. Status: **resolved 2026-10-20** (user authorized A100 use).
 
 - **BL-004 · 2026-10-19** · ENCODE accession lookup (network) needed to finalise the contamination count (Qing A19:
   HCT-116 ENCODE tracks may share experiments with GSM-labelled targets). Current count ≥28 is a lower bound. Needed from: data. Status: open.

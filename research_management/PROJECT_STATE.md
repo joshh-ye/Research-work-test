@@ -1,9 +1,11 @@
 # Project State
 
-Last updated: 2026-10-19 (Phase 1 session)
+Last updated: 2026-10-20 (overnight session)
 
 ## Current phase
-**Phase 1 — ACCEPTED 2026-10-19** (RV-002 REVISE → documentation corrections → RV-003 PASS). Phase 2 not started: it awaits the user's
+**Phase 2 — IN PROGRESS (started 2026-10-20).** SD-003..SD-013 approved by user; GPU authorized. Active: E1 provenance, validation availability, exposure audit, E3 scorer.
+
+Previous: **Phase 1 — ACCEPTED 2026-10-19** (RV-002 REVISE → documentation corrections → RV-003 PASS). Phase 2 not started: it awaits the user's
 decisions on SD-003..SD-010, framing, the E8 requirement and the CLAUDE.md contamination note, plus data blockers BL-001/002/004–006 and GPU authorization BL-003.
 Full evidence: `PHASE1_INVENTORY.md`. Recovery report: `PHASE1_RECOVERY_REPORT.md`.
 
