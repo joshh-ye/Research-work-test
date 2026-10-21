@@ -56,3 +56,7 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
   Holm p 0.0004 for all; every model beats distance baseline (Δ CI excludes 0). §7 → Framing B. Not better than annotation count (Δ CIs include 0).
   P2 0.27–0.36 (all below 0.5; SD-017 uninterpretable). Fig 5 regenerated (FINAL); EXP-012 re-run with Borzoi models
   (Enformer–Borzoi pretrained Spearman 0.80; TL vs others 0.50–0.58).
+
+## 2026-10-20 ~21:15 CDT — PI update deck (2026-10-21 meeting)
+- Built 11-slide deck + speaker script + source audit from verified outputs (no new analyses, no GPU). python-pptx (scratch venv); PDF via LibreOffice in an apptainer image (scratch).
+- scientific-reviewer (Opus): REVISE (0 numeric errors; 4 major + 12 minor wording) → all applied → PASS. Tracked copies in `presentations/2026-10-21_PI_update/` (reports/ is gitignored).
