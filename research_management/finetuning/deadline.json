@@ -1,0 +1,17 @@
+{
+ "created_utc": "2026-10-24T03:07:30.840811+00:00",
+ "vm_local_tz": "America/Chicago (CDT, UTC-5)",
+ "research_deadline": "2026-10-26T22:00:00-05:00",
+ "vm_expiration": "2026-10-26T22:53:49-05:00",
+ "slurm_job": 14776988,
+ "vm_expires_before_deadline": false,
+ "effective_stop": "2026-10-26T22:00:00-05:00",
+ "hours_remaining_at_creation": 71.87,
+ "milestones": {
+  "deadline_awareness": "2026-10-26T16:00:00-05:00",
+  "no_new_expensive": "2026-10-26T18:00:00-05:00",
+  "final_consolidation": "2026-10-26T20:00:00-05:00",
+  "artifacts_saved": "2026-10-26T21:30:00-05:00",
+  "hard_stop": "2026-10-26T22:00:00-05:00"
+ }
+}

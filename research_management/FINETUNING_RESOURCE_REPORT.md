@@ -1,0 +1,64 @@
+# Fine-tuning resource and feasibility report (Borzoi replicate 0, 183 CRC tracks)
+Written 2026-10-23 22:50 CDT by the computational engineer. All numbers from `results_ft/runs/FT-P*/profile.json` (profiling, `analysis/ft/run_profiles.sh`)
+and `results_ft/runs/FT-P12/` (end-to-end pilot), registered in `research_management/finetuning/FT_REGISTRY.csv`. hg38 throughout.
+
+## 1. Hardware / storage / environment (verified)
+- Slurm job 14776988: 1 node, 16 CPUs, 128 GB RAM (`scontrol`: AllocTRES cpu=16, mem=128G, gres/gpu=1; cpuset shows 16 cores + HT), NVIDIA A100-SXM4-80GB (driver 580.178.04), AMD EPYC 7742; ends 2026-10-26 22:53:49 CDT; effective stop 22:00 (`deadline.json`).
+  The GPU is shared with the cache/ridge engineer (observed 2-20 GB used by others; all runs here peak <= 17.6 GB reserved).
+- Storage (`accre_storage`, 2026-10-23 22:45): home 118.5 / 186.3 GB soft (232.8 hard) - fluctuates with the cache engineer (118-131 GB seen); nobackup 160.6 / 186.3 GB (not used); node-local `/tmp` 28 TB non-persistent.
+  FT checkpoints: `results_ft/runs/<run_id>/` (home; `results*/` is git-ignored). Guard: no write if home usage > 175 GB or if (soft quota - usage - size of next checkpoint) < 5 GB.
+- Env: `torch-venv` Python 3.12, torch 2.11.0+computecanada (CUDA 12.9), borzoi-pytorch 0.4.4, transformers 4.50.3, numpy 2.4.2, pyfaidx 0.9.0.3, pyBigWig 0.3.25. PEFT not installed (LoRA hand-written); flash-attn not installed (borzoi-pytorch einsum attention is used; fits easily).
+- Pretrained trunk: `hf_cache/hub/models--johahi--borzoi-replicate-0` (safetensors 1 file; revision hash stored in every checkpoint). Existing project checkpoints: `borzoi_ckpt_full/` (42 MB: `model_head_best.pt` 8.6 MB = original Borzoi-TL MLP head only, optimizer 17 MB; trunk never trained). Cache: `results_phase2/trunk_cache` -> /nobackup (5,768 tiles; `tgt/` used read-only here, `tiles.csv` defines the split).
+
+## 2. What was built (`analysis/ft/`)
+`ckpt.py` (atomic checkpoints, find_latest_valid, storage guard, signal/file triggers), `model_ft.py` (staged Borzoi trunk, modes, hand-written LoRA), `data_ft.py` (FASTA tiles, true shift + RC, cache targets), `train_ft.py` (training/validation/profiling; no test-set access: the script asserts train tiles exclude chr1/8/9/22 and never reads test tiles), `policy.py`, `supervisor.py`, `runqueue.py` (NOTE: the requested name `queue.py` shadows the Python stdlib module `queue` for every script in this directory and breaks DataLoader/multiprocessing, so it is `runqueue.py`), `resume_all.sh`, `run_profiles.sh`, tests in `analysis/ft/tests/` (`test_ft_data.py`, `test_ft_model.py`, `test_ckpt_resume.py`, `test_supervisor.py`). Resume instructions: `research_management/NEXT_VM_SESSION.md`.
+
+## 3. Module tree of borzoi-pytorch (replicate 0 trunk; 171.27 M params without the 7,611-track human head, which is deleted and never computed)
+Trunk output used = input of `human_head` = output of `final_joined_convs` (1920 ch x 6144 bins x 32 bp), central 4096 bins (offset 1024) = exactly the tap of `borzoi_code/model.py` (exact tensor equality with the pre-hook tap tested in fp32).
+| stage | modules | params |
+|---|---|---|
+| 0 | `conv_dna` (4->512, k15, pool), `res_tower` (5 ConvBlocks 512->608->736->896->1056->1280, k5, 4 max-pools) | 18.6 M |
+| 1 | `unet1` (pool + ConvBlock 1280->1536), `horizontal_conv0` (1x1 1280->1536), `horizontal_conv1` (1x1 1536->1536) | 14.2 M |
+| 2-9 | `transformer.0..7`: each Residual(LN, Attention[to_q/to_k/to_v/to_out, to_rel_k, rel biases; 8 heads], Dropout) + Residual(LN, Linear 1536->3072, ReLU, Linear 3072->1536) = 6.31 M attn + 9.44 M FFN | 15.76 M each (126.1 M) |
+| 10 | `upsampling_unet1` (1x1 + upsample), `separable1` (depthwise k3 + 1x1), `upsampling_unet0`, `separable0`, crop to 6144, `final_joined_convs` (1x1 1536->1920, dropout, GELU) | 12.4 M |
+Head (new): MLP 1920-1024-183 GELU/Dropout .2/Softplus (2.2 M) or linear 1920-183. Trunk is always in eval mode (BatchNorm running stats; dropout off unless `--trunk-dropout`).
+- Partial spec (`--unfreeze`): `blocks:K` (last K transformer blocks), `up`, `final`, `horiz`, `unet1`, `res`.
+- LoRA-compatible: attention `to_q/to_k/to_v/to_out` Linear, FFN Linear x2 per block, the five 1x1 Conv1d (`horizontal_conv0/1`, `upsampling_unet0/1`, `final_joined_convs`). Not targeted: k5 convs of res_tower/unet1, depthwise-separable convs, `to_rel_k`, norms. B zero-init => identity at start (tested, atol 1e-6).
+- Gradient checkpointing per stage (`--grad-ckpt none|transformer|all`); stages before the first trainable parameter run under `no_grad`.
+
+## 4. Tests (all run 2026-10-23, `./torch-venv/bin/python -m pytest -q analysis/ft/tests/{test_ft_data,test_ft_model,test_supervisor,test_ckpt_resume}.py` -> 25 passed, 170 s)
+- Data: sequence and targets of shifted windows (shift -3, +4 bins) and an off-chromosome window (tile 0, shift -4, 10,128 N bases) are bit-identical to the original `GenomicDataset` + `BigWigLoader` (pyBigWig stats) on 16 tracks; RC convention identical; split 4659/750/359 (val chr1+chr8, test chr9+chr22).
+- Model: staged forward == original `human_head` input tap, `torch.equal` in fp32; bf16 vs fp32 predictions r > 0.99; LoRA identity at init; partial/full trainable sets.
+- Checkpoint/resume (real model, partial `blocks:1`, 12 tiles, ckpt every 3 steps): **kill -9** (process group, after step 7) -> restart resumes at global step 6 from `ckpt_step00000006.pt`; optimizer-state hash after load == hash of the file; losses of steps 1-9 and final params/AdamW exp_avg/exp_avg_sq at step 9 identical to an uninterrupted reference (max abs diff 0.0, fp32 deterministic mode; also 0.0 in bf16 autocast deterministic mode). SIGTERM -> checkpoint at the current step, STATUS=stopped, exit 7; resume continues and its step-9 loss equals the reference (< 1e-5). SIGUSR1 and `REQUEST_CKPT` -> checkpoint and continue. Truncated newest checkpoint -> `find_latest_valid` falls back to the previous one; changed config (lr) -> no checkpoint accepted (resume refused with exit 8, never silent restart). Storage guard: simulated usage 178 GB -> exit 4, STATUS=stopped_storage_guard, previous checkpoints untouched, no tmp files; arithmetic (< 5 GB left) and real `accre_storage` parse tested.
+- Supervisor (simulated clock, dry mode): no signal before 20:00; SIGUSR1 at 20:01; SIGTERM+REQUEST_STOP at 20:01 for a run whose checkpoint interval cannot be reached before 21:30; SIGTERM all at 21:31, SIGKILL only 20 min later; no launch >= 21:30 (NO_NEW_RUNS flag); after 18:00 a fresh 5 h run is skipped while a 2 h run launches, resumes are allowed. Live: the real supervisor launched queued run FT-P12 from `QUEUE.json`, the run was `kill -9`'d at step 220, the supervisor detected the dead PID and auto-resumed it from `ckpt_step00000216.pt` (attempts.json n=2), and it finished.
+- Limits of testing: checkpoint determinism was demonstrated for partial mode on 12 tiles; full/LoRA modes use the same save/restore path but were only exercised through the profiling checkpoint write (not kill-resume).
+
+## 5. Profiling (FT-P01..P11; batch 1 tile = 524,288 bp, bf16 autocast, fp32 master weights, AdamW, 2 warm-up + 30 timed steps, per-process cap 48 GB, GPU shared)
+| id | arm | trainable M | peak alloc GB | s/step (mean) | est. train epoch h (4,659 tiles) | ckpt MB | ckpt write s |
+|---|---|---|---|---|---|---|---|
+| FT-P01 | frozen trunk + MLP head (control) | 2.2 | 2.9 | 0.186 | 0.24 | 26 | 0.2 |
+| FT-P02 | partial: last 1 block | 17.9 | 3.0 | 0.231 | 0.30 | 215 | 0.8 |
+| FT-P03 | partial: last 2 blocks | 33.7 | 3.2 | 0.271 | 0.35 | 404 | 1.4 |
+| FT-P04 | partial: last 4 blocks + decoder (`up`) + `final` | 77.6 | 3.7 | 0.353 | 0.46 | 931 | 3.0 |
+| FT-P05 | partial: all 8 blocks + `up`,`final`,`horiz` | 145.0 | 4.7 | 0.509 | 0.66 | 1740 | 6.4 |
+| FT-P06 | LoRA attn q/k/v/out r=8, all 8 blocks | 2.8 | 3.0 | 0.441 | 0.57 | 34 | 0.3 |
+| FT-P07 | LoRA attn+FFN+1x1 convs r=16 | 4.9 | 3.2 | 0.462 | 0.60 | 59 | 0.4 |
+| FT-P08 | full, grad-ckpt transformer | 173.4 | 10.3 | 0.621 | 0.80 | 2081 | 7.7 |
+| FT-P09 | full, grad-ckpt all | 173.4 | 8.0 | 0.683 | 0.88 | 2081 | 7.8 |
+| FT-P10 | partial 2 blocks, no grad-ckpt | 33.7 | 4.2 | 0.245 | 0.32 | 404 | 1.4 |
+| FT-P11 | full, no grad-ckpt | 173.4 | 16.5 | 0.521 | 0.67 | 2081 | 7.7 |
+Peak reserved <= 17.6 GB in every arm (peak alloc excludes the CUDA allocator cache; `profile.json` has both). Validation on the full 750 tiles: ~2.4 min (profiled: 20 tiles/4 s incl. loader start-up; measured in the pilot: 141 s for 750 tiles). s/step is the median of 30 steps, includes data loading (6 workers; loader is not the bottleneck at <= 5 tiles/s). Mean step time in the real training loop of FT-P12 (blocks:2): 0.28 s/step vs 0.27 profiled. Timings were taken while the other engineer's jobs used the GPU intermittently (2-20 GB), so +-10-20 % noise is possible. "Epoch" = 4,659 optimizer steps at batch 1.
+**Infeasible configurations: none.** Full fine-tuning of the 171 M-parameter trunk at the full 524,288 bp context fits easily (<= 17.6 GB even without activation checkpointing, 2 GB checkpoints); no config needed the 48 GB cap. Gradient checkpointing is therefore optional (it costs +20 % time for -35 % memory); `--grad-ckpt none` is the default recommendation for speed if memory permits, `transformer` is the safe default.
+
+## 6. End-to-end pilot (FT-P12, not a result for claims)
+Partial `blocks:2`, MLP head, Poisson, lr head 1e-3 / trunk 1e-4 (pilot setting, not tuned), 600 train tiles x 1 epoch (600 steps), true shift + RC, replicate 0 only: full validation (750 tiles, chr1+chr8, shared 896 x 128 bp grid): mean per-track Pearson r = 0.6821 (all 183), 0.6840 (152 non-identical); `results_ft/runs/FT-P12/val_epoch1_per_track_r.json`. Validation only, no matched frozen control run yet, so nothing can be attributed to unfreezing. For reference only (different protocols): E4 ridge validation r 0.7337 (FT-C01 in the registry).
+Registry `runtime_s` for FT-P12 (256) covers the final process only (the run was killed once and resumed).
+
+## 7. Recommended sequence (~71 h to effective stop, 70.9 h to 21:30 Mon; supervisor runs one job at a time)
+Costs below = epochs x (train epoch + 2.4 min validation); the GPU is shared so add ~15 % margin.
+1. FT-A00 frozen replicate-0 control, MLP head, same loss/lr/schedule/aug as the arms (needed to attribute effects): 4 epochs ~1.1 h; (linear-head variant ~1.1 h).
+2. FT-A01 partial blocks:2 (lr trunk 1e-5, head 1e-4): 4 epochs ~1.6 h; FT-A02 partial blocks:4,up,final: ~2.1 h.
+3. FT-A03 LoRA attn+mlp+conv1x1 r=16 (lr 1e-4): ~2.7 h.
+4. FT-A04 full FT (lr trunk 1e-5..3e-5, head 1e-4, cosine): 4 epochs ~3.4 h (grad-ckpt transformer; ~2.8 h without); 8 epochs ~6.7 h.
+Total for 1-4 at 4 epochs ~11 h (sum of the above); leaves > 55 h for lr/epoch tuning (validation only), 2-3 seeds of the best arm, loss variants (mse128), and the locked test evaluation (not in `train_ft.py`). Because every arm uses < 18 GB, two arms could share the GPU concurrently (the supervisor currently starts one at a time and only if the other engineer uses < 35 GB; raise `GPU_OTHER_MAX_GB`/allow concurrency only with coordinator approval, expect each to slow down).
+Caveats to carry into any claim: replicate 0 only (the 0.7426 ridge uses 4 replicates); bf16 autocast (fp32 checkpoint resume is exact; bf16 forward differs from fp32 by r > 0.99 in predictions); the fine-tuning trunk was pretrained on some of the same experiments (31 of 183 tracks) and on much of chr9/chr22 (see `exposure_audit/EXPOSURE_AUDIT.md`); validation-only selection per FT_PLAN.md; one seed per config until replicated.

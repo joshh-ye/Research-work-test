@@ -1,0 +1,2 @@
+config_id,selection_rule,val_r_all183,val_r_152,locked_at_cdt,locked_by,notes
+E4-ridge-repro,"reproduction of published E4 ridge[pre_raw:union1888] (lambda 1e-4, val-selected); already public",,,2026-10-23T22:20,coordinator,gate for test_eval_cache.py
