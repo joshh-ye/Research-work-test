@@ -145,3 +145,11 @@ Verdict: **Phase 2 PASS, Phase 3 PASS.** EXP-010 short check done (valsel r Enfo
 of validation-only matrix 183/183; oracle reproduces benchmark 5.8e-8). Minor doc fixes applied: checklists ticked; registry "reviewed" column
 and EXP-009 status updated; REPRODUCE.md notes that test directories must be run separately. EXP-012 (exploratory) and EXP-011 (superseded
 interim) not separately reviewed.
+
+## RV-FT-01 — 2026-10-24 22:15 CDT — FT test-lock proposal — scientific-reviewer (opus): REVISE
+Scope: research_management/finetuning/LOCK_PROPOSAL.md vs FT_PLAN.md; predict_ft.py / test_eval_cache.py / compare_ft.py / blend_val.py. No leakage found; selection validation-only; all quoted val numbers verified.
+Required: (1) bind locked id to --runs in predict_ft test path; (2) self-check exact test code path on validation; (3) lock a TTA-free primary (id-level TTA tag);
+(4) fix contamination caveat (ridge reads pretrained heads incl. 31 identical experiments; bias direction unknown, plausibly favours ridge on 183; 152 is the claim set);
+(5) exact id strings, tta notes, @rc val values, blend cross-fit; (6) disclose near-tie primary choice; report two-way and tile-block CIs alongside TF-cluster; no claim from secondaries if primary fails; (7) commit TEST_LOCK.csv before first test run, record hash.
+Status: corrections in progress.
+RV-FT-01 corrections (2026-10-24 23:22): (1) id-to-runs binding + (3) '#tta=' id tag implemented in predict_ft.py with tests (53 passed incl. GPU); (2) validation self-check of exact test path reproduces all locked val values to 1e-4 (FT-C61 from existing self-check file); (4)-(6) LOCK_PROPOSAL.md rev 2, FT_PLAN.md claim rule tightened; (7) TEST_LOCK.csv committed before the first test run.

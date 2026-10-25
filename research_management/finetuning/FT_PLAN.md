@@ -11,7 +11,7 @@ Written 2026-10-23 22:15 CDT, before any FT experiment. Effective stop: 2026-10-
 - **Model/hyperparameter/checkpoint selection uses validation chromosomes only.** Test predictions are produced only by `ft_test_eval` for configurations
   entered in `research_management/finetuning/TEST_LOCK.csv` (config id, selection rule, validation r, timestamp) BEFORE the test run. At most one
   test evaluation per locked configuration; no test-driven iteration.
-- An "improvement over r = 0.743" is claimed only if, on the 152 tracks, Δr (new − ridge[pre_raw:union1888]) has a TF-cluster 95% CI excluding 0
+- An "improvement over r = 0.743" is claimed only if, on the 152 tracks, Δr (new − ridge[pre_raw:union1888]) has a TF-cluster 95% CI excluding 0 (tightened 2026-10-24 before any FT test run: TF-cluster AND two-way CIs must exclude 0, primary config only; see LOCK_PROPOSAL.md)
   (and is reported with cell-line-cluster and tile-block CIs). Smaller or CI-crossing gains are reported as "not shown".
 - MPRA data are not used for training, selection or tuning. Any MPRA re-scoring of a new model is a separate, labelled analysis; BL-007 (sign convention)
   stays open and P2 is not re-signed.

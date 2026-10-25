@@ -2,8 +2,9 @@
 Usage (see README_predict.md):
   predict_ft.py --run FT-S05 --split val [--tta rc] [--force]
   predict_ft.py --runs FT-S05,FT-S06 --split val             (per-run val predictions, one file each)
-  predict_ft.py --runs FT-S05,FT-S06 --split test --config-id ENS:FT-S05+FT-S06      (LOCKED; see below)
-  predict_ft.py --split test --config-id 'BLEND:FT-S05|FT-C61|w=0.4'   (LOCKED fixed-w blend of FT/ENS:A+B with a ridge config; w from the id)
+  predict_ft.py --split test --config-id 'ENS:FT-S05+FT-S06#tta=rc' [--runs FT-S05,FT-S06]   (LOCKED; ids end in #tta=none|rc; --runs/--tta must match the id)
+  predict_ft.py --split test --config-id 'BLEND:ENS:A+B|FT-C61|w=0.7#tta=rc'   (LOCKED fixed-w blend; w from the id)
+  predict_ft.py --split val --config-id '<same id>'   (self-check of the exact test code path on VALIDATION; no lock; results_ft/selfcheck_val/<id>/)
 Model reconstruction: results_ft/runs/<RUN>/run_cmd.json argv -> train_ft.parse() -> train_ft.build() (incl. --replicate), then the
 trainable state of best_model.pt is loaded and checked KEY-FOR-KEY (checkpoint keys == model requires_grad keys; all remaining model
 keys are the frozen pretrained weights re-loaded from the HF cache).
@@ -24,6 +25,7 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(ROOT / "analysis/exposure_stratified"))
 RUNS = ROOT / "results_ft/runs"
 PREDS = ROOT / "results_ft/preds"
+SELFCHECK = ROOT / "results_ft/selfcheck_val"
 TEST_OUT = ROOT / "results_ft/ft_test_eval"
 LOCK = ROOT / "research_management/finetuning/TEST_LOCK.csv"
 TILES_CSV = ROOT / "results_phase2/trunk_cache/tiles.csv"
@@ -211,92 +213,193 @@ def do_val(run, tta, force, max_gb, log=print):
     return 0 if (ok or tta != "none") else 3
 
 
-def do_test(runs, config_id, tta, max_gb, n_boot, log=print):
-    import numpy as np
-    out = check_test_allowed(config_id)                  # BEFORE any model / data is touched
-    lock = [r for r in csv.DictReader(open(LOCK)) if r["config_id"] == config_id][0]
-    out.mkdir(parents=True, exist_ok=True)
-    st, _, metas, secs = run_prediction(runs, "test", tta, None, None, max_gb, log)
-    np.savez(out / "test_stats.npz", **st)
-    json.dump(dict(config_id=config_id, runs=runs, tta=tta, lock=lock, seconds=round(secs),
-                   logged_val_r=[m["val_mean_pearson_r_full"] for m in metas]), open(out / "run_info.json", "w"), indent=1)
-    log(f"wrote {out / 'test_stats.npz'} ({secs:.0f}s)")
-    subprocess.check_call([sys.executable, str(HERE / "compare_ft.py"), "--stats", str(out / "test_stats.npz"), "--out", str(out), "--n-boot", str(n_boot)])
-    return 0
+def check_lock_tta(lock, tta):
+    """the lock row's notes must declare the TTA choice ('tta=none' or 'tta=rc'), so --tta cannot differ from what was locked"""
+    if f"tta={tta}" not in lock.get("notes", ""):
+        raise SystemExit(f"{lock['config_id']}: lock notes do not declare tta={tta}; refusing")
 
 
-# ---------------------------------------------------------------------------------------------------------------- locked blend (FT + ridge)
-COMPONENTS = TEST_OUT / "_components"
+# ---------------------------------------------------------------------------------------------------------------- config ids (bind lock -> models, tta)
+def parse_id(config_id):
+    """FT id : '<FTpart>#tta=<none|rc>'                 FTpart = run id or 'ENS:A+B+...'
+    blend id: 'BLEND:<FTpart>|<RIDGEcfg>|w=<float>#tta=<none|rc>'   (w is FIXED by the id; never chosen on test)
+    -> dict(kind 'ft'|'blend', runs [...] (order as written), ridge, w, tta, id)"""
+    body, sep, t = config_id.rpartition("#tta=")
+    if not sep or t not in ("none", "rc") or not body:
+        raise SystemExit(f"bad config id {config_id!r}: must end with '#tta=none' or '#tta=rc'")
+    kind, ridge, w = "ft", None, None
+    if body.startswith("BLEND:"):
+        kind = "blend"
+        parts = body[6:].split("|")
+        if len(parts) != 3 or not parts[2].startswith("w="):
+            raise SystemExit(f"bad blend id {config_id!r}: expected BLEND:<FTpart>|<RIDGEcfg>|w=<float>#tta=<none|rc>")
+        body, ridge = parts[0], parts[1]
+        try:
+            w = float(parts[2][2:])
+        except ValueError:
+            raise SystemExit(f"bad w in {config_id!r}")
+        if not 0.0 <= w <= 1.0:
+            raise SystemExit(f"w={w} outside [0,1]")
+    runs = body[4:].split("+") if body.startswith("ENS:") else [body]
+    if not all(runs) or len(set(runs)) != len(runs):
+        raise SystemExit(f"bad / duplicated member list in {config_id!r}")
+    return dict(kind=kind, runs=runs, ridge=ridge, w=w, tta=t, id=config_id)
 
 
 def parse_blend_id(config_id):
-    """'BLEND:<FTpart>|<RIDGEcfg>|w=0.4' -> (ft_runs list, ridge cfg name, w float). FTpart = run id or 'ENS:A+B'. w is FIXED by the lock row id."""
-    assert config_id.startswith("BLEND:"), config_id
-    parts = config_id[6:].split("|")
-    if len(parts) != 3 or not parts[2].startswith("w="):
-        raise SystemExit(f"bad blend id {config_id!r}: expected BLEND:<FTpart>|<RIDGEcfg>|w=<float>")
-    ft, ridge, w = parts[0], parts[1], float(parts[2][2:])
-    if not 0.0 <= w <= 1.0:
-        raise SystemExit(f"w={w} outside [0,1]")
-    runs = ft[4:].split("+") if ft.startswith("ENS:") else [ft]
-    return runs, ridge, w
+    p = parse_id(config_id)
+    if p["kind"] != "blend":
+        raise SystemExit(f"{config_id!r} is not a BLEND id")
+    return p["runs"], p["ridge"], p["w"]
 
 
-def do_test_blend(config_id, tta, max_gb, n_boot, log=print, lock_path=LOCK, test_root=TEST_OUT):
-    """LOCKED test evaluation of w*FT + (1-w)*ridge with w taken from the (locked) config id; component test predictions are cached under
-    <test_root>/_components/ as a by-product (reused by other locked blends sharing a component; each config id is still evaluated once)."""
+def bind_checks(config_id, runs_arg, tta_arg):
+    """lock <-> models/tta binding; raises SystemExit BEFORE anything is loaded. runs_arg: list or None; tta_arg: 'none'|'rc'|None. Returns parsed id."""
+    p = parse_id(config_id)
+    if tta_arg is not None and tta_arg != p["tta"]:
+        raise SystemExit(f"--tta {tta_arg} differs from the tta in the config id ({p['tta']}); refusing")
+    if runs_arg is not None and list(runs_arg) != p["runs"]:
+        raise SystemExit(f"--runs {list(runs_arg)} != members of the config id {p['runs']} (same order required); refusing")
+    return p
+
+
+def check_lock_committed(lock_path=LOCK):
+    """refuse unless TEST_LOCK.csv is tracked and has no uncommitted changes vs HEAD; returns git commit hash"""
+    def g(*a):
+        return subprocess.run(["git", "-C", str(ROOT)] + list(a), capture_output=True, text=True)
+    rel = str(Path(lock_path).resolve().relative_to(ROOT.resolve()))
+    if g("ls-files", "--error-unmatch", rel).returncode != 0:
+        raise SystemExit("TEST_LOCK.csv is not tracked by git; refusing (commit the lock first)")
+    if g("diff", "--quiet", "HEAD", "--", rel).returncode != 0:
+        raise SystemExit("TEST_LOCK.csv has uncommitted changes vs HEAD; refusing (commit the lock first)")
+    return g("rev-parse", "HEAD").stdout.strip()
+
+
+def _lock_row(config_id, lock_path):
+    return [r for r in csv.DictReader(open(lock_path)) if r["config_id"] == config_id][0]
+
+
+def _guard_test(config_id, runs_arg, tta_arg, lock_path, test_root, require_committed):
+    """all refusals, in order; nothing is created/loaded before they pass"""
+    p = bind_checks(config_id, runs_arg, tta_arg)
+    out = check_test_allowed(config_id, lock_path, test_root)
+    lock = _lock_row(config_id, lock_path)
+    check_lock_tta(lock, p["tta"])
+    commit = check_lock_committed(lock_path) if require_committed else None
+    return p, out, lock, commit
+
+
+def _git_commit():
+    return subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+
+
+# ---------------------------------------------------------------------------------------------------------------- stats producers (shared by test and val self-check)
+def ft_stats(p, split, max_gb, log=print):
+    st, _, metas, secs = run_prediction(p["runs"], split, p["tta"], None, None, max_gb, log)
+    return st, dict(logged_val_r=[m["val_mean_pearson_r_full"] for m in metas], seconds=round(secs))
+
+
+def blend_stats(p, split, comp_root, max_gb, log=print):
+    """w*FT + (1-w)*ridge on `split`; components cached under comp_root (a by-product of the calling evaluation only)"""
     import numpy as np
     import blend_val as BV
-    out = check_test_allowed(config_id, lock_path, test_root)       # BEFORE anything is touched
-    runs, ridge, w = parse_blend_id(config_id)
-    lock = [r for r in csv.DictReader(open(lock_path)) if r["config_id"] == config_id][0]
-    comp = Path(test_root) / "_components"
-    ft_dir = comp / (safe_name(ens_config_id(runs)) + ("" if tta == "none" else f"_{tta}"))
-    rd_dir = comp / ("RIDGE_" + safe_name(ridge))
-    out.mkdir(parents=True, exist_ok=True)
+    from poolcache import Pooled
     t0 = time.time()
-    if not (ft_dir / "test_pred.npy").exists():
+    runs, ridge, w, tta = p["runs"], p["ridge"], p["w"], p["tta"]
+    ft_dir = Path(comp_root) / (safe_name(ens_config_id(runs)) + ("" if tta == "none" else f"_{tta}"))
+    rd_dir = Path(comp_root) / ("RIDGE_" + safe_name(ridge))
+    pf, pr = ft_dir / f"{split}_pred.npy", rd_dir / f"{split}_pred.npy"
+    if not pf.exists():
         ft_dir.mkdir(parents=True, exist_ok=True)
-        st, _, _, _ = run_prediction(runs, "test", tta, ft_dir / "test_pred.npy", None, max_gb, log)
-        np.savez(ft_dir / "test_stats.npz", **st); np.save(ft_dir / "test_gid.npy", st["gid"])
+        st, _, _, _ = run_prediction(runs, split, tta, pf, None, max_gb, log)
+        np.savez(ft_dir / f"{split}_stats.npz", **st); np.save(ft_dir / f"{split}_gid.npy", st["gid"])
     else:
         log(f"reusing cached FT component {ft_dir}")
-    if not (rd_dir / "test_pred.npy").exists():
-        BV.ridge_split_pred(ridge, "test", rd_dir / "test_pred.npy", max_gb, log)
+    if not pr.exists():
+        BV.ridge_split_pred(ridge, split, pr, max_gb, log)
     else:
         log(f"reusing cached ridge component {rd_dir}")
-    from poolcache import Pooled
-    te = Pooled("test")
-    assert (np.load(ft_dir / "test_gid.npy") == te.gid).all() and (np.load(rd_dir / "test_gid.npy") == te.gid).all(), "component tile order != pooled test order"
-    A, B = np.load(ft_dir / "test_pred.npy", mmap_mode="r"), np.load(rd_dir / "test_pred.npy", mmap_mode="r")
-    st = BV.blend_tile_stats(A, B, te.tgt, w); st["gid"] = te.gid
+    te = Pooled(split)
+    assert (np.load(ft_dir / f"{split}_gid.npy") == te.gid).all() and (np.load(rd_dir / f"{split}_gid.npy") == te.gid).all(), "component tile order != pooled order"
+    st = BV.blend_tile_stats(np.load(pf, mmap_mode="r"), np.load(pr, mmap_mode="r"), te.tgt, w); st["gid"] = te.gid
+    return st, dict(components=[str(ft_dir), str(rd_dir)], seconds=round(time.time() - t0))
+
+
+def _finish_test(out, st, info, n_boot, log):
+    import numpy as np
     np.savez(out / "test_stats.npz", **st)
-    json.dump(dict(config_id=config_id, runs=runs, ridge=ridge, w_fixed_from_lock=w, tta=tta, lock=lock, components=[str(ft_dir), str(rd_dir)],
-                   seconds=round(time.time() - t0)), open(out / "run_info.json", "w"), indent=1)
+    json.dump(info, open(out / "run_info.json", "w"), indent=1)
     log(f"wrote {out / 'test_stats.npz'}")
     subprocess.check_call([sys.executable, str(HERE / "compare_ft.py"), "--stats", str(out / "test_stats.npz"), "--out", str(out), "--n-boot", str(n_boot)])
     return 0
 
 
+def do_test(config_id, runs_arg, tta_arg, max_gb, n_boot, log=print, lock_path=LOCK, test_root=TEST_OUT, require_committed=None):
+    """LOCKED test evaluation of an FT run / ensemble id ('...#tta=..')"""
+    rc_ = (Path(lock_path) == LOCK) if require_committed is None else require_committed
+    p, out, lock, commit = _guard_test(config_id, runs_arg, tta_arg, lock_path, test_root, rc_)
+    if p["kind"] != "ft":
+        raise SystemExit("use a BLEND id with the blend path")
+    out.mkdir(parents=True, exist_ok=True)
+    st, info = ft_stats(p, "test", max_gb, log)
+    info.update(config_id=config_id, runs=p["runs"], tta=p["tta"], lock=lock, git_commit=_git_commit(), lock_committed_unchanged_at_head=bool(commit))
+    return _finish_test(out, st, info, n_boot, log)
+
+
+def do_test_blend(config_id, runs_arg, tta_arg, max_gb, n_boot, log=print, lock_path=LOCK, test_root=TEST_OUT, require_committed=None):
+    """LOCKED test evaluation of w*FT + (1-w)*ridge, w from the id; component test predictions cached under <test_root>/_components/ as a by-product"""
+    rc_ = (Path(lock_path) == LOCK) if require_committed is None else require_committed
+    p, out, lock, commit = _guard_test(config_id, runs_arg, tta_arg, lock_path, test_root, rc_)
+    if p["kind"] != "blend":
+        raise SystemExit("not a BLEND id")
+    out.mkdir(parents=True, exist_ok=True)
+    st, info = blend_stats(p, "test", Path(test_root) / "_components", max_gb, log)
+    info.update(config_id=config_id, runs=p["runs"], ridge=p["ridge"], w_fixed_from_lock=p["w"], tta=p["tta"], lock=lock, git_commit=_git_commit(),
+                lock_committed_unchanged_at_head=bool(commit))
+    return _finish_test(out, st, info, n_boot, log)
+
+
+def do_selfcheck_val(config_id, runs_arg, tta_arg, max_gb, log=print, root=SELFCHECK):
+    """SAME code path as the locked test evaluation (ft_stats / blend_stats), on VALIDATION tiles; no lock; writes under results_ft/selfcheck_val/<id>/"""
+    import numpy as np
+    from ftlib import masks
+    p = bind_checks(config_id, runs_arg, tta_arg)
+    out = Path(root) / safe_name(config_id); out.mkdir(parents=True, exist_ok=True)
+    st, info = ft_stats(p, "val", max_gb, log) if p["kind"] == "ft" else blend_stats(p, "val", Path(root) / "_components", max_gb, log)
+    np.savez(out / "val_stats.npz", **st)
+    r = r_from_stats(st); mk = masks()
+    res = dict(config_id=config_id, split="val", val_mean_pearson_r_all183=float(np.nanmean(r)), val_mean_pearson_r_152=float(np.nanmean(r[mk["not_identical152"]])),
+               n_tiles=len(st["gid"]), time=time.strftime("%Y-%m-%dT%H:%M:%S"), **{k: v for k, v in info.items() if k != "logged_val_r"})
+    json.dump(res, open(out / "selfcheck.json", "w"), indent=1)
+    log(f"SELFCHECK VAL {config_id}: r183 {res['val_mean_pearson_r_all183']:.4f} r152 {res['val_mean_pearson_r_152']:.4f}")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--run"); ap.add_argument("--runs", help="comma-separated run ids (ensemble for test; per-run files for val)")
+    ap.add_argument("--run"); ap.add_argument("--runs", help="comma-separated run ids (must equal the members of the config id for test / id self-check; per-run files for plain val)")
     ap.add_argument("--split", required=True, choices=["val", "test"])
-    ap.add_argument("--config-id", default=None)
-    ap.add_argument("--tta", default="none", choices=["none", "rc"])
+    ap.add_argument("--config-id", default=None, help="test: id with '#tta=..' suffix (or BLEND:...); val + id: self-check of the test code path on validation (no lock)")
+    ap.add_argument("--tta", default=None, choices=["none", "rc"], help="must equal the tta in the id if both given; default none for plain val")
     ap.add_argument("--force", action="store_true"); ap.add_argument("--max-gb", type=float, default=20.0)
     ap.add_argument("--n-boot", type=int, default=10000)
     a = ap.parse_args(argv)
-    runs = a.runs.split(",") if a.runs else ([a.run] if a.run else [])
-    if a.split == "test" and (a.config_id or "").startswith("BLEND:"):
-        return do_test_blend(a.config_id, a.tta, a.max_gb, a.n_boot)
+    runs = a.runs.split(",") if a.runs else ([a.run] if a.run else None)
+    if a.split == "test":
+        cid = a.config_id
+        if cid is None:
+            if not runs:
+                raise SystemExit("give --config-id (or --run/--runs and --tta)")
+            cid = f"{ens_config_id(runs)}#tta={a.tta or 'none'}"
+        fn = do_test_blend if cid.startswith("BLEND:") else do_test
+        return fn(cid, runs, a.tta, a.max_gb, a.n_boot)
+    if a.config_id:
+        return do_selfcheck_val(a.config_id, runs, a.tta, a.max_gb)
     if not runs:
         raise SystemExit("give --run or --runs")
-    if a.split == "test":
-        return do_test(runs, a.config_id or ens_config_id(runs), a.tta, a.max_gb, a.n_boot)
     rc = 0
     for r in runs:
-        rc = max(rc, do_val(r, a.tta, a.force, a.max_gb))
+        rc = max(rc, do_val(r, a.tta or "none", a.force, a.max_gb))
     return rc
 
 

@@ -65,3 +65,41 @@ Effective stop: 2026-10-26 22:00 CDT (deadline.json). Plan and evaluation contra
 - FT-S02 partial 2 blocks (lr 3e-5, 4 ep): 0.7327 / 0.7331. FT-S10 partial-4 at lr-trunk 1e-4: 0.7285 / 0.7276 (vs 0.7373 at 3e-5) → keep lr-trunk 3e-5. FT-S11 (partial-4, 12 ep, 3e-5) running.
 - Queue (validation-driven): FT-S11 → FT-R1/R2/R3 (replicates 1-3, FT-S11 recipe, for a 4-replicate fine-tuned ensemble comparable to the 4-replicate ridge) → FT-S07 frozen 12 ep control → FT-S12 (FT-S03 recipe, seed 2: seed-noise estimate) → FT-S06 full 12 ep.
   FT-S09 (full, lr 1e-4) dropped: lr 1e-4 was worse for partial and full is the weakest arm. Replicates 1-3 verified to load offline from hf_cache (171.27 M params each).
+
+## 2026-10-24 07:51 CDT
+- FT-S11 (partial-4, 12 epochs, cosine): best/final full val 0.7366 / 0.7368 at epoch 12 (epoch 4: 0.7258 under the longer schedule). Not better than FT-S03 at 4 epochs (0.7373 / 0.7372):
+  the arm plateaus near 0.737; longer cosine schedules do not add. Decision: replicate runs FT-R1..R3 switched (before launch) to the 4-epoch FT-S03 recipe (~1.1 h each).
+- FT-S06 (full, 12 ep) dropped (full is the weakest arm and longer training did not help partial). Added FT-L1..L3 = LoRA (FT-S04 recipe) on replicates 1-3, for ensemble diversity
+  (on replicate 0 the 3-arm ensemble beat its best member by +0.003 on validation).
+- Queue: FT-R1 → R2 → R3 → FT-S07 (frozen 12 ep control) → FT-S12 (seed 2) → FT-L1 → L2 → L3. Expected to drain around Sat 20:00.
+
+## 2026-10-24 11:08 CDT
+- Replicates 1-3, partial-4 recipe (4 ep): FT-R1 0.7360 / 0.7354, FT-R2 0.7303 / 0.7296, FT-R3 0.7376 / 0.7373 (replicate 0 FT-S03: 0.7373 / 0.7372). Trunk source verified in checkpoint metadata.
+- Round-3 validation (FT-B13..B20, `results_ft/blends/round3/`, RC TTA):
+  - 4-replicate fine-tuned ensemble ENS4 = mean(FT-S03, R1, R2, R3) @rc: **0.7475 / 0.7468** (no tuned weight) vs E4 ridge 0.7337 / 0.7317 → +0.014 / +0.015 on validation.
+  - ENS4 + FT-C61 (w=0.7 on val): 0.7498 / 0.7487; cross-fit chromosome-wise 0.7372 vs ENS4-only 0.7349 (+0.002). ENS4 + E4 (w=0.8): 0.7486 / 0.7478.
+  - ENS4 + LoRA rep0 + full rep0 (6 members): 0.7480 / 0.7474; + FT-C61: 0.7502 / 0.7492.
+- `predict_ft.py` test mode now also requires the lock row's notes to declare `tta=<choice>` (15 tests pass).
+- 12-epoch partial run FT-S11 @rc predicted (in `results_ft/preds/FT-S11`).
+
+## 2026-10-24 17:09 CDT (~52.8 h remaining)
+- FT-S07 frozen, 12 epochs: 0.7288 / 0.7291 (@rc 0.7329): longer training of the frozen head does not close the gap to partial FT (0.7373; @rc 0.7410) → the FT gain is attributable to unfreezing, not training length.
+- FT-S12 (FT-S03 recipe, seed 2): 0.7370 / 0.7371 vs seed 1 0.7373 / 0.7372 → seed-to-seed difference ~0.0003 on this pair.
+- LoRA replicates: FT-L1 0.7357, L2 0.7307, L3 0.7362 (183). Replicate 2 is the weakest for both arms.
+- Round-4 validation (FT-B21..B32, `results_ft/blends/round4/`, @rc): LoRA ENS4 0.7477 / 0.7472; partial ENS4 0.7475 / 0.7468; 8-member partial+LoRA 0.7482 / 0.7476; + FT-C61 (w 0.7) 0.7501 / 0.7491 (cross-fit +0.002).
+  Ensemble gains saturate beyond 4 replicate members.
+- Exploration batch on replicate 0 (validation only), FT-S03 recipe with one change each: FT-E1 mse128 loss, E2 unfreeze 8 blocks+up+final, E3 head hidden 2048, E4 lr-head 3e-4, E5 trunk dropout. A variant is promoted to replicates 1-3 only if it beats FT-S03 by >0.002 on validation.
+- Test lock deferred until exploration ends (single locking round, to avoid test-informed iteration).
+
+## 2026-10-24 17:11 CDT
+- `research_management/CHECKPOINT_INVENTORY.md` drafted (regenerator `analysis/ft/make_ckpt_inventory.py`; 27 run dirs, 22 cache heads, preds, blends, sha256).
+- Storage: home 155.8 / 186.3 GB (guard 175). results_ft 38 GB = runs 26 GB (of which resume ckpts of finished runs ~20 GB) + preds 8 GB (regenerable from best_model.pt, ~2 min/run).
+  Projected after the FT-E batch: ~170 GB. Deleting resume checkpoints of finished runs (best_model.pt kept) would free ~20 GB but needs user approval (not done).
+
+## 2026-10-24 20:33 CDT
+- With user approval, deleted the 36 resume checkpoints (ckpts/ckpt_step*.pt, 25.7 GB) of 18 finished runs; every run's best_model.pt kept (20). Home 164.4 → 137.0 GB. List: session scratchpad ckpt_delete_list.txt.
+- Exploration: FT-E1 mse128 0.7321 / 0.7313; FT-E2 8 blocks 0.7361 / 0.7357; FT-E3 head hidden 2048 0.7386 (183) (+0.0013 vs FT-S03, below the 0.002 promotion threshold). E4, E5 running/pending.
+
+## 2026-10-24 22:12 CDT (~47.8 h remaining)
+- Exploration done (FT-S03 recipe, one change each; FT-S03 = 0.7373 / 0.7372): E1 mse128 0.7321 / 0.7313; E2 8 blocks 0.7361 / 0.7357; E3 head 2048 0.7386 / 0.7385; E4 lr-head 3e-4 0.7373 / 0.7374; E5 trunk dropout 0.7361 / 0.7361.
+  None beats FT-S03 by > 0.002 → no promotion; recipe fixed. Exploration closed; proceeding to the single test-lock round (proposal under scientific review).

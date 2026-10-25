@@ -21,15 +21,25 @@ if missing) and cached in `results_ft/preds/{E4_ridge,FT-C61}/`; they must repro
 `chromwise_mean_r_all183_*` of the components, NOT with the pooled r) and `blend_val_grid.csv` (all w). Registry ids FT-B01.. are appended by hand (atomic flock append, columns as FT_REGISTRY header).
 
 ## 3. Locked test evaluation (coordinator only; never run during development)
-    # 1) add the config id to research_management/finetuning/TEST_LOCK.csv (selection rule + val numbers)
-    ./torch-venv/bin/python analysis/ft/predict_ft.py --run FT-S05 --split test                                    # config id defaults to the run id
-    ./torch-venv/bin/python analysis/ft/predict_ft.py --runs FT-S05,FT-S06 --split test --config-id ENS:FT-S05+FT-S06   # ensemble = mean of run predictions
-Refuses (before loading anything) unless the config id is a TEST_LOCK.csv row and `results_ft/ft_test_eval/<CONFIG>/test_stats.npz` does not exist
-(':' is replaced by '_' in the directory name). Blends with ridge are NOT supported by predict_ft test (the test path is pure FT). Writes `test_stats.npz`
-(same keys/order as test_eval_cache; test tiles in pooled order), `run_info.json`, then runs `compare_ft.py` (subprocess, CPU): Pearson r / r^2 / prediction R^2,
-paired deltas vs E4 ridge[pre_raw:union1888] and vs Borzoi-TL, tile-block / TF-cluster / cell-line-cluster / two-way CIs, 10,000 resamples, seed 20261020,
-all183 and not_identical152 -> `test_comparison.csv`. `--tta rc` is only legitimate if the TTA choice was fixed on validation first.
+Config ids bind the lock row to the models AND the TTA choice. Every id ends with `#tta=none` or `#tta=rc`:
+    FT-S03#tta=rc    ENS:FT-S03+FT-R1+FT-R2+FT-R3#tta=rc    BLEND:ENS:A+B|FT-C61|w=0.7#tta=rc   (BLEND = w*FT + (1-w)*ridge; w is part of the id, never chosen on test;
+    ridge cfg = E4 | FT-C61 | any results_ft/cache_exps/configs/<id>.json ridge)
+    # 1) commit a TEST_LOCK.csv row with that exact id; its notes must also declare the same tta ("tta=rc"/"tta=none")
+    ./torch-venv/bin/python analysis/ft/predict_ft.py --split test --config-id 'ENS:FT-S05+FT-S06#tta=rc'
+    ./torch-venv/bin/python analysis/ft/predict_ft.py --split test --config-id 'BLEND:FT-S05|FT-C61|w=0.4#tta=none'
+`--runs` (optional) must equal the members parsed from the id, same order; `--tta` (optional) must equal the id's tta; otherwise SystemExit before anything is loaded.
+Further refusals (all before loading): id not in TEST_LOCK.csv; `results_ft/ft_test_eval/<safe_name(full id)>/test_stats.npz` already exists; lock notes do not declare the id's tta;
+TEST_LOCK.csv untracked or with uncommitted changes vs HEAD. `run_info.json` records `git_commit` and `lock_committed_unchanged_at_head`. Output dir = id with ':'->'_' (the '#tta=' suffix keeps variants apart).
+Writes `test_stats.npz` (same keys/order as test_eval_cache), `run_info.json`, then runs `compare_ft.py` (CPU subprocess): Pearson r / r^2 / prediction R^2, paired deltas vs E4 ridge[pre_raw:union1888]
+and vs Borzoi-TL, tile-block / TF-cluster / cell-line-cluster / two-way CIs, 10,000 resamples, seed 20261020, all183 and not_identical152 -> `test_comparison.csv`.
+BLEND ids cache component test predictions under `results_ft/ft_test_eval/_components/` (FT dir keyed by members + tta; ridge dir by config) only as a by-product of the locked evaluation; reused by other locked blends.
 `compare_ft.py` was moved verbatim out of test_eval_cache.compare(); rerun on E4-ridge-repro stats gives a bit-identical test_comparison.csv.
+
+## 4. Self-check of the exact test code path on VALIDATION (no lock)
+    ./torch-venv/bin/python analysis/ft/predict_ft.py --split val --config-id 'ENS:FT-S03+FT-R1+FT-R2+FT-R3#tta=rc'
+    ./torch-venv/bin/python analysis/ft/predict_ft.py --split val --config-id 'BLEND:FT-S03|FT-C61|w=0.7#tta=rc'
+Runs the same `run_prediction` / `ridge_split_pred` / `blend_tile_stats` functions as the test path on val tiles; writes `results_ft/selfcheck_val/<id>/{val_stats.npz,selfcheck.json}` and
+components under `results_ft/selfcheck_val/_components/`. Cache ridge self-check: `test_eval_cache.py --split val --config-id FT-C61 --stage predict`.
 
 ## Tests
     ./torch-venv/bin/python -m pytest analysis/ft/tests/test_predict_ft.py -q

@@ -34,10 +34,10 @@ def test_refusal_on_second_evaluation(tmp_path):
 
 
 def test_cli_refuses_unlocked_test_before_loading_anything():
-    r = subprocess.run([str(PY), str(ROOT / "analysis/ft/predict_ft.py"), "--run", "FT-S05", "--split", "test", "--config-id", "NOT-LOCKED-XYZ"],
+    r = subprocess.run([str(PY), str(ROOT / "analysis/ft/predict_ft.py"), "--run", "NOT-LOCKED-XYZ", "--split", "test", "--config-id", "NOT-LOCKED-XYZ#tta=none"],
                        capture_output=True, text=True, timeout=60)
     assert r.returncode != 0 and "not in TEST_LOCK.csv" in r.stderr
-    assert not (PF.TEST_OUT / "NOT-LOCKED-XYZ").exists()
+    assert not any(PF.TEST_OUT.glob("NOT-LOCKED-XYZ*"))
     assert "loaded" not in r.stdout        # no model was loaded
 
 
@@ -118,31 +118,89 @@ def test_parse_cand():
         BV.parse_cand("FT-S05+NOPE")
 
 
-# ---------------------------------------------------------------- locked blend path
-def test_parse_blend_id():
-    assert PF.parse_blend_id("BLEND:FT-S05|FT-C61|w=0.4") == (["FT-S05"], "FT-C61", 0.4)
-    assert PF.parse_blend_id("BLEND:ENS:FT-S05+FT-S06|E4|w=1") == (["FT-S05", "FT-S06"], "E4", 1.0)
-    for bad in ["BLEND:FT-S05|FT-C61", "BLEND:FT-S05|FT-C61|0.4", "BLEND:FT-S05|FT-C61|w=1.5"]:
+# ---------------------------------------------------------------- ids, binding, locked blend path
+def test_parse_id():
+    assert PF.parse_id("FT-S03#tta=rc") == dict(kind="ft", runs=["FT-S03"], ridge=None, w=None, tta="rc", id="FT-S03#tta=rc")
+    p = PF.parse_id("ENS:FT-S03+FT-R1+FT-R2#tta=none"); assert p["runs"] == ["FT-S03", "FT-R1", "FT-R2"] and p["tta"] == "none" and p["kind"] == "ft"
+    p = PF.parse_id("BLEND:ENS:FT-S05+FT-S06|FT-C61|w=0.7#tta=rc"); assert (p["kind"], p["runs"], p["ridge"], p["w"], p["tta"]) == ("blend", ["FT-S05", "FT-S06"], "FT-C61", 0.7, "rc")
+    assert PF.parse_blend_id("BLEND:FT-S05|E4|w=1#tta=none") == (["FT-S05"], "E4", 1.0)
+    for bad in ["FT-S05", "FT-S05#tta=maybe", "FT-S05#tta=", "#tta=rc", "BLEND:FT-S05|FT-C61#tta=rc", "BLEND:FT-S05|FT-C61|0.4#tta=rc",
+                "BLEND:FT-S05|FT-C61|w=1.5#tta=rc", "ENS:A+A#tta=rc", "ENS:A++B#tta=rc"]:
         with pytest.raises(SystemExit):
-            PF.parse_blend_id(bad)
+            PF.parse_id(bad)
+
+
+def test_binding_runs_and_tta():
+    cid = "ENS:FT-S03+FT-R1#tta=rc"
+    assert PF.bind_checks(cid, ["FT-S03", "FT-R1"], "rc")["tta"] == "rc"
+    assert PF.bind_checks(cid, None, None)["runs"] == ["FT-S03", "FT-R1"]
+    with pytest.raises(SystemExit, match="--runs"):
+        PF.bind_checks(cid, ["FT-R1", "FT-S03"], None)                 # order matters
+    with pytest.raises(SystemExit, match="--runs"):
+        PF.bind_checks(cid, ["FT-S03"], None)
+    with pytest.raises(SystemExit, match="--tta"):
+        PF.bind_checks(cid, None, "none")
+    with pytest.raises(SystemExit, match="--runs"):
+        PF.bind_checks("BLEND:FT-S03|E4|w=0.5#tta=rc", ["FT-S04"], None)
+
+
+def test_do_test_refusals_before_any_loading(tmp_path):
+    cid = "ENS:FT-S05+FT-S06#tta=rc"
+    lock = _lock(tmp_path, [cid]); root = tmp_path / "t"
+    rows = list(csv.DictReader(open(lock)))
+    with pytest.raises(SystemExit, match="--runs"):
+        PF.do_test(cid, ["FT-S06", "FT-S05"], None, 20, 10, lock_path=lock, test_root=root)
+    with pytest.raises(SystemExit, match="--tta"):
+        PF.do_test(cid, None, "none", 20, 10, lock_path=lock, test_root=root)
+    with pytest.raises(SystemExit, match="not in TEST_LOCK"):          # same members, other tta variant => other id => not locked
+        PF.do_test("ENS:FT-S05+FT-S06#tta=none", None, None, 20, 10, lock_path=lock, test_root=root)
+    with pytest.raises(SystemExit, match="do not declare"):             # lock row without notes declaring tta
+        PF.do_test(cid, None, None, 20, 10, lock_path=lock, test_root=root, require_committed=False)
+    assert not root.exists()
 
 
 def test_blend_refusal_unlocked_and_second_eval_create_nothing(tmp_path):
-    lock = _lock(tmp_path, ["BLEND:FT-S05|FT-C61|w=0.4"])
-    with pytest.raises(SystemExit, match="not in TEST_LOCK"):          # different w => different id => not locked
-        PF.do_test_blend("BLEND:FT-S05|FT-C61|w=0.5", "none", 20, 10, lock_path=lock, test_root=tmp_path / "t")
-    assert not (tmp_path / "t").exists()                               # no output dir, no _components
-    out = tmp_path / "t" / "BLEND_FT-S05|FT-C61|w=0.4"; out.mkdir(parents=True); np.savez(out / "test_stats.npz", x=np.zeros(1))
+    cid = "BLEND:FT-S05|FT-C61|w=0.4#tta=none"
+    lock = _lock(tmp_path, [cid]); root = tmp_path / "t"
+    with pytest.raises(SystemExit, match="not in TEST_LOCK"):          # different w => different id
+        PF.do_test_blend("BLEND:FT-S05|FT-C61|w=0.5#tta=none", None, None, 20, 10, lock_path=lock, test_root=root)
+    with pytest.raises(SystemExit, match="--runs"):
+        PF.do_test_blend(cid, ["FT-S06"], None, 20, 10, lock_path=lock, test_root=root)
+    assert not root.exists()
+    out = root / PF.safe_name(cid); out.mkdir(parents=True); np.savez(out / "test_stats.npz", x=np.zeros(1))
     with pytest.raises(SystemExit, match="already exists"):
-        PF.do_test_blend("BLEND:FT-S05|FT-C61|w=0.4", "none", 20, 10, lock_path=lock, test_root=tmp_path / "t")
-    assert not (tmp_path / "t" / "_components").exists()
+        PF.do_test_blend(cid, None, None, 20, 10, lock_path=lock, test_root=root)
+    assert not (root / "_components").exists()
+    assert PF.safe_name("BLEND:X#tta=rc") != PF.safe_name("BLEND:X#tta=none")   # variants never collide
 
 
 def test_cli_blend_refused_when_unlocked():
-    r = subprocess.run([str(PY), str(ROOT / "analysis/ft/predict_ft.py"), "--split", "test", "--config-id", "BLEND:FT-S05|FT-C61|w=0.123"],
+    r = subprocess.run([str(PY), str(ROOT / "analysis/ft/predict_ft.py"), "--split", "test", "--config-id", "BLEND:FT-S05|FT-C61|w=0.123#tta=none"],
                        capture_output=True, text=True, timeout=60)
     assert r.returncode != 0 and "not in TEST_LOCK.csv" in r.stderr
-    assert not any(PF.TEST_OUT.glob("BLEND_FT-S05|FT-C61|w=0.123"))
+    assert not any(PF.TEST_OUT.glob("BLEND_FT-S05*w=0.123*"))
+
+
+def test_cli_missing_tta_suffix_and_tta_mismatch_refused():
+    base = [str(PY), str(ROOT / "analysis/ft/predict_ft.py"), "--split", "test"]
+    r = subprocess.run(base + ["--config-id", "FT-S05"], capture_output=True, text=True, timeout=60)
+    assert r.returncode != 0 and "#tta=" in r.stderr
+    r = subprocess.run(base + ["--config-id", "FT-S05#tta=rc", "--tta", "none"], capture_output=True, text=True, timeout=60)
+    assert r.returncode != 0 and "--tta" in r.stderr
+
+
+def test_lock_must_be_committed_unchanged(tmp_path, monkeypatch):
+    def git(*a): subprocess.run(["git", "-C", str(tmp_path)] + list(a), check=True, capture_output=True,
+                                env={"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t", "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t", "PATH": "/usr/bin:/bin"})
+    git("init", "-q"); lk = tmp_path / "TEST_LOCK.csv"; lk.write_text("config_id,notes\nA#tta=rc,tta=rc\n")
+    monkeypatch.setattr(PF, "ROOT", tmp_path)
+    with pytest.raises(SystemExit, match="not tracked"):
+        PF.check_lock_committed(lk)
+    git("add", "TEST_LOCK.csv"); git("commit", "-qm", "lock")
+    assert len(PF.check_lock_committed(lk)) == 40
+    lk.write_text("config_id,notes\nA#tta=rc,tta=rc\nB#tta=rc,tta=rc\n")
+    with pytest.raises(SystemExit, match="uncommitted"):
+        PF.check_lock_committed(lk)
 
 
 def test_blend_tile_stats_algebra_w0_w1_and_direct():
@@ -156,3 +214,11 @@ def test_blend_tile_stats_algebra_w0_w1_and_direct():
         g = {k: v.sum(0) for k, v in st.items()}                       # pooled == blend_sums
         S = BV.pair_stats(A, B, Y); g2 = BV.blend_sums(S, w)
         assert all(np.allclose(g[k], g2[k], rtol=1e-9, atol=1e-9) for k in g2)
+
+
+def test_lock_must_declare_tta():
+    PF.check_lock_tta({"config_id": "X", "notes": "primary; tta=rc"}, "rc")
+    with pytest.raises(SystemExit, match="tta=none"):
+        PF.check_lock_tta({"config_id": "X", "notes": "primary; tta=rc"}, "none")
+    with pytest.raises(SystemExit, match="tta=rc"):
+        PF.check_lock_tta({"config_id": "X", "notes": ""}, "rc")
