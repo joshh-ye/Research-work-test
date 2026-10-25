@@ -1,4 +1,4 @@
-# Checkpoint inventory (generated 2026-10-24 20:33 by analysis/ft/make_ckpt_inventory.py; do not hand-edit)
+# Checkpoint inventory (generated 2026-10-25 00:03 by analysis/ft/make_ckpt_inventory.py; do not hand-edit)
 
 Genome build hg38; all runs fine-tune/probe Borzoi (frozen_source column = pretrained trunk re-loaded from HF cache). Checkpoints hold trainable params only (+ optimizer/RNG for ckpts/ files). `results_ft/` is gitignored (`results*/`); no checkpoint is in Git.
 
@@ -11,7 +11,8 @@ Reload: `analysis/ft/predict_ft.py --run <ID> --split val` rebuilds the model fr
 | FT-E1 | partial unfreeze=blocks:4,up,final | 0 | mse128 | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7321 | 0.7313 | 310.4 MB, `524122f682b97d5c` | johahi/borzoi-replicate-0@521db10337 |
 | FT-E2 | partial unfreeze=blocks:8,up,final | 0 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7361 | 0.7357 | 562.6 MB, `f4983c4caee6df58` | johahi/borzoi-replicate-0@521db10337 |
 | FT-E3 | partial unfreeze=blocks:4,up,final | 0 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7386 | 0.7385 | 319.1 MB, `855b0b98faac933c` | johahi/borzoi-replicate-0@521db10337 |
-| FT-E4 | partial unfreeze=blocks:4,up,final | 0 | poisson | 4 | 1 | running (ep ?, step 0) | 1 | 0.7136 | 0.7139 | 310.4 MB, `d8891d2825dcaabb` | johahi/borzoi-replicate-0@521db10337 |
+| FT-E4 | partial unfreeze=blocks:4,up,final | 0 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7373 | 0.7374 | 310.4 MB, `c4d8d4f33d08e121` | johahi/borzoi-replicate-0@521db10337 |
+| FT-E5 | partial unfreeze=blocks:4,up,final | 0 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7361 | 0.7361 | 310.4 MB, `1af3b56d9a08af7e` | johahi/borzoi-replicate-0@521db10337 |
 | FT-L1 | lora lora-targets=attn,mlp,conv1x1 lora-r=16 | 1 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7357 | 0.7355 | 19.6 MB, `2ff253b3665a2704` | johahi/borzoi-replicate-1@ad05f7a1c7 |
 | FT-L2 | lora lora-targets=attn,mlp,conv1x1 lora-r=16 | 2 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7307 | 0.7301 | 19.6 MB, `9874ecbb0746f7f1` | johahi/borzoi-replicate-2@871a31b59e |
 | FT-L3 | lora lora-targets=attn,mlp,conv1x1 lora-r=16 | 3 | poisson | 4 | 1 | finished (ep 4, step 18636) | 4 | 0.7362 | 0.7361 | 19.6 MB, `b65010d218c01bfb` | johahi/borzoi-replicate-3@da3b900237 |
@@ -38,7 +39,8 @@ best ep / r183 / r152 are the max over `EPOCH n full val` lines in each run's st
 | FT-E1 | none |
 | FT-E2 | none |
 | FT-E3 | none |
-| FT-E4 | ckpt_step00004659.pt (931.3 MB) |
+| FT-E4 | ckpt_step00013977.pt (931.3 MB); ckpt_step00018636.pt (931.3 MB) |
+| FT-E5 | ckpt_step00013977.pt (931.3 MB); ckpt_step00018636.pt (931.3 MB) |
 | FT-L1 | none |
 | FT-L2 | none |
 | FT-L3 | none |
@@ -135,11 +137,11 @@ Heads trained on the frozen trunk cache (`/nobackup/.../trunk_cache`); config pe
 
 ## Storage and persistence
 
-- `results_ft/` total: 16.00 GB (du -sb). Subdirs: blends 0.0 MB, cache_exps 572.9 MB, preds 6.83 GB, runs 5.69 GB, test_runs 2.90 GB.
+- `results_ft/` total: 19.91 GB (du -sb). Subdirs: blends 0.0 MB, cache_exps 576.6 MB, final 0.2 MB, ft_test_eval 257.6 MB, preds 6.83 GB, runs 8.80 GB, selfcheck_val 538.1 MB, test_runs 2.90 GB.
 - `results_ft/` lives on home: persistent and backed up (FT_PLAN.md). Gitignored (`results*/`); checkpoints are NOT in Git.
 - Home / nobackup usage (`accre_storage`, columns usage/quota/limit then files):
 ```
-Home (user):		137.0G	186.3G	232.8G		227044	3000000	3500000	
+Home (user):		141.6G	186.3G	232.8G		227158	3000000	3500000	
 Nobackup (user):	160.6G	186.3G	232.8G		18811	3000000	3500000
 ```
 - `/tmp/yejz1_ft` is node-local, NOT persistent, not backed up: ckpt 545.7 MB, pooled128 43.14 GB. `pooled128` is regenerable via `analysis/ft/build_pooled.py` (needs trunk cache); `ckpt/` copies of cache heads are duplicated in `results_ft/cache_exps/ckpt/` (verify sha before relying on either).

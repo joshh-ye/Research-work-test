@@ -60,3 +60,12 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
 ## 2026-10-20 ~21:15 CDT — PI update deck (2026-10-21 meeting)
 - Built 11-slide deck + speaker script + source audit from verified outputs (no new analyses, no GPU). python-pptx (scratch venv); PDF via LibreOffice in an apptainer image (scratch).
 - scientific-reviewer (Opus): REVISE (0 numeric errors; 4 major + 12 minor wording) → all applied → PASS. Tracked copies in `presentations/2026-10-21_PI_update/` (reports/ is gitignored).
+
+## 2026-10-23 22:00 – 2026-10-25 CDT — Borzoi performance-improvement program (FT; details: research_management/FINETUNING_PROGRESS.md, finetuning/FT_REGISTRY.csv)
+- Infra: checkpoint/resume library (atomic, 2 recent + best, 30-min wall-clock), deadline supervisor independent of the Claude session (setsid, PID in finetuning/supervisor.pid), run queue. Profiling FT-P01..P12.
+- Cache experiments FT-C01..C85 (validation only): best ridge FT-C61 val 0.7392 / 0.7370; heads up to 0.7404.
+- Fine-tuning runs (replicate-specific Borzoi trunks; validation only): frozen S01/S07, partial S02/S03/S10/S11/S12, LoRA S04, full S05, replicates R1-R3 (partial) and L1-L3 (LoRA), exploration E1-E5. Blends B01..B32.
+- Review RV-FT-01 (Opus) REVISE → corrections → TEST_LOCK.csv (6 configs) committed at dc0bcd5 BEFORE any FT test evaluation.
+- Locked test evaluations (one each; FT-T01..T06): predict_ft.py --split test --config-id <id>; test_eval_cache.py --config-id FT-C61.
+  PRIMARY ENS 8 fine-tuned members (partial-4 + LoRA-r16, replicates 0-3), RC TTA: test r 0.7586 (183) / 0.7578 (152) vs E4 ridge 0.7426 / 0.7406;
+  delta (152) +0.0173, TF-cluster 95% CI [0.0123, 0.0252], two-way tile-block x TF [0.0111, 0.0263] → pre-registered claim rule met.

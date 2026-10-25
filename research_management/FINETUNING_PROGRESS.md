@@ -103,3 +103,19 @@ Effective stop: 2026-10-26 22:00 CDT (deadline.json). Plan and evaluation contra
 ## 2026-10-24 22:12 CDT (~47.8 h remaining)
 - Exploration done (FT-S03 recipe, one change each; FT-S03 = 0.7373 / 0.7372): E1 mse128 0.7321 / 0.7313; E2 8 blocks 0.7361 / 0.7357; E3 head 2048 0.7386 / 0.7385; E4 lr-head 3e-4 0.7373 / 0.7374; E5 trunk dropout 0.7361 / 0.7361.
   None beats FT-S03 by > 0.002 → no promotion; recipe fixed. Exploration closed; proceeding to the single test-lock round (proposal under scientific review).
+
+## 2026-10-24 23:56 CDT — LOCKED TEST RESULTS (single round; lock committed dc0bcd5 before evaluation)
+| id | config | test r 183 / 152 | delta vs E4 ridge (152) | TF-cluster CI | two-way CI |
+|---|---|---|---|---|---|
+| FT-T01 | PRIMARY ENS8 #tta=rc | 0.7586 / 0.7578 | +0.0173 | [0.0123, 0.0252] | [0.0111, 0.0263] |
+| FT-T02 | ENS8 #tta=none | 0.7537 / 0.7527 | +0.0121 | [0.0072, 0.0196] | [0.0007, 0.0238] |
+| FT-T03 | ENS4 partial #tta=rc | 0.7618 / 0.7613 | +0.0208 | [0.0160, 0.0287] | [0.0136, 0.0309] |
+| FT-T04 | BLEND ENS8 + FT-C61 w=0.7 #tta=rc | 0.7613 / 0.7603 | +0.0197 | [0.0151, 0.0272] | [0.0141, 0.0282] |
+| FT-T05 | FT-C61 ridge | 0.7485 / 0.7466 | +0.0061 | [0.0037, 0.0093] | [0.0027, 0.0105] |
+| FT-T06 | FT-S03 single #tta=rc | 0.7526 / 0.7522 | +0.0117 | [0.0063, 0.0199] | [0.0036, 0.0223] |
+- Primary meets the pre-registered rule (both CIs exclude 0 on 152 tracks). Secondaries are descriptive and are not ranked (FT-T03 > FT-T01 on test is not used for selection).
+- Cross-check: FT-C61 test predictions from the blend component path match test_eval_cache.py stats (max |delta sum| 0.013 on sums up to 613; fp16 storage).
+
+## 2026-10-25 00:07 CDT — program complete
+- Deliverables: reports/FINETUNING_FINAL_REPORT.md, reports/FINETUNING_COMPARISON.md (tracked copies in research_management/finetuning/final/), CHECKPOINT_INVENTORY.md, NEXT_VM_SESSION.md, FINETUNING_RESOURCE_REPORT.md §8.
+- Final review RV-FT-02: PASS (minor fixes applied). Supervisor stopped; no training running.
