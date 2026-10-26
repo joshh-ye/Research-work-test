@@ -144,3 +144,9 @@ user-specified details. Decided by: user (2026-10-20), recorded by coordinator.
   (3) AlphaGenome training manifest; (4) backbone fine-tuning as a separate question. No new confirmatory analyses on the Law MPRA.
 - **SD-028 · 2026-10-20 · Title kept as fixed in SD-020 B** ("genomic foundation models" is the user's Framing B wording); the body defines the
   four models as sequence-to-function models. Strategist suggested "sequence-to-function models" — left for the user to decide.
+- **SD-029 · 2026-10-23 (recorded 2026-10-26) · Trunk fine-tuning program (EXP-019) as a separate, later phase.** SD-021 restricted new head
+  architectures on chr9/chr22 during the E4 phase. On the user's instruction (autonomous performance-improvement task, 2026-10-23) a separate
+  program was run after SD-019 with its own plan (`research_management/finetuning/FT_PLAN.md`, written before any FT experiment): all selection
+  on chr1+chr8; six configurations locked and committed (`TEST_LOCK.csv`, `dc0bcd5`) before any FT test evaluation; one evaluation each; claim
+  rule for the primary only (TF-cluster and two-way CIs on 152 tracks must exclude 0). The lock is the mitigation for forking paths on the
+  development-exposed test set (SD-009). Recorded retroactively at manuscript integration (review RV-FT-03 finding 2).

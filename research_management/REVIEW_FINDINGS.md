@@ -157,3 +157,11 @@ RV-FT-01 corrections (2026-10-24 23:22): (1) id-to-runs binding + (3) '#tta=' id
 ## RV-FT-02 — 2026-10-25 00:07 CDT — FT final deliverables — scientific-reviewer (opus): PASS
 Scope: reports/FINETUNING_FINAL_REPORT.md, FINETUNING_COMPARISON.md, NEXT_VM_SESSION.md, FINETUNING_RESOURCE_REPORT.md §8, CHECKPOINT_INVENTORY.md, final_summary.py, results_ft/final/*, locked test outputs. Headline numbers recomputed independently from test_stats.npz (primary 0.7578/0.7586, delta +0.0173, TF-CI reproduced with another seed). Claim follows locked rule; test discipline holds.
 Minor fixes applied: inventory regenerated + stale statements fixed; FT-C58 (not C60) peak memory; profiling 0.08 h; FT-C61 lock provenance (timestamps, no hash) disclosed; final_summary.py committed; "far inside the CIs" replaced (no paired CI between configs); exposure limitation extended (gain not shown on Borzoi-unseen sequence; deltas free of selection bias, not of exposure confounding); selfcheck_val README; supervisor stopped.
+
+## RV-FT-03 — 2026-10-26 — Manuscript integration of EXP-019 (manuscript_v2.md 2.8c, 3.7.5, Discussion 3a/7(iv), Limitations 23-27) — scientific-reviewer (opus): REVISE
+All numbers verified against `research_management/finetuning/final/*.csv`, run configs, code (what was trained, bootstrap, lock). Major: mechanistic
+attribution to trunk adaptation contradicted by frozen-feature heads FT-C83 (0.7378 val) / FT-C84 (0.7404 val) and FT-C61 (+0.0061 test) — wording
+changed to "locked system as a whole; trunk adaptation not shown necessary". Minor: SD-021 scope (SD-029 recorded); "best linear readout" -> "pre-specified
+E4 ridge"; checkpoint selection on all-183 mean; bootstrap seed offsets; 7(iv) now open questions only; fold-stratified FT analysis stated as feasible, not done;
+RC averaging named in the abstract; primary minus FT-C61 about +0.011 (no CI) added. All corrections applied.
+Re-review of the corrections: PASS (2026-10-26); optional wording fix in 3.7.5 applied.

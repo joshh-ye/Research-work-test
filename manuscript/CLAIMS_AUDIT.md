@@ -90,3 +90,16 @@ Paths relative to `results_phase2/e2_validation/` unless stated. Status: SUPPORT
 | G15 | Larger predicted effects = more accurate; causal or clinical variant claims; MPRA positives are causal | none | NOT CLAIMED |
 | G16 | Borzoi scores follow Borzoi's own variant-scoring convention | `variant_scoring/SCORING_SPEC.md` §2: scaled/soft-clipped raw output units, pc = 1 | NOT CLAIMED (note added to Methods 2.10) |
 | G17 | Abstract numbers | Each traced in the abstract source comment in `manuscript_v2.md`: P1 (`p1.tsv`), baselines, Holm, TL-minus-ridge/probe (`A_cluster_cis.csv`), exposure (`EXPOSURE_AUDIT.md`) | CHECKED against source files |
+
+## H. Trunk fine-tuning claims (2026-10-26; EXP-019, locked test `dc0bcd5`, RV-FT-02 PASS)
+Paths relative to `research_management/finetuning/` unless stated. Status codes as in G.
+| # | Claim (manuscript v2 section) | Evidence and source | Status |
+|---|---|---|---|
+| H1 | Primary 8-member fine-tuned ensemble exceeds E4 ridge on the 152 non-identical tracks: r 0.7578 vs 0.7406, delta +0.0173 (unrounded 0.01728), TF-cluster [0.0123, 0.0252], two-way tile-block x TF [0.0111, 0.0263] (Abstract, 3.7.5, Discussion 3a) | `final/test_ci_table.csv` FT-T01 not_identical152; claim rule in `LOCK_PROPOSAL.md`; recomputed independently in RV-FT-02 | SUPPORTED (pre-specified rule met; primary only) |
+| H2 | All 183 tracks: 0.7586 vs 0.7426, delta +0.0160 (3.7.5) | `final/test_ci_table.csv` FT-T01 all183 | SUPPORTED, secondary set |
+| H3 | 145/152 (176/183) tracks improved; median delta +0.0108 (3.7.5) | `final/test_summary.csv` | SUPPORTED, descriptive |
+| H4 | What was trained: partial-4 (last 4 transformer blocks + U-Net decoder + final_joined_convs + new head; 77,600,823 trainable) and LoRA r16 (trunk frozen; 53 adapter modules; 4,892,855 trainable); neither head-only nor full-trunk (2.8c) | `analysis/ft/model_ft.py`; `results_ft/runs/<run>/run_cmd.json`, `stdout.log` | SUPPORTED (code + logs); 75,446,144 / 2,738,176 derived by subtraction of the 2,154,679-parameter head |
+| H5 | Secondary configurations (Table 6) | `final/test_ci_table.csv` FT-T02..T06 | DESCRIPTIVE; not ranked; FT-T03/T04 above primary on test do not replace it |
+| H6 | Trunk updating, not the head, is what exceeds the ridge (Discussion 3a) — removed after RV-FT-03 | validation-only, single-seed controls FT-S01/S07 vs FT-S03/S04 (`reports/FINETUNING_COMPARISON.md` (a)) | NOT CLAIMED (RV-FT-03): frozen-feature MLP heads FT-C83/C84 also exceeded the ridge on validation; the test gain is attributed to the locked system as a whole |
+| H7 | Identical-31 mean delta +0.0094 and exposure-class means (3.7.5) | `final/per_track_test_r.csv` grouped by not_identical152 / Borzoi_class (computed 2026-10-26) | EXPLORATORY, post hoc descriptive |
+| H8 | Gain on sequence unseen by pretrained Borzoi; improved variant scoring / MPRA | none | NOT CLAIMED |
