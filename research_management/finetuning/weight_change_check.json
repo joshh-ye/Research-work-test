@@ -1,0 +1,90 @@
+{
+ "FT-S03": {
+  "n_trainable_saved": 77600823,
+  "n_trunk_keys": 82,
+  "n_trunk_keys_matched_pretrained": 82,
+  "trunk_params_matched": 75446144,
+  "n_changed": 82,
+  "median_rel_change": 0.020219212397933006,
+  "max_rel_change": 593.9542236328125,
+  "n_lora_keys": 0,
+  "lora_params": 0,
+  "head_params": 2154679,
+  "example_keys": [
+   "trunk.transformer.4.0.fn.0.weight",
+   "trunk.transformer.4.0.fn.0.bias",
+   "trunk.transformer.4.0.fn.1.rel_content_bias"
+  ],
+  "meta": {
+   "epoch": 4,
+   "global_step": 18636,
+   "val_mean_pearson_r_full": 0.7372545171978498
+  }
+ },
+ "FT-R2": {
+  "n_trainable_saved": 77600823,
+  "n_trunk_keys": 82,
+  "n_trunk_keys_matched_pretrained": 82,
+  "trunk_params_matched": 75446144,
+  "n_changed": 82,
+  "median_rel_change": 0.01857386901974678,
+  "max_rel_change": 569.3778686523438,
+  "n_lora_keys": 0,
+  "lora_params": 0,
+  "head_params": 2154679,
+  "example_keys": [
+   "trunk.transformer.4.0.fn.0.weight",
+   "trunk.transformer.4.0.fn.0.bias",
+   "trunk.transformer.4.0.fn.1.rel_content_bias"
+  ],
+  "meta": {
+   "epoch": 4,
+   "global_step": 18636,
+   "val_mean_pearson_r_full": 0.730260691922964
+  }
+ },
+ "FT-S04": {
+  "n_trainable_saved": 4892855,
+  "n_trunk_keys": 0,
+  "n_trunk_keys_matched_pretrained": 0,
+  "trunk_params_matched": 0,
+  "n_changed": 0,
+  "median_rel_change": null,
+  "max_rel_change": null,
+  "n_lora_keys": 106,
+  "lora_params": 2738176,
+  "head_params": 2154679,
+  "example_keys": [
+   "trunk.horizontal_conv0.conv_layer.lora_A",
+   "trunk.horizontal_conv0.conv_layer.lora_B",
+   "trunk.horizontal_conv1.conv_layer.lora_A"
+  ],
+  "meta": {
+   "epoch": 4,
+   "global_step": 18636,
+   "val_mean_pearson_r_full": 0.7364320497818505
+  }
+ },
+ "FT-L3": {
+  "n_trainable_saved": 4892855,
+  "n_trunk_keys": 0,
+  "n_trunk_keys_matched_pretrained": 0,
+  "trunk_params_matched": 0,
+  "n_changed": 0,
+  "median_rel_change": null,
+  "max_rel_change": null,
+  "n_lora_keys": 106,
+  "lora_params": 2738176,
+  "head_params": 2154679,
+  "example_keys": [
+   "trunk.horizontal_conv0.conv_layer.lora_A",
+   "trunk.horizontal_conv0.conv_layer.lora_B",
+   "trunk.horizontal_conv1.conv_layer.lora_A"
+  ],
+  "meta": {
+   "epoch": 4,
+   "global_step": 18636,
+   "val_mean_pearson_r_full": 0.7362091574590683
+  }
+ }
+}
