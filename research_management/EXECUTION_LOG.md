@@ -69,3 +69,11 @@ Chronological log of sessions, commands run, and outcomes. Newest at the bottom.
 - Locked test evaluations (one each; FT-T01..T06): predict_ft.py --split test --config-id <id>; test_eval_cache.py --config-id FT-C61.
   PRIMARY ENS 8 fine-tuned members (partial-4 + LoRA-r16, replicates 0-3), RC TTA: test r 0.7586 (183) / 0.7578 (152) vs E4 ridge 0.7426 / 0.7406;
   delta (152) +0.0173, TF-cluster 95% CI [0.0123, 0.0252], two-way tile-block x TF [0.0111, 0.0263] → pre-registered claim rule met.
+
+## 2026-10-26 19:10 – 19:45 CDT — Final VM sprint (EXP-020/021/022; no training)
+- Phase 1 audit (EXP-022): weight_change_check.py (partial-4 trunk tensors all changed, median rel 0.02; LoRA 53 non-zero lora_B), verify_ckpts.py (8/8 sha match), lock timing dc0bcd5 23:22:50 < first test 23:31. Report reports/FINETUNING_VALIDATION_AUDIT.md.
+- Phase 2 ablation (EXP-020): `ablation.py select` (validation only) → ABLATION_LOCK.csv committed 9aa33aa (19:16) → `ablation.py test-preds` (GPU, 8 members x ~60 s, RC TTA) → `ablation.py test-eval` (17 configs, one each; FT-R1 single re-run after an interrupted, empty first attempt) → ablation_report.py. Primary reproduced exactly (0.7578 / +0.0173). FT-L2 alone 0.6297 on test: over-prediction on chr9:20-32 Mb (ftl2_diag.py).
+- Phase 3 (EXP-021): bio_analysis.py (computational-engineer subagent), reports/FINETUNING_BIOLOGICAL_ANALYSIS.md, reports/ft_bio/.
+- Phase 4 figures: figures_ft_sprint/ (5 figures, PNG 300 dpi + PDF; plotted values in figures_ft_sprint/data/).
+- Phase 5: manuscript_v2 terminology bullet (2.8c), 3.7.6, 3.7.7, Discussion 3a(v), Limitations 28-29, Fig. 6-8 entries. Review RV-FT-04 (Opus).
+- Review RV-FT-04 (Opus): REVISE (1 major: 2-member-ensemble overclaim; 12 minor) → corrected → PASS. Checkpoints verified (8/8 sha). Home 147.6/186.3 GB.

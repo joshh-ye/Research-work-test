@@ -2,6 +2,13 @@
 
 Updated 2026-10-20 ~12:40 CDT. All five phases accepted; see PROJECT_STATE.md and reports/OVERNIGHT_PROGRESS_REPORT.md (local, gitignored).
 
+## FT follow-up (added 2026-10-26; details and GPU estimates in FINAL_VM_HANDOFF.md §5-6)
+F1. Borzoi-fold-stratified Δ of the locked FT gain (CPU only; per-tile stats exist).
+F2. FT-L2 chr9:20–32 Mb failure: compare activations per layer and module against FT-L1 (<0.5 GPU-h); train an extra seed (about 1.1 GPU-h).
+F3. Independent held-out split with a new committed lock to confirm the smaller ensembles; factorial of head / partial / LoRA × TTA × ensemble size (2–9 GPU-h).
+F4. Pre-registered MPRA scoring with the FT ensemble (about 1–4 GPU-h; P2 needs BL-007 resolved).
+F5. Manuscript: move Figs 6–8 from figures_ft_sprint/ into the figures/ pipeline if adopted.
+
 ## Needs the user
 1. BL-007: MPRA ST4 logFC sign convention — contact Law/Houlston or EGA docs. If REF/ALT, re-report P2 as a new labelled analysis (SD-027).
 2. BL-009: (a) untrack borzoi_ckpt_full/*.pt + results_comparison_*/ (git rm --cached; no history rewrite); (b) commit pending .gitignore edit;

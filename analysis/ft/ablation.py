@@ -146,7 +146,7 @@ def cmd_select(a):
         b = res[f"best{k}"]; add(f"ABL:best{k}:" + "+".join(b["members"]) + "#tta=rc", f"best equal-weight {k}-subset of the 8 by val r183 (exhaustive, {b['n_candidates']} candidates)",
                                 subset_w([MEMBERS.index(x) for x in b["members"]]), b["val_r183"], b["val_r152"])
     for c in curve:
-        if c["size"] in (2, 4) or c["size"] == 1:
+        if c["size"] in (1, 2):                          # size 1 = a single row, size 2 = best2 (identical); greedy4 differs from best4 and is kept (RV-FT-04 #4)
             continue
         add(f"ABL:greedy{c['size']}:" + "+".join(c["members"]) + "#tta=rc", "greedy forward selection on val r183, equal weight", subset_w([MEMBERS.index(x) for x in c["members"]]), c["val_r183"], c["val_r152"])
     add("ABL:weighted8#tta=rc", "8 members, weights on the simplex maximising val r183 (SLSQP)", w, res["weighted8"]["val_r183"], res["weighted8"]["val_r152"])

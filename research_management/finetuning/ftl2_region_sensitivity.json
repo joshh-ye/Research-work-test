@@ -1,0 +1,22 @@
+{
+ "region": "chr9:20,000,000-32,000,000 (hg38; 23 test tiles)",
+ "posthoc": true,
+ "values_152": {
+  "all": {
+   "ridge": 0.7406,
+   "primary": 0.7578,
+   "ABL_greedy6_FT-R3+FT-S04+FT-R1+FT-L3+FT-S03+FT-L1#tta=rc": 0.761,
+   "ABL_single_FT-L2#tta=rc": 0.6297,
+   "primary_minus_ridge": 0.0173,
+   "n_improved": 145
+  },
+  "excl_chr9_20_32Mb": {
+   "ridge": 0.7457,
+   "primary": 0.7635,
+   "ABL_greedy6_FT-R3+FT-S04+FT-R1+FT-L3+FT-S03+FT-L1#tta=rc": 0.763,
+   "ABL_single_FT-L2#tta=rc": 0.7536,
+   "primary_minus_ridge": 0.0178,
+   "n_improved": 149
+  }
+ }
+}

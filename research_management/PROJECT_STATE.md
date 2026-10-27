@@ -2,6 +2,16 @@
 
 Last updated: 2026-10-20 ~12:40 CDT (overnight autonomous session; Slurm job 14717985, A100, ends ~22:00 CDT)
 
+## Update 2026-10-26 ~19:40 CDT — final VM sprint (see research_management/FINAL_VM_HANDOFF.md)
+- **EXP-019 (locked)**: the primary 8-member FT ensemble reaches 0.7578 vs 0.7406 for the E4 ridge (152 tracks), Δ +0.0173, TF [0.0123, 0.0252], two-way [0.0111, 0.0263]. Audit EXP-022 found no leakage. The partial-4 arm changed its trunk weights; the LoRA arm left trunk weights frozen and trained adapters only. All 8 checkpoints match their SHA records.
+- **EXP-020 (post hoc ablation)**: selection was locked in 9aa33aa before test inference.
+  - 7/8 single members beat the ridge.
+  - Validation-selected 3–6-member ensembles without FT-L2 reach 0.7607–0.7610; the 2-member ensemble reaches 0.7586.
+  - **FT-L2 fails on test chr9:20–32 Mb** (0.6297 alone), with no validation signal.
+- **EXP-021**: gains concentrate in tracks with a low ridge baseline or sparse signal (post hoc).
+- Manuscript v2 was updated: terminology, 3.7.6, 3.7.7, Discussion 3a(v), Limitations 28–29, Figs 6–8 in `figures_ft_sprint/`.
+- Reviews: RV-FT-04 REVISE → corrected → PASS.
+
 ## Current phase
 **All five phases ACCEPTED 2026-10-20** (Phase 1 RV-003; Phase 2/3 RV-010; Phase 4 RV-008 + strategist PASS; Phase 5 RV-009).
 Framing B adopted by the pre-registered rule (SD-024). Open user decisions: BL-007 (MPRA sign convention), BL-009 (repo hygiene), SD-028 (title term).

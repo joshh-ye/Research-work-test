@@ -1,0 +1,45 @@
+{
+ "region": "chr9:20,000,000-32,000,000 hg38",
+ "n_region_tiles": 23,
+ "test_tile_level_ratio_quantiles_0_1_50_99_100": [
+  0.338,
+  0.391,
+  0.997,
+  5.058,
+  11.086
+ ],
+ "val_tile_level_ratio_quantiles_0_1_50_99_100": [
+  0.232,
+  0.391,
+  0.995,
+  1.297,
+  2.156
+ ],
+ "region_per_track_ratio_quantiles_0_10_50_90_100": [
+  1.39,
+  2.05,
+  2.89,
+  4.7,
+  6.87
+ ],
+ "region_per_track_median_ratio_targets_over_FTL1": 1.0427606105804443,
+ "region_per_track_median_ratio_member_over_FTL1": {
+  "FT-S03": 1.0337551832199097,
+  "FT-R1": 1.0033464431762695,
+  "FT-R2": 1.0284919738769531,
+  "FT-R3": 1.0358525514602661,
+  "FT-S04": 1.0050311088562012,
+  "FT-L3": 1.0112661123275757
+ },
+ "n_test_tiles_all_zero_target": 51,
+ "ratio_on_zero_target_tiles": [
+  0.39100000262260437,
+  1.5889999866485596,
+  2.2139999866485596,
+  2.6059999465942383
+ ],
+ "FT_L2_r152_all": 0.6297398602573712,
+ "FT_L2_r152_excl_region": 0.7535742864517038,
+ "FT_L1_r152_all": 0.7517222608400359,
+ "FT_L1_r152_excl_region": 0.753725737821199
+}
